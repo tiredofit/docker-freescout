@@ -1,0 +1,154 @@
+#!/usr/bin/with-contenv bash
+
+while [ ! -f /tmp/state/init-20-php-fpm ]
+do
+  sleep 1
+done
+
+### Set Debug Mode
+if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
+    set -x
+fi
+
+mkdir -p /var/tmp/nginx/proxy
+
+### Set Defaults
+DB_PORT=${DB_PORT:-3306}
+ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME:-"Admin"}
+ADMIN_LAST_NAME=${ADMIN_LAST_NAME:-"User"}
+
+### Sanity Test
+if [ ! -n "$DB_HOST" ]; then
+    echo '** [freescout] ERROR: No Database Host Entered! '
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$DB_NAME" ]; then
+    echo '** [freescout] ERROR: No Database Pass Entered! '
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$DB_USER" ]; then
+    echo '** [freescout] ERROR: No Database User Entered! '
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$DB_PASS" ]; then
+    echo '** [freescout] ERROR: No Database Pass Entered!'
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$ADMIN_EMAIL" ]; then
+    echo '** [freescout] ERROR: No Admin Email Entered! Exiting..'
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$ADMIN_PASS" ]; then
+    echo '** [freescout] ERROR: No Admin Password Entered! Exiting..'
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+if [ ! -n "$SITE_URL" ] || [ ! -n "$APP_URL"]; then
+    echo '** [freescout] ERROR: No Site URL Entered Please configure before proceeding' 
+    s6-svc -d /var/run/s6/services/10-nginx
+    exit 1
+fi
+
+
+### Make sure that DB is accessible
+while true; do
+  mysqlcmd="mysql -u$DB_USER -h$DB_HOST -p$DB_PASS -P$DB_PORT"
+  out="`$mysqlcmd -e "SELECT COUNT(*) FROM information_schema.FILES;" 2>&1`"
+  echo "$out" | grep -E "COUNT|Enter" 2>&1 > /dev/null
+  if [ $? -eq 0 ]; then
+      echo "** [freescout] MariaDB Server '"$DB_HOST"' is available"
+      break
+  fi
+  echo "** [freescout] MariaDB Server '"$DB_HOST"' unavailable. Sleeping a little bit ..."
+  sleep 5
+done
+
+
+### Create Configuration
+echo "** [freescout] Generating Configuration"
+# Proxy and HostSettings
+if [ ! -n "$SITE_URL" ]; then
+	if [ -n "$APP_URL" ]; then
+		echo "APP_URL=$APP_URL" > /www/html/.env
+	fi
+else
+	echo "APP_URL=$SITE_URL" > /www/html/.env
+fi
+
+if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
+	echo "APP_FORCE_HTTPS=TRUE" >> /www/html/.env
+fi
+
+# Set DB Settings
+echo 'DB_CONNECTION=mysql' >> /www/html/.env
+echo "DB_HOST=$DB_HOST" >> /www/html/.env
+echo "DB_PORT=$DB_PORT" >> /www/html/.env
+echo "DB_DATABASE=$DB_NAME" >> /www/html/.env
+echo "DB_USERNAME=$DB_USER" >> /www/html/.env
+echo "DB_PASSWORD=$DB_PASS" >> /www/html/.env
+
+# Timezone Setting
+if [ -n "$TIMEZONE" ]; then
+	echo "APP_TIMEZONE=$TIMEZONE" >> /www/html/.env
+else 
+	if [ -n "$APP_TIMEZONE" ]; then
+		echo "APP_TIMEZONE=$APP_TIMEZONE" >> /www/html/.env
+	else
+		echo "APP_TIMEZONE=`cat /etc/timezone`" >> /www/html/.env
+	fi
+fi  
+
+if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
+	echo "APP_DEBUG=TRUE" >> /www/html/.env
+fi
+
+# Generate Key
+cd /www/html/
+echo 'APP_KEY=' >> /www/html/.env
+php artisan key:generate > /dev/null
+
+### Check to see if Installed (no upgrade routines yet, next release)
+mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
+if [ $? -gt 0 ]; then
+	### Perform Database Installtion Routines
+	echo "** [freescout] Detected new install - Setting up Database.. Please wait.."
+	sudo -u nginx php artisan migrate:fresh --force >/dev/null
+	sudo -u nginx php artisan freescout:clear-cache >/dev/null
+
+	### Create User
+	echo '** [freescout] Creating Administrative User'
+	/usr/bin/expect >/dev/null <<EOD
+log_file /tmp/expect.log
+spawn php artisan freescout:create-user --no-ansi
+expect "(admin/user)"
+send -- "admin\r"
+expect "2/5 User first_name:"
+send -- "$ADMIN_FIRST_NAME\r"
+expect "3/5 User last_name:"
+send -- "$ADMIN_LAST_NAME\r"
+expect "4/5 User email:"
+send -- "$ADMIN_EMAIL\r"
+expect "5/5 User password:"
+send -- "$ADMIN_PASS\r"
+expect "Do you want to create the user?"
+send -- "yes\r"
+expect close
+EOD
+fi
+
+chown -R nginx:www-data /www/html
+echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
+
+mkdir -p /tmp/state
+touch /tmp/state/30-init-freescout
