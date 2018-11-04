@@ -10,6 +10,7 @@ RUN set -x && \
 	apk upgrade && \
 	apk add \
         expect \
+        gnu-libiconv \
         && \
     \
     mkdir -p /www/html && \
