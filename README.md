@@ -90,8 +90,8 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ADMIN_PASS` | Administrator Password - Needed for Logging in | 
 | `DB_HOST` | Host or container name of MySQL Server e.g. `freescout-db` |
 | `DB_PORT` | MySQL Port - Default `3306` |
-| `DB_NAME` | MySQL Database name e.g. `asterisk` |
-| `DB_USER` | MySQL Username for above Database e.g. `asterisk` |
+| `DB_NAME` | MySQL Database name e.g. `freescout` |
+| `DB_USER` | MySQL Username for above Database e.g. `freescout` |
 | `DB_PASS` | MySQL Password for above Database e.g. `password`|
 | `DISPLAY_ERRORS` | Display Errors on Website - Default `FALSE`|
 | `ENABLE_SSL_PROXY` | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE` |
