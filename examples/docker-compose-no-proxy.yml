@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+  freescout-app:
+    image: tiredofit/freescout
+    container_name: freescout-app
+    ports:
+    - 80:80
+    links:
+    - freescout-db
+    volumes:
+    - ./logs/:/www/logs
+    environment:
+    - ZABBIX_HOSTNAME=freescout-app
+    
+    - DB_HOST=freescout-db
+    - DB_NAME=freescout
+    - DB_USER=freescout
+    - DB_PASS=freescout
+
+    - SITE_URL=http://freescout.example.com
+    - ADMIN_EMAIL=admin@admin.com
+    - ADMIN_PASS=freescout
+    - ENABLE_SSL_PROXY=TRUE
+    - DISPLAY_ERRORS=FALSE
+    - TIMEZONE=America/Vancouver
+    restart: always
+
+  freescout-db:
+    image: tiredofit/mariadb
+    container_name: freescout-db
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=freescout
+      - MYSQL_USER=freescout
+      - MYSQL_PASSWORD=freescout
+
+      - ZABBIX_HOSTNAME=freescout-db
+    restart: always
+
+  freescout-db-backup:
+    container_name: freescout-db-backup
+    image: tiredofit/db-backup
+    links:
+     - freescout-db
+    volumes:
+      - ./dbbackup:/backup
+    environment:
+      - ZABBIX_HOSTNAME=freescout-db-backup
+      - DB_HOST=freescout-db
+      - DB_TYPE=mariadb
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
+      - DB_DUMP_FREQ=1440
+      - DB_DUMP_BEGIN=0000
+      - DB_CLEANUP_TIME=8640
+      - COMPRESSION=BZ
+      - MD5=TRUE
+    restart: always

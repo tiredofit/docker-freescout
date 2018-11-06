@@ -1,0 +1,12 @@
+  server {
+    listen       80;
+    server_name  localhost;
+
+   location / {
+        root   /assets/maintenance;
+        index  maintenance.html;
+        error_page    404 /maintenance.html;
+
+    }
+
+}

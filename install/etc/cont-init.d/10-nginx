@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv bash
+
+### Set Debug Mode
+if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
+    set -x
+fi
+
+### Set Defaults
+  MAINTENANCE=${MAINTENANCE:-"FALSE"}
+  PHP_TIMEOUT=${PHP_TIMEOUT:-"180"}
+  UPLOAD_MAX_SIZE=${UPLOAD_MAX_SIZE:-"2G"}
+
+### Adjust NGINX Runtime Variables  
+  sed -i -e "s/<UPLOAD_MAX_SIZE>/$UPLOAD_MAX_SIZE/g" /etc/nginx/nginx.conf
+  sed -i -e "s/<PHP_TIMEOUT>/$PHP_TIMEOUT/g" /etc/nginx/conf.d/default.conf
+
+### Maintenance Mode   
+  if [ "$MAINTENANCE" = "TRUE" ] || [ "$MAINTENANCE" = "true" ];  then
+    echo '** MAINTENANCE MODE ACTIVATED - THIS IMAGE WILL NOT SERVE PAGES'
+    mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.orig
+    mv /etc/nginx/conf.d/maintenance.conf.maint /etc/nginx.conf.d/maintenance.conf
+  fi
+
+  mkdir -p /var/tmp/nginx/proxy
+  mkdir -p /www/logs/nginx
+  mkdir -p /tmp/nginx
+  chown -R nginx /www/logs/nginx
+  chown -R nginx /tmp/nginx
+
+  mkdir -p /tmp/state
+  touch /tmp/state/init-10-nginx

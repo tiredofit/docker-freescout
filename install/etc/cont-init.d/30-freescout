@@ -10,8 +10,6 @@ if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
     set -x
 fi
 
-mkdir -p /var/tmp/nginx/proxy
-
 ### Set Defaults
 DB_PORT=${DB_PORT:-3306}
 ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME:-"Admin"}
@@ -74,6 +72,11 @@ while true; do
   sleep 5
 done
 
+### Logfile redirection
+mkdir -p /www/logs/freescout
+chown -R nginx:www-data /www/logs/freescout
+rm -rf /www/html/storage/logs
+ln -s /www/logs/freescout /www/html/storage/logs
 
 ### Create Configuration
 echo "** [freescout] Generating Configuration"
@@ -151,4 +154,4 @@ chown -R nginx:www-data /www/html
 echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
 
 mkdir -p /tmp/state
-touch /tmp/state/30-init-freescout
+touch /tmp/state/init-30-freescout

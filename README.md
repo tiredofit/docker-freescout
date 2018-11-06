@@ -13,7 +13,7 @@ This will build a container for [Freescout](https://freescout.net/) - An open so
 
 * Automatically installs and sets up installation upon first start
         
-This Container uses [tiredofit/nginx-php-fpm:7.2](https://hub.docker.com/r/tiredofit/nginx-php-fpm) which uses Alpine Linux as a base.
+This Container uses [tiredofit/alpine:3.8](https://hub.docker.com/r/tiredofit/alpine) as a base.
 
 
 [Changelog](CHANGELOG.md)
@@ -43,7 +43,7 @@ This image assumes that you are using a reverse proxy such as
 [jwilder/nginx-proxy](https://github.com/jwilder/nginx-proxy) and optionally the [Let's Encrypt Proxy 
 Companion @ 
 https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) 
-in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports.
+in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports. See the examples folder for a docker-compose.yml that does not rely on a reverse proxy.
 
 You will also need an external MySQL/MariaDB Container
 
@@ -80,7 +80,7 @@ The following directories are used for configuration and can be mapped for persi
 
 ### Environment Variables
 
-Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine) and the [Nginx-php-fpm image](https://hub.docker.com/r/tiredofit/nginx-php-fpm), below is the complete list of available options that can be used to customize your installation.
+Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), below is the complete list of available options that can be used to customize your installation.
 
 | Parameter        | Description                            |
 |------------------|----------------------------------------|
@@ -90,8 +90,8 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ADMIN_PASS` | Administrator Password - Needed for Logging in | 
 | `DB_HOST` | Host or container name of MySQL Server e.g. `freescout-db` |
 | `DB_PORT` | MySQL Port - Default `3306` |
-| `DB_NAME` | MySQL Database name e.g. `freescout` |
-| `DB_USER` | MySQL Username for above Database e.g. `freescout` |
+| `DB_NAME` | MySQL Database name e.g. `asterisk` |
+| `DB_USER` | MySQL Username for above Database e.g. `asterisk` |
 | `DB_PASS` | MySQL Password for above Database e.g. `password`|
 | `DISPLAY_ERRORS` | Display Errors on Website - Default `FALSE`|
 | `ENABLE_SSL_PROXY` | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE` |
