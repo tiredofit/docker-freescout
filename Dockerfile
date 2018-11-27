@@ -2,13 +2,13 @@ FROM tiredofit/alpine:3.8
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.0.0
+ENV FREESCOUT_VERSION=1.0.7
 
 ### Perform Installation
 RUN set -x && \
 	apk update && \
 	apk upgrade && \
-    
+        \
 	apk add \
         expect \
         nginx \

@@ -1,3 +1,7 @@
+## 0.4 2018-11-27 <dave at tiredofit dot ca>
+
+* Freescout 1.0.7
+
 ## 0.3 2018-11-06 <dave at tiredofit dot ca>
 
 * Rebuild Image from Alpine 3.8 Base omitting previous usage of tiredofit/nginx-php-fpm
