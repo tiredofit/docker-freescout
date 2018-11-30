@@ -21,7 +21,7 @@ services:
     - SITE_URL=http://freescout.example.com
     - ADMIN_EMAIL=admin@admin.com
     - ADMIN_PASS=freescout
-    - ENABLE_SSL_PROXY=TRUE
+    - ENABLE_SSL_PROXY=FALSE
     - DISPLAY_ERRORS=FALSE
     - TIMEZONE=America/Vancouver
     restart: always
