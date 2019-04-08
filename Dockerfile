@@ -1,4 +1,4 @@
-FROM tiredofit/alpine:3.8
+FROM tiredofit/alpine:edge
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
@@ -10,39 +10,36 @@ RUN set -x && \
 	apk upgrade && \
         \
 	apk add \
-        expect \
-        nginx \
-        mariadb-client \
-        openssl \
-        php7-apcu \
-        php7-bz2 \
-        php7-cli \
-        php7-ctype \
-        php7-curl \
-        php7-dom \
-        php7-embed \
-        php7-fpm \
-        php7-iconv \
-        php7-imap \
-        php7-json \
-        php7-mbstring \
-        php7-mysqli \
-        php7-opcache \
-        php7-openssl \
-        php7-pdo \
-        php7-pdo_mysql \
-        php7-phar \
-        php7-session \
-        php7-simplexml \
-        php7-tokenizer \
-        php7-xml \
-        php7-xmlrpc \
-        php7-zip \
-        php7-zlib \
-        && \
-    \
-    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing \
-        gnu-libiconv \
+            expect \
+            gnu-libiconv \
+            nginx \
+            mariadb-client \
+            openssl \
+            php7-apcu \
+            php7-bz2 \
+            php7-cli \
+            php7-ctype \
+            php7-curl \
+            php7-dom \
+            php7-embed \
+            php7-fpm \
+            php7-iconv \
+            php7-imap \
+            php7-json \
+            php7-mbstring \
+            php7-mysqli \
+            php7-opcache \
+            php7-openssl \
+            php7-pdo \
+            php7-pdo_mysql \
+            php7-phar \
+            php7-session \
+            php7-simplexml \
+            php7-tokenizer \
+            php7-xml \
+            php7-xmlrpc \
+            php7-zip \
+            php7-zlib \
         && \
     \
 ### Nginx and PHP7 Setup

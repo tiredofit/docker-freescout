@@ -1,3 +1,8 @@
+## 0.8 2019-04-08 <dave at tiredofit dot ca>
+
+* Switch to Alpine Edge
+* Use gnuiconv from community instead of testing
+
 ## 0.7 2019-01-03 <dave at tiredofit dot ca>
 
 * Freescout 1.1.6
