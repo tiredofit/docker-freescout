@@ -1,3 +1,7 @@
+## 0.9 2019-04-27 <dave at tiredofit dot ca>
+
+* Freescout 1.1.7
+
 ## 0.8 2019-04-08 <dave at tiredofit dot ca>
 
 * Switch to Alpine Edge
