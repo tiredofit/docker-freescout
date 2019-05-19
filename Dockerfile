@@ -22,7 +22,9 @@ RUN set -x && \
             php7-curl \
             php7-dom \
             php7-embed \
+            php7-fileinfo \
             php7-fpm \
+            php7-gd \
             php7-iconv \
             php7-imap \
             php7-json \
