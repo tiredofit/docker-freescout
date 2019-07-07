@@ -2,7 +2,7 @@ FROM tiredofit/alpine:edge
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.1.7
+ENV FREESCOUT_VERSION=1.2.4
 
 ### Perform Installation
 RUN set -x && \
