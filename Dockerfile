@@ -12,8 +12,10 @@ RUN set -x && \
 	apk add \
             expect \
             gnu-libiconv \
+	    imap \
             nginx \
             mariadb-client \
+	    musl \
             openssl \
             php7-apcu \
             php7-bz2 \
