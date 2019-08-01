@@ -11,6 +11,7 @@ if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
     mkdir -p /www/html && \
     curl -sSL https://github.com/freescout-helpdesk/freescout/archive/${FREESCOUT_VERSION}.tar.gz | tar xvfz - --strip 1 -C /www/html && \
     chown -R nginx:www-data /www/html
+    chmod -R ug+rwx /www/html/storage /www/html/bootstrap/cache /www/html/public/css/builds /www/html/public/js/builds
 else
     echo "-- Not first container startup --"
     echo "-- continuing boot --"
