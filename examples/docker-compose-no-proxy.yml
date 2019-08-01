@@ -10,6 +10,7 @@ services:
     - freescout-db
     volumes:
     - ./logs/:/www/logs
+    - ./html/:/www/html
     environment:
     - ZABBIX_HOSTNAME=freescout-app
     

@@ -9,6 +9,7 @@ services:
     - freescout-db
     volumes:
     - ./logs/:/www/logs
+    - ./html/:/www/html
     environment:
     - VIRTUAL_HOST=freescout.example.com
     - VIRTUAL_NETWORK=nginx-proxy

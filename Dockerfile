@@ -1,9 +1,6 @@
 FROM tiredofit/alpine:edge
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
-### Set Defaults
-ENV FREESCOUT_VERSION=1.3.3
-
 ### Perform Installation
 RUN set -x && \
 	apk update && \
@@ -44,21 +41,19 @@ RUN set -x && \
             php7-zlib \
         && \
     \
-### Nginx and PHP7 Setup
+    ### Nginx and PHP7 Setup
     sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php7/php.ini && \
     ln -s /sbin/php-fpm7 /sbin/php-fpm && \
     \
-### Install PHP Composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
-    \
+    ### Install PHP Composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
 ### WWW  Installation
-    mkdir -p /www/logs && \
-    mkdir -p /www/html && \
-    curl -sSL https://github.com/freescout-helpdesk/freescout/archive/${FREESCOUT_VERSION}.tar.gz | tar xvfz - --strip 1 -C /www/html && \
-    chown -R nginx:www-data /www/html && \
-    \
+ADD freescout-install.sh /root/freescout-install.sh
+ENTRYPOINT ["/root/freescout-install.sh"]
+
 ### Cleanup
-    rm -rf /usr/src/* /var/tmp/* /var/cache/apk/*
+RUN rm -rf /usr/src/* /var/tmp/* /var/cache/apk/*
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php7
 
