@@ -1,3 +1,9 @@
+## 1.0dev 2019-08-01 <dave at tiredofit dot ca>
+
+* Ability to add custom modules
+* Ability to have access to custom source (this should allow Auto Updating to work without having to always update the image)
+* Moved back to tiredofit/nginx-php-fpm base image to make development and upkeep easier
+
 ## 0.11 2019-07-31 <dave at tiredofit dot ca>
 
 * Freescout 1.3.3

@@ -9,6 +9,11 @@ services:
     links:
     - freescout-db
     volumes:
+    volumes:
+    ### If you want to perform customizations to the source and have access to it, then uncomment this line - This includes modules
+    #- ./data:/www/html
+    ### If you want to just keep the original source and add additional modules uncomment this line
+    #- ./modules:/www/html/Modules
     - ./logs/:/www/logs
     environment:
     - ZABBIX_HOSTNAME=freescout-app

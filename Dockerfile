@@ -1,69 +1,50 @@
-FROM tiredofit/alpine:edge
+FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.3.3
+ENV FREESCOUT_VERSION=1.3.1 \
+    LD_PRELOAD="/usr/lib/preloadable_libiconv.so php7" \
+    PHP_ENABLE_FILEINFO=TRUE \
+    PHP_ENABLE_ICONV=TRUE \
+    PHP_ENABLE_IMAP=TRUE \
+    PHP_ENABLE_OPENSSL=TRUE \
+    PHP_ENABLE_SIMPLEXML=TRUE \
+    ZABBIX_HOSTNAME=freescout-app
 
 ### Perform Installation
 RUN set -x && \
-	apk update && \
-	apk upgrade && \
-        \
-	apk add \
-            expect \
-            gnu-libiconv \
-            nginx \
-            mariadb-client \
-            openssl \
-            php7-apcu \
-            php7-bz2 \
-            php7-cli \
-            php7-ctype \
-            php7-curl \
-            php7-dom \
-            php7-embed \
-            php7-fileinfo \
-            php7-fpm \
-            php7-gd \
-            php7-iconv \
-            php7-imap \
-            php7-json \
-            php7-mbstring \
-            php7-mysqli \
-            php7-opcache \
-            php7-openssl \
-            php7-pdo \
-            php7-pdo_mysql \
-            php7-phar \
-            php7-session \
-            php7-simplexml \
-            php7-tokenizer \
-            php7-xml \
-            php7-xmlrpc \
-            php7-zip \
-            php7-zlib \
-        && \
+    apk update && \
+    apk upgrade && \
     \
-### Nginx and PHP7 Setup
-    sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php7/php.ini && \
-    ln -s /sbin/php-fpm7 /sbin/php-fpm && \
-    \
-### Install PHP Composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer && \
+    apk add -t .freescout-run-deps \
+              expect \
+              git \
+              gnu-libiconv \
+	      && \
     \
 ### WWW  Installation
     mkdir -p /www/logs && \
     mkdir -p /www/html && \
-    curl -sSL https://github.com/freescout-helpdesk/freescout/archive/${FREESCOUT_VERSION}.tar.gz | tar xvfz - --strip 1 -C /www/html && \
-    chown -R nginx:www-data /www/html && \
+    mkdir -p /assets/install && \
+    curl -sSL https://github.com/freescout-helpdesk/freescout/archive/${FREESCOUT_VERSION}.tar.gz | tar xvfz - --strip 1 -C /assets/install && \
+    cd /assets/install && \
+    rm -rf \
+        .env.example \
+        .env.travis \
+        .gitattributes \
+        .gitcommit \
+        .gitignore \
+        .travis.yml \
+        && \
+    \
+        chown -R nginx:www-data /assets/install && \
+    \
+### Update CA Certs
+    update-ca-certificates && \
     \
 ### Cleanup
     rm -rf /usr/src/* /var/tmp/* /var/cache/apk/*
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php7
-
-### Networking Configuration
-EXPOSE 80 
 
 ### Assets
 ADD install /
