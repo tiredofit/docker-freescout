@@ -159,7 +159,7 @@ fi
 chgrp -R nginx storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
 chown -R nginx:www-data /www/html
-sudo chmod ug+rwx /var/www/html
+chmod ug+rwx /www/html
 
 echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
 
