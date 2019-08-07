@@ -37,7 +37,7 @@ RUN set -x && \
         .travis.yml \
         && \
     \
-        chown -R nginx:www-data /assets/install && \
+    chown -R nginx:www-data /assets/install && \
     \
 ### Update CA Certs
     update-ca-certificates && \

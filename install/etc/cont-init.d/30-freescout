@@ -1,5 +1,10 @@
 #!/usr/bin/with-contenv bash
 
+while [ ! -f /tmp/state/init-20-php-fpm ]
+do
+  sleep 1
+done
+
 ### Set Debug Mode
 if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
     set -x
@@ -67,8 +72,9 @@ ln -sf /www/logs/freescout /www/html/storage/logs
 
 if [ ! -f "/www/html/server.php" ]; then
   echo '** [freescout] Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode' 
-  cp -R /assets/install/* /www/html/
-  echo ${FREESCOUT_VERSION} > ./www/html/freescout-version
+  cp -R /assets/install/* /www/html
+  echo ${FREESCOUT_VERSION} > ./www/html/.freescout-version
+  chown -R nginx:www-data /www/html
 fi
 
 if [ -d "/assets/modules" ]; then
@@ -117,8 +123,8 @@ fi
 # Generate Key
 cd /www/html/
 echo 'APP_KEY=' >> /www/html/.env
-php artisan key:generate > /dev/null
-php artisan freescout:clear-cache
+sudo -u nginx php artisan key:generate > /dev/null
+sudo -u nginx php artisan freescout:clear-cache
 
 ### Check to see if Installed (no upgrade routines yet, next release)
 mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
