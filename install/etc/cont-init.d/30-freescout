@@ -46,7 +46,7 @@ if [ ! -n "$ADMIN_PASS" ]; then
     exit 1
 fi
 
-if [ ! -n "$SITE_URL" ] || [ ! -n "$APP_URL"]; then
+if [ ! -n "$SITE_URL" ] || [ ! -n "$APP_URL" ]; then
     echo '** [freescout] ERROR: No Site URL Entered Please configure before proceeding' 
     exit 1
 fi
