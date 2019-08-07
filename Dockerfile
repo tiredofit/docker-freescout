@@ -2,7 +2,7 @@ FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.3.1 \
+ENV FREESCOUT_VERSION=1.3.4 \
     LD_PRELOAD="/usr/lib/preloadable_libiconv.so php7" \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_ICONV=TRUE \
