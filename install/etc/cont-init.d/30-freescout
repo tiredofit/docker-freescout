@@ -75,6 +75,13 @@ if [ ! -f "/www/html/server.php" ]; then
   cp -R /assets/install/* /www/html
   echo ${FREESCOUT_VERSION} > ./www/html/.freescout-version
   chown -R nginx:www-data /www/html
+else 
+  if [ -f "/www/html/.freescout-version" ]; then
+    if [ "${FREESCOUT_VERSION}" != `cat /www/html/.freecout-version` ]; then
+      echo '** Detected in place Freescout version ' `cat /www/html/.freescout-version`'. Upgrading to '${FREESCOUT_VERSION}
+      cd /www/html
+      sudo -u nginx php artisan freescout:after-app-update
+    fi
 fi
 
 if [ -d "/assets/modules" ]; then
@@ -154,10 +161,16 @@ expect "Do you want to create the user?"
 send -- "yes\r"
 expect close
 EOD
+
+else
+
 fi
+
 
 chgrp -R nginx storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
+echo ${FREESCOUT_VERSION} > /www/html/.freescout-version
+
 chown -R nginx:www-data /www/html
 chmod ug+rwx /www/html
 
