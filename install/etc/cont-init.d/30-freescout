@@ -81,6 +81,7 @@ else
       echo '** Detected in place Freescout version ' `cat /www/html/.freescout-version`'. Upgrading to '${FREESCOUT_VERSION}
       cd /www/html
       sudo -u nginx php artisan freescout:after-app-update
+      UPGRADE=TRUE
     fi
 fi
 
@@ -134,7 +135,7 @@ sudo -u nginx php artisan key:generate > /dev/null
 sudo -u nginx php artisan freescout:clear-cache
 sudo -u nginx php artisan storage:link
 
-### Check to see if Installed (no upgrade routines yet, next release)
+### Check to see if DB is populated
 mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
 if [ $? -gt 0 ]; then
 	### Perform Database Installtion Routines
@@ -163,7 +164,10 @@ expect close
 EOD
 
 else
-
+  if [ "$UPGRADE" = "TRUE" ]; then
+    echo '** [freescout] Running any Database Migrations'
+    sudo -u nginx php artisan migrate >/dev/null
+  fi
 fi
 
 
