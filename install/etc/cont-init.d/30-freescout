@@ -125,6 +125,7 @@ cd /www/html/
 echo 'APP_KEY=' >> /www/html/.env
 sudo -u nginx php artisan key:generate > /dev/null
 sudo -u nginx php artisan freescout:clear-cache
+sudo -u nginx php artisan storage:link
 
 ### Check to see if Installed (no upgrade routines yet, next release)
 mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
@@ -155,7 +156,11 @@ expect close
 EOD
 fi
 
+chgrp -R nginx storage bootstrap/cache public/css/builds public/js/builds
+chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
 chown -R nginx:www-data /www/html
+sudo chmod ug+rwx /var/www/html
+
 echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
 
 mkdir -p /tmp/state
