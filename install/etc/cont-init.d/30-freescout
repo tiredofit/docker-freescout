@@ -174,7 +174,7 @@ fi
 chgrp -R nginx storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
 echo ${FREESCOUT_VERSION} > /www/html/.freescout-version
-
+mkdir -p /var/tmp/nginx/proxy
 chown -R nginx:www-data /www/html
 chmod ug+rwx /www/html
 
