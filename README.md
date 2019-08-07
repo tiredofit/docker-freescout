@@ -13,7 +13,7 @@ This will build a container for [Freescout](https://freescout.net/) - An open so
 
 * Automatically installs and sets up installation upon first start
         
-This Container uses [tiredofit/alpine:3.8](https://hub.docker.com/r/tiredofit/alpine) as a base.
+* This Container uses a [customized Debian Alpine base](https://hub.docker.com/r/tiredofit/alpine) which includes [s6 overlay](https://github.com/just-containers/s6-overlay) enabled for PID 1 Init capabilities, [zabbix-agent](https://zabbix.org) for individual container monitoring, Cron also installed along with other tools (bash,curl, less, logrotate, nano, vim) for easier management. It also supports sending to external SMTP servers..
 
 
 [Changelog](CHANGELOG.md)
@@ -80,7 +80,7 @@ The following directories are used for configuration and can be mapped for persi
 
 ### Environment Variables
 
-Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), below is the complete list of available options that can be used to customize your installation.
+Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
 
 | Parameter        | Description                            |
 |------------------|----------------------------------------|
@@ -97,6 +97,7 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ENABLE_SSL_PROXY` | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE` |
 | `SITE_URL` | The url your site listens on example `https://freescout.example.com`|
 | `TIMEZONE` | Timezone - Use Unix Style - Default `America/Vancouver` |
+| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release - Default `TRUE` |
 
 ### Networking
 
