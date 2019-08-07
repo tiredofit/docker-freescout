@@ -83,6 +83,7 @@ else
       sudo -u nginx php artisan freescout:after-app-update
       UPGRADE=TRUE
     fi
+  fi
 fi
 
 if [ -d "/assets/modules" ]; then
