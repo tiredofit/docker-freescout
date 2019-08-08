@@ -1,6 +1,6 @@
-## 1.0dev 2019-08-01 <dave at tiredofit dot ca>
+## 1.0 2019-08-08 <dave at tiredofit dot ca> w/ help from <briangilbert@github>
 
-* Freescout 1.3.4
+* Freescout 1.3.5
 * Ability to Self Update
 * Auto upgrade from Image version to image version
 * Ability to add custom modules

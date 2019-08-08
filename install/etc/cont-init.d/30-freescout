@@ -83,6 +83,7 @@ else
       if [ "${FREESCOUT_VERSION}" != `cat /www/html/.freescout-version` ]; then
         echo '** Detected in place Freescout version ' `cat /www/html/.freescout-version`' - Upgrading to '${FREESCOUT_VERSION}
         cp -R /assets/install/* /www/html
+        chown -R nginx:www-data /www/html
         cd /www/html
         sudo -u nginx php artisan freescout:after-app-update
         UPGRADE=TRUE
@@ -95,6 +96,7 @@ fi
 if [ -d "/assets/modules" ]; then
   echo '** [freescout] Detected Custom Modules - Adding to application'
   cp -R /assets/modules/* /www/html/Modules/
+  chown -R nginx:www-data /www/html/Modules/
 fi
 
 ### Create Configuration
@@ -102,42 +104,43 @@ echo "** [freescout] Generating Configuration"
 # Proxy and HostSettings
 if [ ! -n "$SITE_URL" ]; then
 	if [ -n "$APP_URL" ]; then
-		echo "APP_URL=$APP_URL" > /www/html/.env
+		sudo -u nginx echo "APP_URL=$APP_URL" > /www/html/.env
 	fi
 else
-	echo "APP_URL=$SITE_URL" > /www/html/.env
+	sudo -u nginx echo "APP_URL=$SITE_URL" > /www/html/.env
 fi
 
 if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
-	echo "APP_FORCE_HTTPS=TRUE" >> /www/html/.env
+	sudo -u nginx echo "APP_FORCE_HTTPS=TRUE" >> /www/html/.env
 fi
 
 # Set DB Settings
-echo 'DB_CONNECTION=mysql' >> /www/html/.env
-echo "DB_HOST=$DB_HOST" >> /www/html/.env
-echo "DB_PORT=$DB_PORT" >> /www/html/.env
-echo "DB_DATABASE=$DB_NAME" >> /www/html/.env
-echo "DB_USERNAME=$DB_USER" >> /www/html/.env
-echo "DB_PASSWORD=$DB_PASS" >> /www/html/.env
+sudo -u nginx echo 'DB_CONNECTION=mysql' >> /www/html/.env
+sudo -u nginx echo "DB_HOST=$DB_HOST" >> /www/html/.env
+sudo -u nginx echo "DB_PORT=$DB_PORT" >> /www/html/.env
+sudo -u nginx echo "DB_DATABASE=$DB_NAME" >> /www/html/.env
+sudo -u nginx echo "DB_USERNAME=$DB_USER" >> /www/html/.env
+sudo -u nginx echo "DB_PASSWORD=$DB_PASS" >> /www/html/.env
 
 # Timezone Setting
 if [ -n "$TIMEZONE" ]; then
-	echo "APP_TIMEZONE=$TIMEZONE" >> /www/html/.env
+	sudo -u nginx echo "APP_TIMEZONE=$TIMEZONE" >> /www/html/.env
 else 
 	if [ -n "$APP_TIMEZONE" ]; then
-		echo "APP_TIMEZONE=$APP_TIMEZONE" >> /www/html/.env
+		sudo -u nginx echo "APP_TIMEZONE=$APP_TIMEZONE" >> /www/html/.env
 	else
-		echo "APP_TIMEZONE=`cat /etc/timezone`" >> /www/html/.env
+		sudo -u nginx echo "APP_TIMEZONE=`cat /etc/timezone`" >> /www/html/.env
 	fi
 fi  
 
 if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
-	echo "APP_DEBUG=TRUE" >> /www/html/.env
+	sudo -u nginx echo "APP_DEBUG=TRUE" >> /www/html/.env
 fi
 
 # Generate Key
 cd /www/html/
-echo 'APP_KEY=' >> /www/html/.env
+sudo -u nginx echo 'APP_KEY=' >> /www/html/.env
+chown -R nginx:www-data /www/html/.env
 sudo -u nginx php artisan key:generate > /dev/null
 sudo -u nginx php artisan freescout:clear-cache > /dev/null
 sudo -u nginx php artisan storage:link > /dev/null
@@ -176,7 +179,7 @@ else
 fi
 
 
-chgrp -R nginx storage bootstrap/cache public/css/builds public/js/builds
+chown -R nginx:www-data storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
 mkdir -p /var/tmp/nginx/proxy
 touch /www/html/index.php

@@ -77,7 +77,8 @@ The following directories are used for configuration and can be mapped for persi
 | Directory    | Description                                                 |
 |--------------|-------------------------------------------------------------|
 | `/www/logs` | Nginx and PHP Log files |
-
+| `/assets/modules` | If you want to add additional modules outside of the source tree, add them here |
+| `/www/html` | (Optional) If you want to expose the Freescout sourcecode and enable Self Updating, expose this volume |
 ### Environment Variables
 
 Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
