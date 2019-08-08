@@ -1,3 +1,13 @@
+## 1.0 2019-08-08 <dave at tiredofit dot ca> w/ help from <briangilbert@github>
+
+* Freescout 1.3.5
+* Ability to Self Update
+* Auto upgrade from Image version to image version
+* Ability to add custom modules
+* Ability to have access to custom source (this should allow Auto Updating to work without having to always update the image)
+* Moved back to tiredofit/nginx-php-fpm base image to make development and upkeep easier
+* PHP 7.3
+
 ## 0.11 2019-07-31 <dave at tiredofit dot ca>
 
 * Freescout 1.3.3
