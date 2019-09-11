@@ -1,3 +1,7 @@
+## 1.0.1 2019-09-10 <dave at tiredofit dot ca>
+
+* Freescout 1.3.6
+
 ## 1.0 2019-08-08 <dave at tiredofit dot ca> w/ help from <briangilbert@github>
 
 * Freescout 1.3.5
