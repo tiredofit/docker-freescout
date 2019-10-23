@@ -1,3 +1,7 @@
+## 1.0.2 2019-10-23 <dave at tiredofit dot ca>
+
+* Freescout 1.3.8
+
 ## 1.0.1 2019-09-10 <dave at tiredofit dot ca>
 
 * Freescout 1.3.6
