@@ -78,12 +78,17 @@ if [ ! -f "/www/html/server.php" ]; then
 
   ### Storage redirection
   if [ -d "/data" ]; then
-    echo "** [freescout] Detected /data directory. Persistently saving sessions and cache"
+    echo "** [freescout] Detected /data directory. Persistently saving sessions/cache/uploads/modules"
     if [ ! -d "/data/storage" ]; then
       cp -R /www/html/storage /data
     fi
+    if [ ! -d "/data/storage" ]; then
+      cp -R /www/html/Modules /data
+    fi
       rm -rf /www/html/storage
       ln -s /data/storage /www/html/storage
+      rm -rf /www/html/Modules
+      ln -s /data/Modules /www/html/Modules
       chown -R nginx:www-data /data
   fi
   echo ${FREESCOUT_VERSION} > /www/html/.freescout-version

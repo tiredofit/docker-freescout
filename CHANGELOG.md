@@ -1,3 +1,9 @@
+## 1.1.1 2019-11-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Make modules persistent via new functionality introduced in 1.1.0
+
+
 ## 1.1.0 2019-11-20 <dave at tiredofit dot ca>
 
    ### Added
