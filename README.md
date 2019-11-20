@@ -44,7 +44,7 @@ Companion @
 https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) 
 in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports. See the examples folder for a docker-compose.yml that does not rely on a reverse proxy.
 
-You will also need an external MariaDB/MariaDB Container
+You will also need an external MariaDB container
 
 # Installation
 

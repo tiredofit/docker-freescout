@@ -81,7 +81,6 @@ if [ ! -f "/www/html/server.php" ]; then
     echo "** [freescout] Detected /data directory. Persistently saving sessions and cache"
     if [ ! -d "/data/storage" ]; then
       cp -R /www/html/storage /data
-
     fi
       rm -rf /www/html/storage
       ln -s /data/storage /www/html/storage
