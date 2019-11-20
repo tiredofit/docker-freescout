@@ -44,7 +44,7 @@ Companion @
 https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion](https://github.com/JrCs/docker-letsencrypt-nginx-proxy-companion) 
 in order to serve your pages. However, it will run just fine on it's own if you map appropriate ports. See the examples folder for a docker-compose.yml that does not rely on a reverse proxy.
 
-You will also need an external MySQL/MariaDB Container
+You will also need an external MariaDB/MariaDB Container
 
 # Installation
 
@@ -78,6 +78,9 @@ The following directories are used for configuration and can be mapped for persi
 | `/www/logs` | Nginx and PHP Log files |
 | `/assets/modules` | If you want to add additional modules outside of the source tree, add them here |
 | `/www/html` | (Optional) If you want to expose the Freescout sourcecode and enable Self Updating, expose this volume |
+|  *OR | |
+| `/data`     | Hold onto your persistent sessions and cache between container restarts
+
 ### Environment Variables
 
 Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
@@ -88,11 +91,11 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ADMIN_FIRST_NAME` | Admin user First Name - Default `Admin` |
 | `ADMIN_LAST_NAME` | Admin user First Name - Default `User` |
 | `ADMIN_PASS` | Administrator Password - Needed for Logging in | 
-| `DB_HOST` | Host or container name of MySQL Server e.g. `freescout-db` |
-| `DB_PORT` | MySQL Port - Default `3306` |
-| `DB_NAME` | MySQL Database name e.g. `asterisk` |
-| `DB_USER` | MySQL Username for above Database e.g. `asterisk` |
-| `DB_PASS` | MySQL Password for above Database e.g. `password`|
+| `DB_HOST` | Host or container name of MariaDB Server e.g. `freescout-db` |
+| `DB_PORT` | MariaDB Port - Default `3306` |
+| `DB_NAME` | MariaDB Database name e.g. `asterisk` |
+| `DB_USER` | MariaDB Username for above Database e.g. `asterisk` |
+| `DB_PASS` | MariaDB Password for above Database e.g. `password`|
 | `DISPLAY_ERRORS` | Display Errors on Website - Default `FALSE`|
 | `ENABLE_SSL_PROXY` | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE` |
 | `SITE_URL` | The url your site listens on example `https://freescout.example.com`|
