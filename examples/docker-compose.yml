@@ -10,6 +10,8 @@ services:
     volumes:
     ### If you want to perform customizations to the source and have access to it, then uncomment this line - This includes modules
     #- ./data:/www/html
+    ### Or, if you just want to use Stock Freescout and hold onto persistent files like cache and session use this, one or the other.
+    - ./data:/data
     ### If you want to just keep the original source and add additional modules uncomment this line
     #- ./modules:/www/html/Modules
     - ./logs/:/www/logs
@@ -43,13 +45,12 @@ services:
     volumes:
       - ./db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=freescout
-      - MYSQL_USER=freescout
-      - MYSQL_PASSWORD=freescout
+      - ROOT_PASS=password
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
 
       - ZABBIX_HOSTNAME=freescout-db
-
     networks:
       - proxy-tier
     restart: always

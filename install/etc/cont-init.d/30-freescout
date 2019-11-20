@@ -75,8 +75,21 @@ ln -sf /www/logs/freescout /www/html/storage/logs
 if [ ! -f "/www/html/server.php" ]; then
   echo '** [freescout] Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode' 
   cp -R /assets/install/* /www/html
+
+  ### Storage redirection
+  if [ -d "/data" ]; then
+    echo "** [freescout] Detected /data directory. Persistently saving sessions and cache"
+    if [ ! -d "/data/storage" ]; then
+      cp -R /www/html/storage /data
+
+    fi
+      rm -rf /www/html/storage
+      ln -s /data/storage /www/html/storage
+      chown -R nginx:www-data /data
+  fi
   echo ${FREESCOUT_VERSION} > /www/html/.freescout-version
   chown -R nginx:www-data /www/html
+  
 else 
   if [ "$ENABLE_AUTO_UPDATE" = "TRUE" ]; then
     if [ -f "/www/html/.freescout-version" ]; then
@@ -177,7 +190,6 @@ else
     echo '** [freescout] Running any Database Migrations'
     sudo -u nginx php artisan migrate >/dev/null
 fi
-
 
 chown -R nginx:www-data storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds

@@ -1,3 +1,12 @@
+## 1.1.0 2019-11-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Added persistent storage for sessions, cache, and vars - Mount /data as a volume to benefit
+
+   ### Changed
+      - Updated docker-compose examples
+
+
 ## 1.0.4 2019-11-17 <dave at tiredofit dot ca>
 
    ### Changed
