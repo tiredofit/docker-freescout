@@ -1,3 +1,22 @@
+## 1.3.0 2019-12-10 <dave at tiredofit dot ca>
+
+   ### Added
+      - Refinements to Persistent Storage specifically Modules and Configuration Files
+   
+   ### Changed
+      - Considerable cleanup related to storage
+      - Automatically install Modules and clear cache routines
+      - Much easier to survive container restarts
+      - Fix related to auto upgrade routines
+
+
+## 1.2.0 2019-12-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Refactor to support new tiredofit/nginx-php-fpm base image
+      - Freescout 1.3.14
+
+
 ## 1.1.2 2019-11-25 <dave at tiredofit dot ca>
 
    ### Added

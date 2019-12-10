@@ -2,12 +2,17 @@ FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.3.12 \
+ENV FREESCOUT_VERSION=1.3.14 \
+    NGINX_WEBROOT=/www/html \
+    PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_ICONV=TRUE \
     PHP_ENABLE_IMAP=TRUE \
+    PHP_ENABLE_LDAP=TRUE \
     PHP_ENABLE_OPENSSL=TRUE \
     PHP_ENABLE_SIMPLEXML=TRUE \
+    PHP_ENABLE_TOKENIZER=TRUE \
+    PHP_ENABLE_ZIP=TRUE \
     ZABBIX_HOSTNAME=freescout-app
 
 ### Perform Installation
@@ -23,6 +28,7 @@ RUN set -x && \
               expect \
               git \
               gnu-libiconv \
+              sed \
 	      && \
     \
 ### WWW  Installation
