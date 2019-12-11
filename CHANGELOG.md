@@ -1,3 +1,12 @@
+## 1.4.0 2019-12-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add execution of custom scripts upon container startup (map /assets/custom-scripts)
+
+   ### Changed
+      - Fixed error where Module installation would hang
+
+
 ## 1.3.0 2019-12-10 <dave at tiredofit dot ca>
 
    ### Added

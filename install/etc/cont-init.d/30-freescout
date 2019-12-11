@@ -79,11 +79,12 @@ rm -rf ${NGINX_WEBROOT}/storage/logs
 mkdir -p ${NGINX_WEBROOT}/storage/logs
 ln -sf /www/logs/freescout ${NGINX_WEBROOT}/storage/logs
 
+### Check if New Install
 if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
   echo "** [freescout] Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode"
   cp -R /assets/install/* ${NGINX_WEBROOT}
-  
 
+  ### If running with /www/html or NGINX_WEBROOT mapped, then create persistent storage  
   ### Storage redirection
   if [ -d "/data" ]; then
     echo "** [freescout] Detected /data directory. Persistently saving settings/sessions/cache/uploads/modules"
@@ -104,6 +105,7 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     chown -R nginx:www-data /data
   fi
   
+  ### Auto Upgrade functionality
   if [ ! -f "${NGINX_WEBROOT}/.freescout-version" ]; then
     echo "${FREESCOUT_VERSION} first installed on `date`" >> ${NGINX_WEBROOT}/.freescout-version
   fi
@@ -123,19 +125,31 @@ else
   fi
 fi
 
+## Copy over any custom modules overtop of existing
 if [ -d "/assets/modules" ]; then
   echo "** [freescout] Detected Custom Modules - Adding to application"
   cp -R /assets/modules/* ${NGINX_WEBROOT}/Modules/
   chown -R nginx:www-data ${NGINX_WEBROOT}/Modules/
 fi
 
+## Copy over any custom files overtop of source
 if [ -d "/assets/custom" ]; then
   echo '** [freescout] Detected Custom Source - Copying over to application'
   cp -R /assets/custom/* ${NGINX_WEBROOT}/
   chown -R nginx:www-data ${NGINX_WEBROOT}
 fi
 
-### Create Configuration
+## Execute Custom Scripts
+if [ -d /assets/custom-scripts/ ] ; then
+  echo "** [freescout] Found Custom Scripts to Execute"
+  for f in $(find /assets/custom-scripts/ -name \*.sh -type f); do
+    echo "** [frescout] Running Script ${f}"
+    chmod +x ${f}
+    ${f}
+  done
+fi  
+
+### Dynamically Create Configuration
 if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
   echo "** [freescout] Updating Configuration"
   # Proxy and Host Settings
@@ -236,6 +250,7 @@ else
   silent sudo -u nginx php artisan key:generate
 fi
   
+### Cleanup
 cd ${NGINX_WEBROOT}/
 silent sudo -u nginx php artisan freescout:clear-cache
 silent sudo -u nginx php artisan storage:link
@@ -251,7 +266,6 @@ if [ $? -gt 0 ]; then
 	### Create User
 	echo '** [freescout] Creating Administrative User'
 	/usr/bin/expect >/dev/null <<EOD
-log_file /tmp/expect.log
 spawn php artisan freescout:create-user --no-ansi
 expect "(admin/user)"
 send -- "admin\r"
@@ -284,7 +298,17 @@ chmod ug+rwx ${NGINX_WEBROOT}
 ### Install symlinks for modules that may have been previously installed
 if [ "$(ls -A /www/html/Modules)" ]; then
   echo "** [fresccout] Installing Modules into container"
-  silent yes | sudo -u nginx php artisan freescout:module-install
+  /usr/bin/expect <<EOD
+spawn sudo -u nginx php artisan freescout:module-install --no-ansi
+set timeout 30
+expect \
+{
+  (yes/no) {exp_send yes\r;exp_continue}
+  eof {}
+#  timeout {puts "Putting you in control - to exit type \\ twice";interact \\\\}
+}
+EOD
+  
 fi
 
 echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
