@@ -1,3 +1,9 @@
+## 1.4.1 2019-12-11 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Quiet down Module installation output
+
+
 ## 1.4.0 2019-12-11 <dave at tiredofit dot ca>
 
    ### Added

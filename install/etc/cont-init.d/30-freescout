@@ -298,7 +298,7 @@ chmod ug+rwx ${NGINX_WEBROOT}
 ### Install symlinks for modules that may have been previously installed
 if [ "$(ls -A /www/html/Modules)" ]; then
   echo "** [fresccout] Installing Modules into container"
-  /usr/bin/expect <<EOD
+  /usr/bin/expect >/dev/null<<EOD
 spawn sudo -u nginx php artisan freescout:module-install --no-ansi
 set timeout 30
 expect \

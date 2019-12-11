@@ -76,14 +76,16 @@ The following directories are used for configuration and can be mapped for persi
 | Directory    | Description                                                 |
 |--------------|-------------------------------------------------------------|
 | `/www/logs` | Nginx and PHP Log files |
-| `/assets/modules` | If you want to add additional modules outside of the source tree, add them here |
+| `/assets/custom` | (Optional) Copy source code over existing source code in /www/html upon container start. Use exact file/folder structure |
+| `/assets/custom-scripts` | (Optional) If you want to execute custom scripting, place scripts here with extension `.sh` |
+| `/assets/modules` | (Optional) If you want to add additional modules outside of the source tree, add them here |
 | `/www/html` | (Optional) If you want to expose the Freescout sourcecode and enable Self Updating, expose this volume |
 |  *OR | |
 | `/data`     | Hold onto your persistent sessions and cache between container restarts
 
 ### Environment Variables
 
-Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
+Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx), and [PHP Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
 
 | Parameter        | Description                            |
 |------------------|----------------------------------------|
@@ -97,10 +99,10 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `DB_USER` | MariaDB Username for above Database e.g. `asterisk` |
 | `DB_PASS` | MariaDB Password for above Database e.g. `password`|
 | `DISPLAY_ERRORS` | Display Errors on Website - Default `FALSE`|
+| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release - Default `TRUE` |
 | `ENABLE_SSL_PROXY` | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE` |
 | `SITE_URL` | The url your site listens on example `https://freescout.example.com`|
-| `TIMEZONE` | Timezone - Use Unix Style - Default `America/Vancouver` |
-| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release - Default `TRUE` |
+| `TIMEZONE` | Timezone - Use Unix Style - Default (whatever is listed in `/etc/timezone` |
 
 ### Networking
 
