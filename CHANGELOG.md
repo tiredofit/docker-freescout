@@ -1,3 +1,15 @@
+## 1.4.3 2019-12-12 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Change in the way that DB Migrations are done. Do them every time to avoid any uncaught module installations
+
+
+## 1.4.2 2019-12-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add alias for running artisan - Type `artisan <arguments>` inside of container to run commands as webserver user
+
+
 ## 1.4.1 2019-12-11 <dave at tiredofit dot ca>
 
    ### Changed
