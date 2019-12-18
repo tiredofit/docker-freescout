@@ -93,10 +93,11 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ADMIN_FIRST_NAME` | Admin user First Name - Default `Admin` |
 | `ADMIN_LAST_NAME` | Admin user First Name - Default `User` |
 | `ADMIN_PASS` | Administrator Password - Needed for Logging in | 
+| `APPLICATION_NAME` | Change default application name - Default `Freescout` |
 | `DB_HOST` | Host or container name of MariaDB Server e.g. `freescout-db` |
 | `DB_PORT` | MariaDB Port - Default `3306` |
-| `DB_NAME` | MariaDB Database name e.g. `asterisk` |
-| `DB_USER` | MariaDB Username for above Database e.g. `asterisk` |
+| `DB_NAME` | MariaDB Database name e.g. `freescout` |
+| `DB_USER` | MariaDB Username for above Database e.g. `freescout` |
 | `DB_PASS` | MariaDB Password for above Database e.g. `password`|
 | `DISPLAY_ERRORS` | Display Errors on Website - Default `FALSE`|
 | `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release - Default `TRUE` |

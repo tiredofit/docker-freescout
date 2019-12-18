@@ -1,3 +1,33 @@
+## 1.5.3 2019-12-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.3.15
+
+
+## 1.5.2 2019-12-17 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Cleanup Dockerfile
+
+
+## 1.5.1 2019-12-15 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Bugfixes to initialization script
+
+
+## 1.5.0 2019-12-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add `APPLICATION_NAME` to support changing name from Freescout to something custom
+
+
+## 1.4.4 2019-12-12 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Final tweak to running database migrations on startup
+
+
 ## 1.4.3 2019-12-12 <dave at tiredofit dot ca>
 
    ### Changed

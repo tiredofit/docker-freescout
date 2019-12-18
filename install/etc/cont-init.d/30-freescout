@@ -20,6 +20,7 @@ fi
 
 ### Set Defaults
 DB_PORT=${DB_PORT:-3306}
+APPLICATION_NAME=${APPLICATION_NAME:-"Freescout"}
 ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME:-"Admin"}
 ADMIN_LAST_NAME=${ADMIN_LAST_NAME:-"User"}
 ENABLE_AUTO_UPDATE=${ENABLE_AUTO_UPDATE:-"TRUE"}
@@ -112,7 +113,7 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
   chown -R nginx:www-data ${NGINX_WEBROOT}
 else 
   if [ "$ENABLE_AUTO_UPDATE" = "TRUE" ]; then
-    if [ "$FREESCOUT_VERSION" != `head -n 1 ${NGINX_WEBROOT}data/.freescout-version | awk '{print $1'}` ]; then
+    if [ "$FREESCOUT_VERSION" != `head -n 1 ${NGINX_WEBROOT}/.freescout-version | awk '{print $1'}` ]; then
       echo '** Detected in place Freescout version ' `head -n 1 ${NGINX_WEBROOT}/.freescout-version | awk "{print $1"}`' - Upgrading to '${FREESCOUT_VERSION}
       cp -R /assets/install/* ${NGINX_WEBROOT}
       chown -R nginx:www-data ${NGINX_WEBROOT}
@@ -148,6 +149,9 @@ if [ -d /assets/custom-scripts/ ] ; then
     ${f}
   done
 fi  
+
+### Change Application Name
+sed -i "s#'name' => '.*',#'name' => '${APPLICATION_NAME}',#g" ${NGINX_WEBROOT}/config/app.php
 
 ### Dynamically Create Configuration
 if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
@@ -292,7 +296,7 @@ chmod ug+rwx ${NGINX_WEBROOT}
 ### Install symlinks for modules that may have been previously installed
 if [ "$(ls -A /www/html/Modules)" ]; then
   echo "** [fresccout] Installing Modules into container"
-  /usr/bin/expect >/dev/null<<EOD
+  silent /usr/bin/expect<<EOD
 spawn sudo -u nginx php artisan freescout:module-install --no-ansi
 set timeout 30
 expect \
@@ -306,7 +310,16 @@ fi
 
 echo "** [freescout] Running any Database Migrations"
 cd ${NGINX_WEBROOT}
-silent echo "yes" | sudo -u nginx php artisan migrate
+silent /usr/bin/expect <<EOD
+spawn sudo -u nginx php artisan migrate --no-ansi
+set timeout 30
+expect \
+{
+  (yes/no) {exp_send yes\r;exp_continue}
+  eof {}
+#  timeout {puts "Putting you in control - to exit type \\ twice";interact \\\\}
+}
+EOD
 
 ### Add alias for running artisan
 echo "alias artisan='cd ${NGINX_WEBROOT}; sudo -u nginx php artisan'" > /root/.bashrc
