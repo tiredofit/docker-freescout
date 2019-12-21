@@ -1,7 +1,19 @@
-## 1.5.4 2019-12-18 <dave at tiredofit dot ca>
+## 1.5.6 2019-12-21 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.3.17
+
+
+## 1.5.5 2019-12-18 <dave at tiredofit dot ca>
 
    ### Added
       - Freescout 1.3.16
+
+
+## 1.5.4 2019-12-18 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Dynamically set Nginx User and Group permissions across project
 
 
 ## 1.5.3 2019-12-17 <dave at tiredofit dot ca>
