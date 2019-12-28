@@ -1,3 +1,9 @@
+## 1.5.8 2019-12-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - FreeScout 1.3.19
+
+
 ## 1.5.7 2019-12-22 <dave at tiredofit dot ca>
 
    ### Added
