@@ -1,22 +1,12 @@
 #!/usr/bin/with-contenv bash
 
-while [ ! -f /tmp/state/init-20-php-fpm ]
+source /assets/functions/*
+PROCESS_NAME="freescout"
+
+while [ ! -f /tmp/state/20-php-fpm-init ]
 do
   sleep 1
 done
-
-silent() {
-  if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ];  then
-    "$@"
-  else
-    "$@" > /dev/null 2>&1
-  fi
-}
-
-### Set Debug Mode
-if [ "$DEBUG_MODE" = "TRUE" ] || [ "$DEBUG_MODE" = "true" ]; then
-    set -x
-fi
 
 ### Set Defaults
 DB_PORT=${DB_PORT:-3306}
@@ -26,69 +16,28 @@ ADMIN_LAST_NAME=${ADMIN_LAST_NAME:-"User"}
 ENABLE_AUTO_UPDATE=${ENABLE_AUTO_UPDATE:-"TRUE"}
 
 ### Sanity Test
-if [ ! -n "$DB_HOST" ]; then
-    echo '** [freescout] ERROR: No Database Host Entered! '
-    exit 1
-fi
-
-if [ ! -n "$DB_NAME" ]; then
-    echo '** [freescout] ERROR: No Database Name Entered! '
-    exit 1
-fi
-
-if [ ! -n "$DB_USER" ]; then
-    echo '** [freescout] ERROR: No Database User Entered! '
-    exit 1
-fi
-
-if [ ! -n "$DB_PASS" ]; then
-    echo '** [freescout] ERROR: No Database Pass Entered!'
-    exit 1
-fi
-
-if [ ! -n "$ADMIN_EMAIL" ]; then
-    echo '** [freescout] ERROR: No Admin Email Entered! Exiting..'
-    exit 1
-fi
-if [ ! -n "$ADMIN_PASS" ]; then
-    echo '** [freescout] ERROR: No Admin Password Entered! Exiting..'
-    exit 1
-fi
-
-if [ ! -n "$SITE_URL" ]; then
-    echo '** [freescout] ERROR: No Site URL Entered Please configure before proceeding' 
-    exit 1
-fi
-
-### Make sure that DB is accessible
-while true; do
-  mysqlcmd="mysql -u$DB_USER -h$DB_HOST -p$DB_PASS -P$DB_PORT"
-  out="`$mysqlcmd -e "SELECT COUNT(*) FROM information_schema.FILES;" 2>&1`"
-  echo "$out" | grep -E "COUNT|Enter" 2>&1 > /dev/null
-  if [ $? -eq 0 ]; then
-      echo "** [freescout] MariaDB Server '${DB_HOST}' is available"
-      break
-  fi
-  echo "** [freescout] MariaDB Server '${DB_HOST}' unavailable. Sleeping a little bit"
-  sleep 5
-done
+sanity_db
+sanity_var ADMIN_EMAIL "Admin Email Address"
+sanity_var ADMIN_PASS "Admin Password"
+sanity_var SITE_URL "Site URL"
+db_check
 
 ### Logfile redirection
 mkdir -p /www/logs/freescout
-chown -R nginx:www-data /www/logs/freescout
+chown -R ${NGINX_USER}:${NGINX_GROUP} /www/logs/freescout
 rm -rf ${NGINX_WEBROOT}/storage/logs
 mkdir -p ${NGINX_WEBROOT}/storage/logs
 ln -sf /www/logs/freescout ${NGINX_WEBROOT}/storage/logs
 
 ### Check if New Install
 if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
-  echo "** [freescout] Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode"
+  print_warn "Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode"
   cp -R /assets/install/* ${NGINX_WEBROOT}
 
   ### If running with /www/html or NGINX_WEBROOT mapped, then create persistent storage  
   ### Storage redirection
   if [ -d "/data" ]; then
-    echo "** [freescout] Detected /data directory. Persistently saving settings/sessions/cache/uploads/modules"
+    print_warn "Detected /data directory. Persistently saving settings/sessions/cache/uploads/modules"
     if [ ! -d "/data/storage" ]; then
       cp -R ${NGINX_WEBROOT}/storage /data
     fi
@@ -101,24 +50,24 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     ln -s /data/Modules ${NGINX_WEBROOT}/Modules
     ln -sf /data/config ${NGINX_WEBROOT}/.env
     touch /data/config
-    chown nginx:www-data ${NGINX_WEBROOT}/.env
+    chown ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/.env
     ln -sf /data/.freescout-version ${NGINX_WEBROOT}/.freescout-version
-    chown -R nginx:www-data /data
+    chown -R ${NGINX_USER}:${NGINX_GROUP} /data
   fi
   
   ### Auto Upgrade functionality
   if [ ! -f "${NGINX_WEBROOT}/.freescout-version" ]; then
     echo "${FREESCOUT_VERSION} first installed on `date`" >> ${NGINX_WEBROOT}/.freescout-version
   fi
-  chown -R nginx:www-data ${NGINX_WEBROOT}
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
 else 
   if [ "$ENABLE_AUTO_UPDATE" = "TRUE" ]; then
     if [ "$FREESCOUT_VERSION" != `head -n 1 ${NGINX_WEBROOT}/.freescout-version | awk '{print $1'}` ]; then
-      echo '** Detected in place Freescout version ' `head -n 1 ${NGINX_WEBROOT}/.freescout-version | awk "{print $1"}`' - Upgrading to '${FREESCOUT_VERSION}
+      print_warn "Detected in place Freescout version `head -n 1 ${NGINX_WEBROOT}/.freescout-version | awk "{print $1"}` - Upgrading to ${FREESCOUT_VERSION}"
       cp -R /assets/install/* ${NGINX_WEBROOT}
-      chown -R nginx:www-data ${NGINX_WEBROOT}
+      chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
       cd ${NGINX_WEBROOT}
-      silent sudo -u nginx php artisan freescout:after-app-update
+      silent sudo -u ${NGINX_USER} php artisan freescout:after-app-update
       UPGRADE=TRUE
       sed -i '1 i\
                 echo "${FREESCOUT_VERSION} upgraded on `date`' ${NGINX_WEBROOT}/.freescout-version
@@ -128,23 +77,23 @@ fi
 
 ## Copy over any custom modules overtop of existing
 if [ -d "/assets/modules" ]; then
-  echo "** [freescout] Detected Custom Modules - Adding to application"
+  print_warn "Detected Custom Modules - Adding to application"
   cp -R /assets/modules/* ${NGINX_WEBROOT}/Modules/
-  chown -R nginx:www-data ${NGINX_WEBROOT}/Modules/
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/Modules/
 fi
 
 ## Copy over any custom files overtop of source
 if [ -d "/assets/custom" ]; then
-  echo '** [freescout] Detected Custom Source - Copying over to application'
+  print_warn "Detected Custom Source - Copying over to application"
   cp -R /assets/custom/* ${NGINX_WEBROOT}/
-  chown -R nginx:www-data ${NGINX_WEBROOT}
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
 fi
 
 ## Execute Custom Scripts
 if [ -d /assets/custom-scripts/ ] ; then
-  echo "** [freescout] Found Custom Scripts to Execute"
+  print_warn "Found Custom Scripts to Execute"
   for f in $(find /assets/custom-scripts/ -name \*.sh -type f); do
-    echo "** [frescout] Running Script ${f}"
+    print_warn "Running Script ${f}"
     chmod +x ${f}
     ${f}
   done
@@ -155,7 +104,7 @@ sed -i "s#'name' => '.*',#'name' => '${APPLICATION_NAME}',#g" ${NGINX_WEBROOT}/c
 
 ### Dynamically Create Configuration
 if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
-  echo "** [freescout] Updating Configuration"
+  print_info "Updating Configuration"
   # Proxy and Host Settings
   if [ ! -n "$SITE_URL" ]; then
     if [ -n "$APP_URL" ]; then
@@ -195,80 +144,80 @@ if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
   sed -i --follow-symlinks "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASS}#g" ${NGINX_WEBROOT}/.env
 
   if [ -f /data/.env ]; then
-    chown nginx:www-data /data/.env
+    chown ${NGINX_USER}:${NGINX_GROUP} /data/.env
     chmod 0755 /data/.env
   fi
 else
-  echo "** [freescout] Generating Configuration"
+  print_info "Generating Configuration"
   touch ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "#### Automatically Generated File - Upon container restart any settings will reset!" > ${NGINX_WEBROOT}
+  sudo -u ${NGINX_USER} echo "#### Automatically Generated File - Upon container restart any settings will reset!" > ${NGINX_WEBROOT}/.env
   # Proxy and HostSettings
   if [ ! -n "$SITE_URL" ]; then
   	if [ -n "$APP_URL" ]; then
-  		sudo -u nginx echo "APP_URL=$APP_URL" >> ${NGINX_WEBROOT}/.env
+  		sudo -u ${NGINX_USER} echo "APP_URL=$APP_URL" >> ${NGINX_WEBROOT}/.env
   	fi
   else
-  	sudo -u nginx echo "APP_URL=$SITE_URL" >> ${NGINX_WEBROOT}/.env
+  	sudo -u ${NGINX_USER} echo "APP_URL=$SITE_URL" >> ${NGINX_WEBROOT}/.env
   fi
 
   if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
-  	sudo -u nginx echo "APP_FORCE_HTTPS=true" >> ${NGINX_WEBROOT}/.env
+  	sudo -u ${NGINX_USER} echo "APP_FORCE_HTTPS=true" >> ${NGINX_WEBROOT}/.env
   else
-    sudo -u nginx echo "APP_FORCE_HTTPS=false" >> ${NGINX_WEBROOT}/.env
+    sudo -u ${NGINX_USER} echo "APP_FORCE_HTTPS=false" >> ${NGINX_WEBROOT}/.env
   fi
 
   if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
-    sudo -u nginx echo "APP_DEBUG=true" >> ${NGINX_WEBROOT}/.env
+    sudo -u ${NGINX_USER} echo "APP_DEBUG=true" >> ${NGINX_WEBROOT}/.env
   else
-    sudo -u nginx echo "APP_DEBUG=false" >> ${NGINX_WEBROOT}/.env
+    sudo -u ${NGINX_USER} echo "APP_DEBUG=false" >> ${NGINX_WEBROOT}/.env
   fi
 
   # Timezone Setting
   if [ -n "$TIMEZONE" ]; then
-    sudo -u nginx echo "APP_TIMEZONE=$TIMEZONE" >> ${NGINX_WEBROOT}/.env
+    sudo -u ${NGINX_USER} echo "APP_TIMEZONE=$TIMEZONE" >> ${NGINX_WEBROOT}/.env
   else 
     if [ -n "$APP_TIMEZONE" ]; then
-      sudo -u nginx echo "APP_TIMEZONE=$APP_TIMEZONE" >> ${NGINX_WEBROOT}/.env
+      sudo -u ${NGINX_USER} echo "APP_TIMEZONE=$APP_TIMEZONE" >> ${NGINX_WEBROOT}/.env
     else
-      sudo -u nginx echo "APP_TIMEZONE=`cat /etc/timezone`" >> ${NGINX_WEBROOT}/.env
+      sudo -u ${NGINX_USER} echo "APP_TIMEZONE=`cat /etc/timezone`" >> ${NGINX_WEBROOT}/.env
     fi
   fi  
 
-  sudo -u nginx echo 'APP_KEY=' >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo 'APP_KEY=' >> ${NGINX_WEBROOT}/.env
 
   # Set DB Settings
-  sudo -u nginx echo 'DB_CONNECTION=mysql' >> ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "DB_HOST=$DB_HOST" >> ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "DB_PORT=$DB_PORT" >> ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "DB_DATABASE=$DB_NAME" >> ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "DB_USERNAME=$DB_USER" >> ${NGINX_WEBROOT}/.env
-  sudo -u nginx echo "DB_PASSWORD=$DB_PASS" >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo 'DB_CONNECTION=mysql' >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo "DB_HOST=$DB_HOST" >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo "DB_PORT=$DB_PORT" >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo "DB_DATABASE=$DB_NAME" >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo "DB_USERNAME=$DB_USER" >> ${NGINX_WEBROOT}/.env
+  sudo -u ${NGINX_USER} echo "DB_PASSWORD=$DB_PASS" >> ${NGINX_WEBROOT}/.env
   
   # Generate Key
   cd ${NGINX_WEBROOT}/
-  chown -R nginx:www-data ${NGINX_WEBROOT}/.env
+  chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/.env
   if [ -f /data/.env ]; then
-    chown nginx:www-data /data/.env
+    chown ${NGINX_USER}:${NGINX_GROUP} /data/.env
     chmod 0755 /data/.env
   fi
-  silent sudo -u nginx php artisan key:generate
+  silent sudo -u ${NGINX_USER} php artisan key:generate
 fi
   
 ### Cleanup
 cd ${NGINX_WEBROOT}/
-silent sudo -u nginx php artisan freescout:clear-cache
-silent sudo -u nginx php artisan storage:link
+silent sudo -u ${NGINX_USER} php artisan freescout:clear-cache
+silent sudo -u ${NGINX_USER} php artisan storage:link
 
 ### Check to see if DB is populated
 mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
 if [ $? -gt 0 ]; then
 	### Perform Database Installtion Routines
-	echo "** [freescout] Detected empty Database - Setting up - Please wait.."
-	sudo -u nginx php artisan migrate:fresh --force >/dev/null
-	sudo -u nginx php artisan freescout:clear-cache >/dev/null
+	print_warn "Detected empty Database - Setting up - Please wait.."
+	sudo -u ${NGINX_USER} php artisan migrate:fresh --force >/dev/null
+	sudo -u ${NGINX_USER} php artisan freescout:clear-cache >/dev/null
 
 	### Create User
-	echo '** [freescout] Creating Administrative User'
+	print_warn "Creating Administrative User"
 	/usr/bin/expect >/dev/null <<EOD
 spawn php artisan freescout:create-user --no-ansi
 expect "(admin/user)"
@@ -288,16 +237,16 @@ EOD
 fi
 
 cd ${NGINX_WEBROOT}
-chown -R nginx:www-data storage bootstrap/cache public/css/builds public/js/builds
+chown -R ${NGINX_USER}:${NGINX_GROUP} storage bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
-chown -R nginx:www-data ${NGINX_WEBROOT}
+chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}
 chmod ug+rwx ${NGINX_WEBROOT}
 
 ### Install symlinks for modules that may have been previously installed
 if [ "$(ls -A /www/html/Modules)" ]; then
-  echo "** [fresccout] Installing Modules into container"
+  print_warn "Installing Modules into container"
   silent /usr/bin/expect<<EOD
-spawn sudo -u nginx php artisan freescout:module-install --no-ansi
+spawn sudo -u ${NGINX_USER} php artisan freescout:module-install --no-ansi
 set timeout 30
 expect \
 {
@@ -308,10 +257,10 @@ expect \
 EOD
 fi
 
-echo "** [freescout] Running any Database Migrations"
+print_warn "Running any Database Migrations"
 cd ${NGINX_WEBROOT}
 silent /usr/bin/expect <<EOD
-spawn sudo -u nginx php artisan migrate --no-ansi
+spawn sudo -u ${NGINX_USER} php artisan migrate --no-ansi
 set timeout 30
 expect \
 {
@@ -322,9 +271,8 @@ expect \
 EOD
 
 ### Add alias for running artisan
-echo "alias artisan='cd ${NGINX_WEBROOT}; sudo -u nginx php artisan'" > /root/.bashrc
+echo "alias artisan='cd ${NGINX_WEBROOT}; sudo -u ${NGINX_USER} php artisan'" > /root/.bashrc
 
-echo "** [freescout] Initialization Complete. Please visit $SITE_URL and login with your credentials.."
+print_info "Initialization Complete. Please visit $SITE_URL and login with your credentials.."
 
-mkdir -p /tmp/state
-touch /tmp/state/init-30-freescout
+liftoff
