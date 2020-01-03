@@ -20,7 +20,7 @@ sanity_db
 sanity_var ADMIN_EMAIL "Admin Email Address"
 sanity_var ADMIN_PASS "Admin Password"
 sanity_var SITE_URL "Site URL"
-db_check
+db_ready mariadb
 
 ### Logfile redirection
 mkdir -p /www/logs/freescout
