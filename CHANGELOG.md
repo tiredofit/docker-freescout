@@ -1,3 +1,14 @@
+## 1.6.2 2020-01-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.4.0
+
+## 1.6.1 2020-01-02 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Additional changes to support new tiredofit/alpine base image
+
+
 ## 1.6.0 2019-12-29 <dave at tiredofit dot ca>
 
    ### Added
