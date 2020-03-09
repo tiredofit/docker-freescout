@@ -1,12 +1,9 @@
 #!/usr/bin/with-contenv bash
 
-source /assets/functions/*
+for s in /assets/functions/*; do source $s; done
 PROCESS_NAME="freescout"
 
-while [ ! -f /tmp/state/20-php-fpm-init ]
-do
-  sleep 1
-done
+check_service_initialized init 20-php-fpm
 
 ### Set Defaults
 DB_PORT=${DB_PORT:-3306}
@@ -46,6 +43,12 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     fi
     rm -rf ${NGINX_WEBROOT}/storage
     ln -s /data/storage ${NGINX_WEBROOT}/storage
+    if [ -d "/data/storage/app/public/attachment" ]; then
+      print_notice "Handling Migration to Freescout 1.5.0 private application attachments"
+      mkdir -p /data/storage/app/attachment
+      mv /data/storage/app/public/attachment/* /data/storage/app/attachment
+      rm -rf /data/storage/app/public/attachment
+    fi
     rm -rf ${NGINX_WEBROOT}/Modules
     ln -s /data/Modules ${NGINX_WEBROOT}/Modules
     ln -sf /data/config ${NGINX_WEBROOT}/.env
@@ -142,6 +145,13 @@ if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
   sed -i --follow-symlinks "s#DB_DATABASE=.*#DB_DATABASE=${DB_NAME}#g" ${NGINX_WEBROOT}/.env
   sed -i --follow-symlinks "s#DB_USERNAME=.*#DB_USERNAME=${DB_USER}#g" ${NGINX_WEBROOT}/.env
   sed -i --follow-symlinks "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASS}#g" ${NGINX_WEBROOT}/.env
+  
+  # Private Attachment support (Freescout 1.5.0)
+  if grep -q "APP_DOWNLOAD_ATTACHMENTS_VIA" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
+    sed -i --follow-symlinks "s#APP_DOWNLOAD_ATTACHMENTS_VIA=.*#APP_DOWNLOAD_ATTACHMENTS_VIA=nginx#g" ${NGINX_WEBROOT}/.env
+  else
+    echo "APP_DOWNLOAD_ATTACHMENTS_VIA=nginx" >> ${NGINX_WEBROOT}/.env
+  fi
 
   if [ -f /data/.env ]; then
     chown ${NGINX_USER}:${NGINX_GROUP} /data/.env
@@ -193,6 +203,9 @@ else
   sudo -u ${NGINX_USER} echo "DB_USERNAME=$DB_USER" >> ${NGINX_WEBROOT}/.env
   sudo -u ${NGINX_USER} echo "DB_PASSWORD=$DB_PASS" >> ${NGINX_WEBROOT}/.env
   
+  # Setup Downloads
+  sudo -u ${NGINX_USER} echo "APP_DOWNLOAD_ATTACHMENTS_VIA=nginx" >> ${NGINX_WEBROOT}/.env
+
   # Generate Key
   cd ${NGINX_WEBROOT}/
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/.env

@@ -1,3 +1,11 @@
+## 1.7.0 2020-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Update to Freescout 1.5.0
+      - Add new routines to migrate old public attachments to private attachments
+      - Serve attachments via Nginx instead of PHP
+
+
 ## 1.6.13 2020-03-05 <dave at tiredofit dot ca>
 
    ### Added
@@ -31,7 +39,7 @@
 ## 1.6.8 2020-01-29 <dave at tiredofit dot ca>
 
    ### Added
-      - Freescout 1.6.8
+      - Freescout 1.4.7
 
 
 ## 1.6.7 2020-01-25 <dave at tiredofit dot ca>
