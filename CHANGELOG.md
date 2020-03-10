@@ -1,3 +1,9 @@
+## 1.7.1 2020-03-10 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix to nginx configuration as per https://github.com/freescout-helpdesk/freescout/issues/522#issuecomment-596923374
+
+
 ## 1.7.0 2020-03-09 <dave at tiredofit dot ca>
 
    ### Added
