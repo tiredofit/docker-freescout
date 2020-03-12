@@ -1,3 +1,12 @@
+## 1.7.2 2020-03-12 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.5.1
+
+   ### Changed
+      - Switch from using expect to create new Admin user to new command line function introduced in 1.5.1
+
+
 ## 1.7.1 2020-03-10 <dave at tiredofit dot ca>
 
    ### Changed

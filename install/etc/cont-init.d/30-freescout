@@ -231,22 +231,7 @@ if [ $? -gt 0 ]; then
 
 	### Create User
 	print_warn "Creating Administrative User"
-	/usr/bin/expect >/dev/null <<EOD
-spawn php artisan freescout:create-user --no-ansi
-expect "(admin/user)"
-send -- "admin\r"
-expect "2/5 User first_name:"
-send -- "$ADMIN_FIRST_NAME\r"
-expect "3/5 User last_name:"
-send -- "$ADMIN_LAST_NAME\r"
-expect "4/5 User email:"
-send -- "$ADMIN_EMAIL\r"
-expect "5/5 User password:"
-send -- "$ADMIN_PASS\r"
-expect "Do you want to create the user?"
-send -- "yes\r"
-expect close
-EOD
+  silent sudo -u ${NGINX_USER} php artisan freescout:create-user --role=admin --firstName=${ADMIN_FIRST_NAME} --lastName=${ADMIN_LAST_NAME} --email=${ADMIN_EMAIL} --password=${ADMIN_PASS}
 fi
 
 cd ${NGINX_WEBROOT}
