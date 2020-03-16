@@ -24,6 +24,7 @@ mkdir -p /www/logs/freescout
 chown -R ${NGINX_USER}:${NGINX_GROUP} /www/logs/freescout
 rm -rf ${NGINX_WEBROOT}/storage/logs
 mkdir -p ${NGINX_WEBROOT}/storage/logs
+chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/storage/logs
 ln -sf /www/logs/freescout ${NGINX_WEBROOT}/storage/logs
 
 ### Check if New Install

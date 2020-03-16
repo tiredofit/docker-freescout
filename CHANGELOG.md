@@ -1,3 +1,9 @@
+## 1.7.4 2020-03-16 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix logfile directory permissions
+
+
 ## 1.7.3 2020-03-13 <dave at tiredofit dot ca>
 
    ### Added
