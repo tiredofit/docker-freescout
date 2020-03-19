@@ -1,3 +1,9 @@
+## 1.7.5 2020-03-19 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Bugfix for Storage Attachments
+
+
 ## 1.7.4 2020-03-16 <dave at tiredofit dot ca>
 
    ### Changed
