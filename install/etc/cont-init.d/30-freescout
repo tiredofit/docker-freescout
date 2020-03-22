@@ -147,12 +147,10 @@ if grep -q "APP_URL" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
   sed -i --follow-symlinks "s#DB_USERNAME=.*#DB_USERNAME=${DB_USER}#g" ${NGINX_WEBROOT}/.env
   sed -i --follow-symlinks "s#DB_PASSWORD=.*#DB_PASSWORD=${DB_PASS}#g" ${NGINX_WEBROOT}/.env
   
-  # Private Attachment support (Freescout 1.5.0)
-#  if grep -q "APP_DOWNLOAD_ATTACHMENTS_VIA" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
-#    sed -i --follow-symlinks "s#APP_DOWNLOAD_ATTACHMENTS_VIA=.*#APP_DOWNLOAD_ATTACHMENTS_VIA=nginx#g" ${NGINX_WEBROOT}/.env
-#  else
-#    echo "APP_DOWNLOAD_ATTACHMENTS_VIA=nginx" >> ${NGINX_WEBROOT}/.env
-#  fi
+# Private Attachment support (Freescout 1.5.0)
+  if grep -q "APP_DOWNLOAD_ATTACHMENTS_VIA" ${NGINX_WEBROOT}/.env > /dev/null 2>&1; then
+    sed -i --follow-symlinks "/APP_DOWNLOAD_ATTACHMENTS_VIA=nginx/d" ${NGINX_WEBROOT}/.env
+  fi
 
   if [ -f /data/.env ]; then
     chown ${NGINX_USER}:${NGINX_GROUP} /data/.env
@@ -204,9 +202,7 @@ else
   sudo -u ${NGINX_USER} echo "DB_USERNAME=$DB_USER" >> ${NGINX_WEBROOT}/.env
   sudo -u ${NGINX_USER} echo "DB_PASSWORD=$DB_PASS" >> ${NGINX_WEBROOT}/.env
   
- # # Setup Downloads
- # sudo -u ${NGINX_USER} echo "APP_DOWNLOAD_ATTACHMENTS_VIA=nginx" >> ${NGINX_WEBROOT}/.env
-
+ 
   # Generate Key
   cd ${NGINX_WEBROOT}/
   chown -R ${NGINX_USER}:${NGINX_GROUP} ${NGINX_WEBROOT}/.env

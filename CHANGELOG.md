@@ -1,3 +1,9 @@
+## 1.7.8 2020-03-21 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Cleanup configuration with the mess caused by 1.7.0 and up
+
+
 ## 1.7.7 2020-03-21 <dave at tiredofit dot ca>
 
    ### Changed
