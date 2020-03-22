@@ -1,3 +1,15 @@
+## 1.7.7 2020-03-21 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix Secure Downloads
+
+
+## 1.7.6 2020-03-21 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix Auto Upgrade routine
+
+
 ## 1.7.5 2020-03-19 <dave at tiredofit dot ca>
 
    ### Changed
