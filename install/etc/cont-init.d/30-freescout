@@ -1,16 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-for s in /assets/functions/*; do source $s; done
+source /assets/functions/00-container
+prepare_service
 PROCESS_NAME="freescout"
 
 check_service_initialized init 20-php-fpm
-
-### Set Defaults
-DB_PORT=${DB_PORT:-3306}
-APPLICATION_NAME=${APPLICATION_NAME:-"Freescout"}
-ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME:-"Admin"}
-ADMIN_LAST_NAME=${ADMIN_LAST_NAME:-"User"}
-ENABLE_AUTO_UPDATE=${ENABLE_AUTO_UPDATE:-"TRUE"}
 
 ### Sanity Test
 sanity_db
