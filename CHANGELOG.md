@@ -1,3 +1,9 @@
+## 1.8.1 2020-06-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for Administrative user not being created on first boot
+
+
 ## 1.8.0 2020-06-08 <dave at tiredofit dot ca>
 
    ### Added
