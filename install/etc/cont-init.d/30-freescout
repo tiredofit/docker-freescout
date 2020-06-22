@@ -223,7 +223,7 @@ if [ $? -gt 0 ]; then
 	### Create User
 	print_warn "Creating Administrative User"
   cd ${NGINX_WEBROOT} 
-  sudo -u ${NGINX_USER} php artisan freescout:create-user --role=admin --firstName=${ADMIN_FIRST_NAME} --lastName=${ADMIN_LAST_NAME} --email=${ADMIN_EMAIL} --password=${ADMIN_PASS}
+  sudo -u ${NGINX_USER} php artisan -n freescout:create-user --role=admin --firstName=${ADMIN_FIRST_NAME} --lastName=${ADMIN_LAST_NAME} --email=${ADMIN_EMAIL} --password=${ADMIN_PASS}
 fi
 
 cd ${NGINX_WEBROOT}
