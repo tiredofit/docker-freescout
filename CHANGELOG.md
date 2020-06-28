@@ -1,3 +1,12 @@
+## 1.8.2 2020-06-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.5.8
+
+   ### Changed
+      - Cleanup code to fix shellcheck warnings
+
+
 ## 1.8.1 2020-06-20 <dave at tiredofit dot ca>
 
    ### Changed
