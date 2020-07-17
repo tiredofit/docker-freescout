@@ -86,23 +86,23 @@ The following directories are used for configuration and can be mapped for persi
 
 Along with the Environment Variables from the [Base image](https://hub.docker.com/r/tiredofit/alpine), and [Web Image](https://hub.docker.com/r/tiredofit/nginx), and [PHP Image](https://hub.docker.com/r/tiredofit/nginx-php-fpm) below is the complete list of available options that can be used to customize your installation.
 
-| Parameter            | Description                                                                                                      |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `ADMIN_EMAIL`        | Administrator Email Address - Needed for logging in                                                              |
-| `ADMIN_FIRST_NAME`   | Admin user First Name - Default `Admin`                                                                          |
-| `ADMIN_LAST_NAME`    | Admin user First Name - Default `User`                                                                           |
-| `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                                   |
-| `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                                            |
-| `DB_HOST`            | Host or container name of MariaDB Server e.g. `freescout-db`                                                     |
-| `DB_PORT`            | MariaDB Port - Default `3306`                                                                                    |
-| `DB_NAME`            | MariaDB Database name e.g. `freescout`                                                                           |
-| `DB_USER`            | MariaDB Username for above Database e.g. `freescout`                                                             |
-| `DB_PASS`            | MariaDB Password for above Database e.g. `password`                                                              |
-| `DISPLAY_ERRORS`     | Display Errors on Website - Default `FALSE`                                                                      |
-| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release - Default `TRUE` |
-| `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`                              |
-| `SITE_URL`           | The url your site listens on example `https://freescout.example.com`                                             |
-| `TIMEZONE`           | Timezone - Use Unix Style - Default (whatever is listed in `/etc/timezone`                                       |
+| Parameter            | Description                                                                                     | default     |
+| -------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
+| `ADMIN_EMAIL`        | Administrator Email Address - Needed for logging in                                             |             |
+| `ADMIN_FIRST_NAME`   | Admin user First Name                                                                           | `Admin`     |
+| `ADMIN_LAST_NAME`    | Admin user First Name                                                                           | `User`      |
+| `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                  |             |
+| `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |
+| `DB_HOST`            | Host or container name of MariaDB Server e.g. `freescout-db`                                    |             |
+| `DB_PORT`            | MariaDB Port - Default `3306`                                                                   | `3306`      |
+| `DB_NAME`            | MariaDB Database name e.g. `freescout`                                                          |             |
+| `DB_USER`            | MariaDB Username for above Database e.g. `freescout`                                            |             |
+| `DB_PASS`            | MariaDB Password for above Database e.g. `password`                                             |             |
+| `DISPLAY_ERRORS`     | Display Errors on Website                                                                       | `FALSE`     |
+| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |
+| `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`             |             |
+| `SITE_URL`           | The url your site listens on example `https://freescout.example.com`                            |             |
+| `TIMEZONE`           | Timezone - Use Unix Style - Default (whatever is listed in `/etc/timezone`)                     |             |
 
 ### Networking
 
