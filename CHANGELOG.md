@@ -1,3 +1,9 @@
+## 1.9.0 2020-08-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Change the way we pull Freescout - Now pull from Git and allow checking out different branches and repository URLs
+
+
 ## 1.8.5 2020-07-26 <dave at tiredofit dot ca>
 
    ### Added

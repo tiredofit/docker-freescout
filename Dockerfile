@@ -3,6 +3,7 @@ LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
 ENV FREESCOUT_VERSION=1.5.11 \
+    FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_FILEINFO=TRUE \
@@ -28,7 +29,9 @@ RUN set -x && \
     \
 ### WWW  Installation
     mkdir -p /assets/install && \
-    curl -sSL https://github.com/freescout-helpdesk/freescout/archive/${FREESCOUT_VERSION}.tar.gz | tar xvfz - --strip 1 -C /assets/install && \
+    git clone ${FREESCOUT_REPO_URL} /assets/install && \
+    cd /assets/install && \
+    git checkout ${FREESCOUT_VERSION} && \
     rm -rf \
         /assets/install/.env.example \
         /assets/install/.env.travis \
