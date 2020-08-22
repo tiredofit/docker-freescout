@@ -40,6 +40,7 @@ RUN set -x && \
         /assets/install/.gitignore \
         && \
     \
+    composer install && \
     chown -R nginx:www-data /assets/install && \
     \
 ### Cleanup
