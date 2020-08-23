@@ -1,3 +1,9 @@
+## 1.10.1 2020-08-23 <dave at tiredofit dot ca>
+
+   ### Reverted
+      - Removed Timezone variable - It was causing problems resetting
+
+
 ## 1.10.0 2020-08-23 <dave at tiredofit dot ca>
 
    ### Added

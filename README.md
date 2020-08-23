@@ -103,7 +103,7 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`             |             |
 | `SETUP_TYPE`         | Automatically edit configuration after first bootup `AUTO` | `MANUAL`                           | `AUTO`      |
 | `SITE_URL`           | The url your site listens on example `https://freescout.example.com`                            |             |
-| `TIMEZONE`           | Timezone - Use Unix Style - Default (whatever is listed in `/etc/timezone`)                     |             |
+
 
 ### Networking
 

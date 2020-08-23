@@ -125,17 +125,6 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=false#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        # Timezone Setting
-        if [ -n "$TIMEZONE" ]; then
-            sed -i --follow-symlinks "s#APP_TIMEZONE=.*#APP_TIMEZONE=${TIMEZONE}#g" "${NGINX_WEBROOT}"/.env
-        else
-            if [ -n "$APP_TIMEZONE" ]; then
-                sed -i --follow-symlinks "s#APP_TIMEZONE=.*#APP_TIMEZONE=${APP_TIMEZONE}#g" "${NGINX_WEBROOT}"/.env
-            else
-                sed -i --follow-symlinks "s#APP_TIMEZONE=.*#APP_TIMEZONE=$(cat /etc/timezone)#g" "${NGINX_WEBROOT}"/.env
-            fi
-        fi
-
         sed -i --follow-symlinks "s#DB_HOST=.*#DB_HOST=${DB_HOST}#g" "${NGINX_WEBROOT}"/.env
         sed -i --follow-symlinks "s#DB_PORT=.*#DB_PORT=${DB_PORT}#g" "${NGINX_WEBROOT}"/.env
         sed -i --follow-symlinks "s#DB_DATABASE=.*#DB_DATABASE=${DB_NAME}#g" "${NGINX_WEBROOT}"/.env
@@ -178,17 +167,6 @@ else
         echo "APP_DEBUG=true" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
         echo "APP_DEBUG=false" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    fi
-
-    # Timezone Setting
-    if [ -n "$TIMEZONE" ]; then
-        echo "APP_TIMEZONE=$TIMEZONE" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    else
-        if [ -n "$APP_TIMEZONE" ]; then
-            echo "APP_TIMEZONE=$APP_TIMEZONE" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-        else
-            echo "APP_TIMEZONE=$(cat /etc/timezone)" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-        fi
     fi
 
     echo "APP_KEY=" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
