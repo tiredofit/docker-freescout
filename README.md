@@ -62,7 +62,7 @@ docker pull tiredofit/freescout
 * Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
 * Make [networking ports](#networking) available for public access if necessary
 
-*The first boot can take from 2 minutes - 5 minutes depending on your CPU to setup the proper schemas.
+**The first boot can take from 2 minutes - 5 minutes depending on your CPU to setup the proper schemas.**
 
 Login to the web server and enter in your admin email address, admin password and start configuring the system!
 
