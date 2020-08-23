@@ -101,6 +101,7 @@ Along with the Environment Variables from the [Base image](https://hub.docker.co
 | `DISPLAY_ERRORS`     | Display Errors on Website                                                                       | `FALSE`     |
 | `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |
 | `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`             |             |
+| `SETUP_TYPE`         | Automatically edit configuration after first bootup `AUTO` | `MANUAL`                           | `AUTO`      |
 | `SITE_URL`           | The url your site listens on example `https://freescout.example.com`                            |             |
 | `TIMEZONE`           | Timezone - Use Unix Style - Default (whatever is listed in `/etc/timezone`)                     |             |
 

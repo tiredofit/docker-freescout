@@ -1,3 +1,13 @@
+## 1.10.0 2020-08-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Added `SETUP_TYPE` environment variable to skip editting .env/config after first boot
+      - Added additional configuration cache clear upon startup
+
+   ### Changed
+      - Changes to the way configuration is written as per shellcheck
+
+
 ## 1.9.0 2020-08-22 <dave at tiredofit dot ca>
 
    ### Added
