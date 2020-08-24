@@ -2,7 +2,7 @@ FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.5.11 \
+ENV FREESCOUT_VERSION=1.5.12 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
@@ -35,9 +35,6 @@ RUN set -x && \
     rm -rf \
         /assets/install/.env.example \
         /assets/install/.env.travis \
-        /assets/install/.gitattributes \
-        /assets/install/.gitcommit \
-        /assets/install/.gitignore \
         && \
     \
     composer install && \
