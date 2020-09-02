@@ -147,6 +147,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
 else
     print_info "Generating Configuration"
     touch "${NGINX_WEBROOT}"/.env
+    chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"/.env
     echo "#### Automatically Generated File - Upon container restart any settings will reset!" | sudo -u "${NGINX_USER}" tee "${NGINX_WEBROOT}"/.env
     # Proxy and HostSettings
     if [ -z "$SITE_URL" ]; then
