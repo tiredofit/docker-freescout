@@ -1,3 +1,9 @@
+## 1.10.4 2020-09-12 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add additional cache clear statement
+
+
 ## 1.10.3 2020-09-11 <dave at tiredofit dot ca>
 
    ### Added

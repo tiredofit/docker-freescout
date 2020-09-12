@@ -248,6 +248,9 @@ EOD
 ### Add alias for running artisan
 echo "alias artisan='cd ""${NGINX_WEBROOT}""; sudo -u ""${NGINX_USER}"" php artisan'" > /root/.bashrc
 
+cd "${NGINX_WEBROOT}"
+silent sudo -u "${NGINX_USER}" php artisan config:clear
+
 print_info "Initialization Complete. Please visit ${SITE_URL} and login with your credentials.."
 
 liftoff
