@@ -1,3 +1,9 @@
+## 1.10.5 2020-09-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.5.15 (support new API and Webhook Module)
+
+
 ## 1.10.4 2020-09-12 <dave at tiredofit dot ca>
 
    ### Added
