@@ -2,10 +2,11 @@ FROM tiredofit/nginx-php-fpm:7.3
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.5.15 \
+ENV FREESCOUT_VERSION=1.5.0 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
+    PHP_ENABLE_CURL=TRUE \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_ICONV=TRUE \
     PHP_ENABLE_IMAP=TRUE \
@@ -41,6 +42,7 @@ RUN set -x && \
     chown -R nginx:www-data /assets/install && \
     \
 ### Cleanup
+    rm -rf /root/.composer && \
     rm -rf /var/tmp/* /var/cache/apk/*
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php7

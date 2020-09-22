@@ -1,3 +1,12 @@
+## 1.10.6 2020-09-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.6.0
+
+   ### Changed
+      - Reduced image size by deleting install cache
+
+
 ## 1.10.5 2020-09-16 <dave at tiredofit dot ca>
 
    ### Added
