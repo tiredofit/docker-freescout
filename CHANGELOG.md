@@ -1,3 +1,9 @@
+## 1.10.15 2020-12-03 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.6.9
+
+
 ## 1.10.14 2020-11-26 <dave at tiredofit dot ca>
 
    ### Added
