@@ -1,3 +1,12 @@
+## 1.12.0 2020-12-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.6.12
+
+   ### Changed
+      - Change the way that artisan schedule command works. Instead of running through cron, use a seperate S6 process to control.
+
+
 ## 1.11.2 2020-12-24 <dave at tiredofit dot ca>
 
    ### Added

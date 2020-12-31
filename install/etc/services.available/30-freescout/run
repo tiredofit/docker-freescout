@@ -1,0 +1,46 @@
+#!/usr/bin/with-contenv bash
+
+source /assets/functions/00-container
+prepare_service defaults all
+PROCESS_NAME="freescout-worker"
+
+check_container_initialized
+check_service_initialized 20-php-fpm
+liftoff
+
+
+SCHEDULER_BEGIN=+1
+SCHEDULER_INTERVAL=1
+
+print_info "Starting scheduler"
+
+### Wait for Next time to start scheduler
+
+  current_time=$(date +"%s")
+  today=$(date +"%Y%m%d")
+
+  if [[ $SCHEDULER_BEGIN =~ ^\+(.*)$ ]]; then
+          waittime=$(( ${BASH_REMATCH[1]} * 60 ))
+  else
+          target_time=$(date --date="${today}${SCHEDULER_BEGIN}" +"%s")
+      if [[ "$target_time" < "$current_time" ]]; then
+          target_time=$(($target_time + 24*60*60))
+      fi
+      waittime=$(($target_time - $current_time))
+  fi
+
+    sleep $waittime
+
+### Commence Image Optimization
+  while true; do
+    now=$(date +"%Y%m%d-%H%M%S")
+    now_time=$(date +"%H:%M:%S")
+    now_date=$(date +"%Y-%m-%d")
+    print_debug "Running scheduler $(date)"
+    cd ${NGINX_WEBROOT}
+    silent sudo -u ${NGINX_USER} LD_PRELOAD=/usr/lib/preloadable_libiconv.so php /www/html/artisan schedule:runfind /data/uploads/images/ -maxdepth 4 -type d -print0 | while IFS= read -rd '' dir; do cd $dir ; optipng *.png > /dev/null 2>&1 ; done
+    print_debug "Scheduler completed at $(date)"
+
+    ### Go back to Sleep until next Backup time
+    sleep $(($SCHEDULER_INTERVAL*60))
+  done
