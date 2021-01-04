@@ -1,3 +1,9 @@
+## 1.12.1 2021-01-04 <dave at tiredofit dot ca>
+
+   ### Reverted
+      - Revert Change to Scheduler back to cron
+
+
 ## 1.12.0 2020-12-31 <dave at tiredofit dot ca>
 
    ### Added
