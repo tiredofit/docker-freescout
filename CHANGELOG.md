@@ -1,3 +1,9 @@
+## 1.12.2 2021-01-08 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Revert to PHP 7.3 due to incompatibilities with the LDAP Module
+
+
 ## 1.12.1 2021-01-04 <dave at tiredofit dot ca>
 
    ### Reverted
