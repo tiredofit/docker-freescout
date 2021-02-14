@@ -13,12 +13,6 @@ sanity_var ADMIN_PASS "Admin Password"
 sanity_var SITE_URL "Site URL"
 db_ready mariadb
 
-### Logfile redirection
-mkdir -p /www/logs/freescout
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" /www/logs/freescout
-rm -rf "${NGINX_WEBROOT}"/storage/logs
-ln -sf /www/logs/freescout "${NGINX_WEBROOT}"/storage/logs
-
 ### Check if New Install
 if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     print_warn "Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode"
@@ -70,6 +64,12 @@ else
         fi
     fi
 fi
+
+### Logfile redirection
+mkdir -p /www/logs/freescout
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" /www/logs/freescout
+rm -rf "${NGINX_WEBROOT}"/storage/logs
+ln -sf /www/logs/freescout "${NGINX_WEBROOT}"/storage/logs
 
 ## Copy over any custom modules overtop of existing
 if [ -d "/assets/modules" ]; then

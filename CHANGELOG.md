@@ -1,3 +1,8 @@
+## 1.12.7 2021-02-13 <dave at tiredofit dot ca>
+
+   ### Fixed
+      - Fix for 1.12.6
+
 ## 1.12.6 2021-02-13 <kometchtech@github>
 
    ### Fixed
