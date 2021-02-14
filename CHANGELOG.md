@@ -1,3 +1,8 @@
+## 1.12.6 2021-02-13 <kometchtech@github>
+
+   ### Fixed
+      - Fix for Laravel/Freescout log files not saving properly
+
 ## 1.12.5 2021-02-13 <dave at tiredofit dot ca>
 
    ### Added
