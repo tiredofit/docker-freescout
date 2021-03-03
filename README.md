@@ -1,6 +1,5 @@
 # hub.docker.com/r/tiredofit/freescout
 
-[![Build Status](https://img.shields.io/docker/build/tiredofit/freescout.svg)](https://hub.docker.com/r/tiredofit/freescout)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/freescout.svg)](https://hub.docker.com/r/tiredofit/freescout)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/freescout.svg)](https://hub.docker.com/r/tiredofit/freescout)
 [![Docker Layers](https://images.microbadger.com/badges/image/tiredofit/freescout.svg)](https://microbadger.com/images/tiredofit/freescout)
