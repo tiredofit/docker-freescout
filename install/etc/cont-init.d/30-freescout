@@ -200,7 +200,7 @@ silent sudo -u "${NGINX_USER}" php artisan config:clear
 silent sudo -u "${NGINX_USER}" php artisan storage:link
 
 ### Check to see if DB is populated
-mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
+mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
 if [ $? -gt 0 ]; then
     ### Perform Database Installtion Routines
     print_warn "Detected empty Database - Setting up - Please wait.."
