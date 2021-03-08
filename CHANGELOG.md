@@ -1,3 +1,15 @@
+## 1.13.0 2021-03-08 <detrepo@github>
+
+   ### Added
+      - DB Port checking for new installs to avoid overwriting the databse
+
+
+## 1.12.11 2021-03-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.6.18
+
+
 ## 1.12.10 2021-03-03 <dave at tiredofit dot ca>
 
    ### Added
