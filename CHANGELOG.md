@@ -1,3 +1,9 @@
+## 1.13.1 2021-03-09 <dave at tiredofit dot ca>
+
+   ### Added
+      - Enable PHP gnuPG extensiont to support new encrypted mail module
+
+
 ## 1.13.0 2021-03-08 <detrepo@github>
 
    ### Added
