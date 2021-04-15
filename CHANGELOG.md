@@ -1,3 +1,10 @@
+## 1.14.0 2021-04-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.7.2
+      - PHP 8.x
+
+
 ## 1.13.3 2021-03-17 <dave at tiredofit dot ca>
 
    ### Added

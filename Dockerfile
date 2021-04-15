@@ -1,8 +1,8 @@
-FROM tiredofit/nginx-php-fpm:7.4
+FROM tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.6.20 \
+ENV FREESCOUT_VERSION=1.7.2 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_ENABLE_CREATE_SAMPLE_PHP=FALSE \
@@ -39,7 +39,7 @@ RUN set -x && \
         /assets/install/.env.travis \
         && \
     \
-    composer install && \
+    composer install --ignore-platform-reqs && \
     chown -R nginx:www-data /assets/install && \
     \
 ### Cleanup
