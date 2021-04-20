@@ -1,3 +1,9 @@
+## 1.14.1 2021-04-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Preload Iconv for PHP8 not PHP7
+
+
 ## 1.14.0 2021-04-15 <dave at tiredofit dot ca>
 
    ### Added

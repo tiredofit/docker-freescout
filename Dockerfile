@@ -46,7 +46,7 @@ RUN set -x && \
     rm -rf /root/.composer && \
     rm -rf /var/tmp/* /var/cache/apk/*
 
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php7
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 ### Assets
 ADD install /
