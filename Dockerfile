@@ -2,7 +2,7 @@ FROM tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (dave at tiredofit dot ca)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.7.3 \
+ENV FREESCOUT_VERSION=1.7.4 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_CREATE_SAMPLE_PHP=FALSE \
