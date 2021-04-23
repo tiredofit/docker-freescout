@@ -1,3 +1,10 @@
+## 1.14.2 2021-04-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.7.3
+      - Support new tiredofit/nginx-php-fpm base
+
+
 ## 1.14.1 2021-04-20 <dave at tiredofit dot ca>
 
    ### Changed
