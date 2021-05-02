@@ -1,6 +1,6 @@
 # Manual Workflow (Application)
 
-name: Manual
+name: manual
 
 on:
   workflow_dispatch:
