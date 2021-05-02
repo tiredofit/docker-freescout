@@ -39,7 +39,7 @@ RUN set -x && \
         /assets/install/.env.travis \
         && \
     \
-    php-ext enable core && \
+    /usr/sbin/php-ext enable core && \
     composer install --ignore-platform-reqs && \
     chown -R nginx:www-data /assets/install && \
     \
