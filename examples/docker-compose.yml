@@ -32,7 +32,7 @@ services:
     - SITE_URL=https://freescout.example.com
     - ADMIN_EMAIL=admin@admin.com
     - ADMIN_PASS=freescout
-    - ENABLE_SSL_PROXY=FALSE
+    - ENABLE_SSL_PROXY=TRUE
     - DISPLAY_ERRORS=FALSE
     - TIMEZONE=America/Vancouver
     networks:
