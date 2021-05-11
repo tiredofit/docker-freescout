@@ -1,3 +1,10 @@
+## 1.15.0 2021-05-11 <dave at tiredofit dot ca>
+
+   ### Added
+      - Stop requiring ADMIN_EMAIL and ADMIN_PASS to be set after installation
+      - Allow SETUP_TYPE=MANAL to bypass any in place variable/setup checks
+
+
 ## 1.14.4 2021-05-11 <dave at tiredofit dot ca>
 
    ### Added

@@ -6,13 +6,6 @@ PROCESS_NAME="freescout"
 
 check_service_initialized init 20-php-fpm
 
-### Sanity Test
-sanity_db
-sanity_var ADMIN_EMAIL "Admin Email Address"
-sanity_var ADMIN_PASS "Admin Password"
-sanity_var SITE_URL "Site URL"
-db_ready mariadb
-
 ### Check if New Install
 if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     print_warn "Potential New Installation / Standalone Installation Detected - Copying Freescout Sourcecode"
@@ -101,6 +94,11 @@ sed -i "s#'name' => '.*',#'name' => '${APPLICATION_NAME}',#g" "${NGINX_WEBROOT}"
 ### Dynamically Create Configuration
 if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
     if [ "$SETUP_TYPE" = "AUTO" ]; then
+        ### Sanity Test
+        sanity_db
+        sanity_var SITE_URL "Site URL"
+        db_ready mariadb
+
         print_info "Auto Configuring based on Environment Variables"
         # Proxy and Host Settings
         if [ -z "$SITE_URL" ]; then
@@ -147,6 +145,11 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
         chmod 0755 /data/config
     fi
 else
+    ### Sanity Test
+    sanity_db
+    sanity_var SITE_URL "Site URL"
+    db_ready mariadb
+
     print_info "Generating Configuration"
     touch "${NGINX_WEBROOT}"/.env
     chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"/.env
@@ -207,6 +210,9 @@ if [ $? -gt 0 ]; then
     sleep 5
     sudo -u "${NGINX_USER}" php artisan migrate:fresh --force >/dev/null
     sudo -u "${NGINX_USER}" php artisan freescout:clear-cache >/dev/null
+
+    sanity_var ADMIN_EMAIL "Admin Email Address"
+    sanity_var ADMIN_PASS "Admin Password"
 
     ### Create User
     print_warn "Creating Administrative User"
