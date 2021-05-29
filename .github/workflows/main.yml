@@ -104,7 +104,7 @@ jobs:
       - name: Switch
         id: Switch
         run: |
-          sed -i "s|FROM tiredofit/nginx:nginx-php-fpm:.*|FROM tiredofit/nginx-php-fpm:8.0|g" Dockerfile
+            sed -i "s|FROM tiredofit/nginx-php-fpm:8.0|FROM tiredofit/nginx-php-fpm:8.0|g" Dockerfile
 
       - name: Build
         uses: docker/build-push-action@v2
@@ -211,7 +211,7 @@ jobs:
       - name: Switch
         id: Switch
         run: |
-          sed -i "s|FROM tiredofit/nginx:nginx-php-fpm:.*|FROM tiredofit/nginx-php-fpm:7.4|g" Dockerfile
+              sed -i "s|FROM tiredofit/nginx-php-fpm:8.0|FROM tiredofit/nginx-php-fpm:7.4|g" Dockerfile
 
       - name: Build
         uses: docker/build-push-action@v2
@@ -318,8 +318,7 @@ jobs:
       - name: Switch
         id: Switch
         run: |
-          sed -i "s|FROM tiredofit/nginx:nginx-php-fpm:.*|FROM tiredofit/nginx-php-fpm:7.3|g" Dockerfile
-
+          sed -i "s|FROM tiredofit/nginx-php-fpm:8.0|FROM tiredofit/nginx-php-fpm:7.3|g" Dockerfile
       - name: Build
         uses: docker/build-push-action@v2
         with:
@@ -329,4 +328,3 @@ jobs:
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           push: true
           tags: ${{ steps.prep.outputs.tags }}
-
