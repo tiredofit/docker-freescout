@@ -1,3 +1,10 @@
+## 1.15.8 2021-07-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Change the way the scheduler gets added into system timers
+      - Correctly set Timezone when running scheduler
+
+
 ## 1.15.7 2021-07-19 <dave at tiredofit dot ca>
 
    ### Added
