@@ -1,3 +1,9 @@
+## 1.15.9 2021-07-22 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix in 1.15.8 that wiped existing installations databases (!)
+
+
 ## 1.15.8 2021-07-20 <dave at tiredofit dot ca>
 
    ### Changed
