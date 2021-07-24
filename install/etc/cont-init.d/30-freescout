@@ -153,38 +153,38 @@ else
     print_info "Generating Configuration"
     touch "${NGINX_WEBROOT}"/.env
     chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"/.env
-    echo "#### Automatically Generated File - Upon container restart any settings will reset!" | sudo -u "${NGINX_USER}" tee "${NGINX_WEBROOT}"/.env
+    echo "#### Automatically Generated File - Upon container restart any settings will reset!" | silent sudo -u "${NGINX_USER}" tee "${NGINX_WEBROOT}"/.env
     # Proxy and HostSettings
     if [ -z "$SITE_URL" ]; then
         if [ -n "$APP_URL" ]; then
-            echo "APP_URL=$APP_URL" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+            echo "APP_URL=$APP_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
         fi
     else
-        echo "APP_URL=$SITE_URL" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "APP_URL=$SITE_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
     if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
-        echo "APP_FORCE_HTTPS=true" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "APP_FORCE_HTTPS=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
-        echo "APP_FORCE_HTTPS=false" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "APP_FORCE_HTTPS=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
     if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
-        echo "APP_DEBUG=true" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "APP_DEBUG=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
-        echo "APP_DEBUG=false" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "APP_DEBUG=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
-    echo "APP_KEY=" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "APP_KEY=" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
 
     # Set DB Settings
-    echo "DB_CONNECTION=mysql" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "DB_HOST=$DB_HOST" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "DB_PORT=$DB_PORT" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "DB_DATABASE=$DB_NAME" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "DB_USERNAME=$DB_USER" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "DB_PASSWORD=$DB_PASS" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    echo "APP_DISABLE_UPDATING=true" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_CONNECTION=mysql" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_HOST=$DB_HOST" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_PORT=$DB_PORT" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_DATABASE=$DB_NAME" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_USERNAME=$DB_USER" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_PASSWORD=$DB_PASS" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "APP_DISABLE_UPDATING=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
 
     # Generate Key
     cd "${NGINX_WEBROOT}"/
@@ -208,8 +208,8 @@ if [ $? -gt 0 ]; then
     ### Perform Database Installtion Routines
     print_warn "Detected empty Database - Setting up - Please wait.."
     sleep 5
-    sudo -u "${NGINX_USER}" php artisan migrate:fresh --force >/dev/null
-    sudo -u "${NGINX_USER}" php artisan freescout:clear-cache >/dev/null
+    silent sudo -u "${NGINX_USER}" php artisan migrate:fresh --force
+    silent sudo -u "${NGINX_USER}" php artisan freescout:clear-cache
 
     sanity_var ADMIN_EMAIL "Admin Email Address"
     sanity_var ADMIN_PASS "Admin Password"
@@ -217,7 +217,7 @@ if [ $? -gt 0 ]; then
     ### Create User
     print_warn "Creating Administrative User"
     cd "${NGINX_WEBROOT}"
-    sudo -u "${NGINX_USER}" php artisan -n freescout:create-user --role=admin --firstName="${ADMIN_FIRST_NAME}" --lastName="${ADMIN_LAST_NAME}" --email="${ADMIN_EMAIL}" --password="${ADMIN_PASS}"
+    silent sudo -u "${NGINX_USER}" php artisan -n freescout:create-user --role=admin --firstName="${ADMIN_FIRST_NAME}" --lastName="${ADMIN_LAST_NAME}" --email="${ADMIN_EMAIL}" --password="${ADMIN_PASS}"
 fi
 
 cd "${NGINX_WEBROOT}"

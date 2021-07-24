@@ -1,3 +1,10 @@
+## 1.15.10 2021-07-24 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Restore missing "defaults" file which was causing installations not explictly setting DB_PORT to have databases wiped out
+      - Quiet down installation routines that were showing database passwords unneccessarily
+
+
 ## 1.15.9 2021-07-22 <dave at tiredofit dot ca>
 
    ### Changed
