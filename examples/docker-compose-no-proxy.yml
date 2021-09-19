@@ -17,7 +17,7 @@ services:
     #- ./modules:/www/html/Modules
     - ./logs/:/www/logs
     environment:
-    - ZABBIX_HOSTNAME=freescout-app
+    - CONTAINER_NAME=freescout-app
     
     - DB_HOST=freescout-db
     - DB_NAME=freescout
@@ -43,7 +43,7 @@ services:
       - DB_USER=freescout
       - DB_PASS=freescout
 
-      - ZABBIX_HOSTNAME=freescout-db
+      - CONTAINER_NAME=freescout-db
     restart: always
 
   freescout-db-backup:
@@ -54,7 +54,7 @@ services:
     volumes:
       - ./dbbackup:/backup
     environment:
-      - ZABBIX_HOSTNAME=freescout-db-backup
+      - CONTAINER_NAME=freescout-db-backup
       - DB_HOST=freescout-db
       - DB_TYPE=mariadb
       - DB_NAME=freescout

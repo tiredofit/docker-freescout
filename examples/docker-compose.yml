@@ -22,7 +22,7 @@ services:
     - LETSENCRYPT_HOST=freescout.example.com
     - LETSENCRYPT_EMAIL=admin@example.com
 
-    - ZABBIX_HOSTNAME=freescout-app
+    - CONTAINER_NAME=freescout-app
     
     - DB_HOST=freescout-db
     - DB_NAME=freescout
@@ -50,7 +50,7 @@ services:
       - DB_USER=freescout
       - DB_PASS=freescout
 
-      - ZABBIX_HOSTNAME=freescout-db
+      - CONTAINER_NAME=freescout-db
     networks:
       - proxy-tier
     restart: always
@@ -63,7 +63,7 @@ services:
     volumes:
       - ./dbbackup:/backup
     environment:
-      - ZABBIX_HOSTNAME=freescout-db-backup
+      - CONTAINER_NAME=freescout-db-backup
       - DB_HOST=freescout-db
       - DB_TYPE=mariadb
       - DB_NAME=freescout

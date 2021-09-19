@@ -1,4 +1,4 @@
-FROM tiredofit/nginx-php-fpm:8.0
+FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Set Defaults
@@ -16,7 +16,7 @@ ENV FREESCOUT_VERSION=1.7.16 \
     PHP_ENABLE_SIMPLEXML=TRUE \
     PHP_ENABLE_TOKENIZER=TRUE \
     PHP_ENABLE_ZIP=TRUE \
-    ZABBIX_HOSTNAME=freescout-app
+    CONTAINER_NAME=freescout-app
 
 ### Perform Installation
 RUN set -x && \

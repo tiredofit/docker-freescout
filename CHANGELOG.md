@@ -1,3 +1,9 @@
+## 1.15.14 2021-09-19 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Update artisan to remember previous directory
+
+
 ## 1.15.13 2021-08-25 <dave at tiredofit dot ca>
 
    ### Added
