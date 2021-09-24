@@ -51,6 +51,10 @@ else
             chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
             cd "${NGINX_WEBROOT}"|| exit
             silent sudo -u "${NGINX_USER}" php artisan freescout:after-app-update
+            # 1.7.16 -> 1.7.17
+            if ! grep -Fxrq "SESSION_SECURE_COOKIE=.*" "${NGINX_WEBROOT}"/.env ; then
+                echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+            fi
             UPGRADE=TRUE
             sed -i --follow-symlinks "1 i\
             ${FREESCOUT_VERSION} upgraded on $(date)" /www/html/.freescout-version
@@ -111,8 +115,10 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
 
         if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
             sed -i --follow-symlinks "s#APP_FORCE_HTTPS=.*#APP_FORCE_HTTPS=true#g" "${NGINX_WEBROOT}"/.env
+            sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=true#g" "${NGINX_WEBROOT}"/.env
         else
             sed -i --follow-symlinks "s#APP_FORCE_HTTPS=.*#APP_FORCE_HTTPS=false#g" "${NGINX_WEBROOT}"/.env
+            sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=false#g" "${NGINX_WEBROOT}"/.env
         fi
 
         if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
@@ -165,8 +171,10 @@ else
 
     if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
         echo "APP_FORCE_HTTPS=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "SESSION_SECURE_COOKIE=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
         echo "APP_FORCE_HTTPS=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
     if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
@@ -255,7 +263,14 @@ expect \
 EOD
 
 ### Add alias for running artisan
-echo "alias artisan='export oldpwd="\$\(pwd\)"; cd ${NGINX_WEBROOT}; sudo -u ${NGINX_USER} php artisan ; cd \${oldpwd}'" >/root/.bashrc
+cat >> /root/.bashrc <<EOF
+function artisan() {
+      export oldpwd="\$(pwd)"
+      cd /www/bookstack
+      sudo -u nginx php artisan "\$@"
+      cd "\${oldpwd}"
+}
+EOF
 
 cd "${NGINX_WEBROOT}"
 silent sudo -u "${NGINX_USER}" php artisan config:clear
