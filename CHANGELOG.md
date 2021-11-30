@@ -1,3 +1,12 @@
+## 1.15.20 2021-11-30 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.7.22
+
+   ### Changed
+      - Fix to artisan alias command
+
+
 ## 1.15.19 2021-11-15 <dave at tiredofit dot ca>
 
    ### Added
