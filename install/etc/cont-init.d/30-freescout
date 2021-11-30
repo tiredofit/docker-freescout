@@ -266,8 +266,8 @@ EOD
 cat >> /root/.bashrc <<EOF
 function artisan() {
       export oldpwd="\$(pwd)"
-      cd /www/bookstack
-      sudo -u nginx php artisan "\$@"
+      cd ${NGINX_WEBROOT}
+      sudo -u ${NGINX_USER} php artisan "\$@"
       cd "\${oldpwd}"
 }
 EOF
