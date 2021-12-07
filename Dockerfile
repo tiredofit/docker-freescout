@@ -31,9 +31,8 @@ RUN set -x && \
     \
 ### WWW  Installation
     mkdir -p /assets/install && \
-    git clone ${FREESCOUT_REPO_URL} /assets/install && \
+    git clone --depth=1 --single-branch --branch=${FREESCOUT_VERSION} ${FREESCOUT_REPO_URL} /assets/install && \
     cd /assets/install && \
-    git checkout ${FREESCOUT_VERSION} && \
     rm -rf \
         /assets/install/.env.example \
         /assets/install/.env.travis \
