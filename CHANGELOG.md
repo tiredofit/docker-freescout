@@ -1,3 +1,9 @@
+## 1.15.26 2022-01-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Rebuild image to support base level updates, sepcifically to allow MySQL 5.7 to operate
+
+
 ## 1.15.25 2022-01-05 <dave at tiredofit dot ca>
 
    ### Added
