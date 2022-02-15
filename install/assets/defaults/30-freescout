@@ -1,4 +1,4 @@
-#!/usr/bin/with-contenv bash
+#!/command/with-contenv bash
 
 DB_PORT=${DB_PORT:-3306}
 APPLICATION_NAME=${APPLICATION_NAME:-"Freescout"}
