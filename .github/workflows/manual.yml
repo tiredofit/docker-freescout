@@ -426,7 +426,7 @@ jobs:
       - name: Switch
         id: Switch
         run: |
-          sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:.*|FROM docker.io/tiredofit/nginx-php-fpm:${RELEASE}|g" Dockerfileyou
+          sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:.*|FROM docker.io/tiredofit/nginx-php-fpm:${RELEASE}|g" Dockerfile
       - name: Build
         uses: docker/build-push-action@v2
         with:
