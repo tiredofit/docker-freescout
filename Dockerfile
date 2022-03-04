@@ -2,7 +2,7 @@ FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.8.7 \
+ENV FREESCOUT_VERSION=1.8.8 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_CREATE_SAMPLE_PHP=FALSE \
@@ -15,8 +15,7 @@ ENV FREESCOUT_VERSION=1.8.7 \
     PHP_ENABLE_OPENSSL=TRUE \
     PHP_ENABLE_SIMPLEXML=TRUE \
     PHP_ENABLE_TOKENIZER=TRUE \
-    PHP_ENABLE_ZIP=TRUE \
-    CONTAINER_NAME=freescout-app
+    PHP_ENABLE_ZIP=TRUE
 
 ### Perform Installation
 RUN set -x && \
