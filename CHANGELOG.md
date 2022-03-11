@@ -1,3 +1,10 @@
+## 1.15.37 2022-03-11 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Update to support new base image versions
+      - Allow situations for "warm" reboots better
+
+
 ## 1.15.36 2022-03-04 <dave at tiredofit dot ca>
 
    ### Added

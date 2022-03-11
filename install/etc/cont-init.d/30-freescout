@@ -262,15 +262,17 @@ expect \
 }
 EOD
 
-### Add alias for running artisan
-cat >> /root/.bashrc <<EOF
-function artisan() {
-      export oldpwd="\$(pwd)"
-      cd ${NGINX_WEBROOT}
-      sudo -u ${NGINX_USER} php artisan "\$@"
-      cd "\${oldpwd}"
-}
-EOF
+if [ ! -f "/tmp/.container/container-restart" ] ; then
+    ### Add alias for running artisan
+    cat >> /root/.bashrc <<EOF
+    function artisan() {
+        export oldpwd="\$(pwd)"
+        cd ${NGINX_WEBROOT}
+        sudo -u ${NGINX_USER} php artisan "\$@"
+        cd "\${oldpwd}"
+    }
+    EOF
+fi
 
 cd "${NGINX_WEBROOT}"
 silent sudo -u "${NGINX_USER}" php artisan config:clear
