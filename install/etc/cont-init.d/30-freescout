@@ -271,7 +271,7 @@ if [ ! -f "/tmp/.container/container-restart" ] ; then
         sudo -u ${NGINX_USER} php artisan "\$@"
         cd "\${oldpwd}"
     }
-    EOF
+EOF
 fi
 
 cd "${NGINX_WEBROOT}"
