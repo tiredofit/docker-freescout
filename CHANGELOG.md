@@ -1,3 +1,8 @@
+## 1.15.38 2022-03-11 <blendsdk@github>
+
+   ### Changed
+      - Fix invalid EOF introduced from 1.15.37
+
 ## 1.15.37 2022-03-11 <dave at tiredofit dot ca>
 
    ### Changed
