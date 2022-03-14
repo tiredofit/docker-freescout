@@ -1,7 +1,14 @@
+## 1.15.39 2022-03-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.9
+
+
 ## 1.15.38 2022-03-11 <blendsdk@github>
 
    ### Changed
       - Fix invalid EOF introduced from 1.15.37
+
 
 ## 1.15.37 2022-03-11 <dave at tiredofit dot ca>
 
