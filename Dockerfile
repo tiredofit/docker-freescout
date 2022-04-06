@@ -2,7 +2,7 @@ FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.8.10 \
+ENV FREESCOUT_VERSION=1.8.11 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_CREATE_SAMPLE_PHP=FALSE \
@@ -10,6 +10,7 @@ ENV FREESCOUT_VERSION=1.8.10 \
     PHP_ENABLE_FILEINFO=TRUE \
     PHP_ENABLE_GNUPG=TRUE \
     PHP_ENABLE_ICONV=TRUE \
+    PHP_ENABLE_IGBINARY=TRUE \
     PHP_ENABLE_IMAP=TRUE \
     PHP_ENABLE_LDAP=TRUE \
     PHP_ENABLE_OPENSSL=TRUE \
@@ -29,6 +30,7 @@ RUN set -x && \
 	      && \
     \
 ### WWW  Installation
+    php-ext enable core && \
     mkdir -p /assets/install && \
     git clone ${FREESCOUT_REPO_URL} /assets/install && \
     cd /assets/install && \
@@ -37,8 +39,6 @@ RUN set -x && \
         /assets/install/.env.example \
         /assets/install/.env.travis \
         && \
-    \
-    /usr/sbin/php-ext enable core && \
     composer install --ignore-platform-reqs && \
     chown -R nginx:www-data /assets/install && \
     \
