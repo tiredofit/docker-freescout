@@ -65,7 +65,7 @@ jobs:
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
 
@@ -172,7 +172,7 @@ jobs:
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
 
@@ -280,7 +280,7 @@ jobs:
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
 
@@ -387,7 +387,7 @@ jobs:
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
         with:
           platforms: all
 
