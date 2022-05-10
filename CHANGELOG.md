@@ -1,3 +1,9 @@
+## 1.15.44 2022-05-10 <dave at tiredofit dot ca>
+
+   ### Changed
+      - CI version bump
+
+
 ## 1.15.43 2022-05-01 <dave at tiredofit dot ca>
 
    ### Added
