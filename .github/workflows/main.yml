@@ -58,7 +58,7 @@ jobs:
           if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
             TAGS=${BRANCHTAG},${GITTAG}_php${RELEASE}
           else
-            TAGS="${BRANCHTAG}${GITTAG},${BRANCHTAG}${GITTAG}_php${RELEASE}"
+            TAGS="${BRANCHTAG},${GITTAG},${BRANCHTAG},${GITTAG}_php${RELEASE}"
           fi
 
           echo ::set-output name=tags::${TAGS}
