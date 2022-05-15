@@ -1,3 +1,9 @@
+## 1.15.46 2022-05-15 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Update IMAGE_NAME on startup
+
+
 ## 1.15.45 2022-05-13 <dave at tiredofit dot ca>
 
    ### Added

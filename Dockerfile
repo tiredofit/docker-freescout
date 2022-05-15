@@ -16,7 +16,9 @@ ENV FREESCOUT_VERSION=1.8.14 \
     PHP_ENABLE_OPENSSL=TRUE \
     PHP_ENABLE_SIMPLEXML=TRUE \
     PHP_ENABLE_TOKENIZER=TRUE \
-    PHP_ENABLE_ZIP=TRUE
+    PHP_ENABLE_ZIP=TRUE \
+    IMAGE_NAME="tiredofit/freescout" \
+    IMAGE_REPO_URL="https://github.com/tiredofit/docker-freescout/"
 
 ### Perform Installation
 RUN set -x && \
