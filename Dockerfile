@@ -2,7 +2,7 @@ FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ### Set Defaults
-ENV FREESCOUT_VERSION=1.8.15 \
+ENV FREESCOUT_VERSION=1.8.16 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     PHP_CREATE_SAMPLE_PHP=FALSE \
