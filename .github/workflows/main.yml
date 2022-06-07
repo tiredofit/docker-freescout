@@ -58,7 +58,7 @@ jobs:
           if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
             TAGS=${BRANCHTAG},${GITTAG}_php${RELEASE}
           else
-            TAGS="${BRANCHTAG},${GITTAG},${BRANCHTAG},${GITTAG}_php${RELEASE}"
+            TAGS="${BRANCHTAG}${GITTAG},${BRANCHTAG}${GITTAG}_php${RELEASE}"
           fi
 
           echo ::set-output name=tags::${TAGS}
@@ -90,6 +90,7 @@ jobs:
             sed -i "/FROM .*/a LABEL tiredofit.image_build_date=\"$(date +'%Y-%m-%d %H:%M:%S')\"" Dockerfile
             if [ -f "CHANGELOG.md" ] ; then
               sed -i "/FROM .*/a LABEL tiredofit.image.git_changelog_version=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" Dockerfile
+              mkdir -p install/assets/.changelogs ; cp CHANGELOG.md install/assets/.changelogs/${GITHUB_REPOSITORY/\//_}.md
             fi
 
             if [[ $GITHUB_REF == refs/tags/* ]]; then
@@ -104,7 +105,7 @@ jobs:
       - name: Switch
         id: Switch
         run: |
-              sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:.*|FROM docker.io/tiredofit/nginx-php-fpm:${RELEASE}|g" Dockerfile
+            sed -i "s|FROM docker.io/tiredofit/nginx-php-fpm:.*|FROM docker.io/tiredofit/nginx-php-fpm:${RELEASE}|g" Dockerfile
 
       - name: Build
         uses: docker/build-push-action@v3
