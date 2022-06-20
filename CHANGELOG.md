@@ -1,3 +1,9 @@
+## 1.15.51 2022-06-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freecsout 1.8.19
+
+
 ## 1.15.50 2022-06-15 <dave at tiredofit dot ca>
 
    ### Added
