@@ -5,6 +5,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 ENV FREESCOUT_VERSION=1.8.19 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
+    NGINX_SITE_ENABLED=freescout \
     PHP_CREATE_SAMPLE_PHP=FALSE \
     PHP_ENABLE_CURL=TRUE \
     PHP_ENABLE_FILEINFO=TRUE \
