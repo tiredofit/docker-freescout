@@ -1,3 +1,9 @@
+## 1.15.55 2022-08-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Start using custom_scripts and custom_files functions from base
+
+
 ## 1.15.54 2022-08-01 <dave at tiredofit dot ca>
 
    ### Added
