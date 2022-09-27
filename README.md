@@ -118,6 +118,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_LAST_NAME`    | Admin user First Name                                                                           | `User`      |
 | `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                  |             |
 | `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |
+| `APP_PROXY`          | Allow Application to use a proxy for fetching modules                                           |             |
 | `DB_HOST`            | Host or container name of MariaDB Server e.g. `freescout-db`                                    |             |
 | `DB_PORT`            | MariaDB Port                                                                                    | `3306`      |
 | `DB_NAME`            | MariaDB Database name e.g. `freescout`                                                          |             |

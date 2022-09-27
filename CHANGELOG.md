@@ -1,3 +1,10 @@
+## 1.15.62 2022-09-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add `APP_PROXY` support as introduced in Freescout 1.8.25
+      - Freescout 1.8.28
+
+
 ## 1.15.61 2022-09-22 <dave at tiredofit dot ca>
 
    ### Added

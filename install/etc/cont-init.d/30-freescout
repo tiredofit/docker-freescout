@@ -83,23 +83,22 @@ sed -i "s#'name' => '.*',#'name' => '${APPLICATION_NAME}',#g" "${NGINX_WEBROOT}"
 
 ### Dynamically Create Configuration
 if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
-    if [ "$SETUP_TYPE" = "AUTO" ]; then
-        ### Sanity Test
+    if [ "${SETUP_TYPE,,}" = "auto" ]; then
         sanity_db
         sanity_var SITE_URL "Site URL"
         db_ready mariadb
 
         print_info "Auto Configuring based on Environment Variables"
         # Proxy and Host Settings
-        if [ -z "$SITE_URL" ]; then
-            if [ -n "$APP_URL" ]; then
+        if [ -z "${SITE_URL}" ]; then
+            if [ -n "${APP_URL}" ]; then
                 sed -i --follow-symlinks "s#APP_URL=.*#APP_URL=${APP_URL}#g" "${NGINX_WEBROOT}"/.env
             fi
         else
             sed -i --follow-symlinks "s#APP_URL=.*#APP_URL=${SITE_URL}#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
+        if var_true "${ENABLE_SSL_PROXY}" || var_true "${APP_FORCE_HTTPS}" ; then
             sed -i --follow-symlinks "s#APP_FORCE_HTTPS=.*#APP_FORCE_HTTPS=true#g" "${NGINX_WEBROOT}"/.env
             sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=true#g" "${NGINX_WEBROOT}"/.env
         else
@@ -107,7 +106,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=false#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
+        if var_true "${APP_DEBUG}" || var_true "${DISPLAY_ERRORS}" ; then
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=true#g" "${NGINX_WEBROOT}"/.env
         else
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=false#g" "${NGINX_WEBROOT}"/.env
@@ -129,6 +128,13 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             echo "APP_DISABLE_UPDATING=true" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
         fi
 
+        # App Proxy (1.8.25)
+        if ! grep -q "APP_PROXY" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
+            echo "APP_PROXY=${APP_PROXY}" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        else
+            sed -i --follow-symlinks "s#APP_PROXY=.*#APP_PROXY=${APP_PROXY}g" "${NGINX_WEBROOT}"/.env
+        fi
+
     else
         print_info "Skipping Auto configuration and using in place .env"
     fi
@@ -147,15 +153,15 @@ else
     chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"/.env
     echo "#### Automatically Generated File - Upon container restart any settings will reset!" | silent sudo -u "${NGINX_USER}" tee "${NGINX_WEBROOT}"/.env
     # Proxy and HostSettings
-    if [ -z "$SITE_URL" ]; then
-        if [ -n "$APP_URL" ]; then
+    if [ -z "${SITE_URL}" ]; then
+        if [ -n "${APP_URL}" ]; then
             echo "APP_URL=$APP_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
         fi
     else
         echo "APP_URL=$SITE_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
-    if [ "$ENABLE_SSL_PROXY" = "TRUE" ] || [ "$ENABLE_SSL_PROXY" = "true" ] || [ "$APP_FORCE_HTTPS" = "true" ] || [ "$APP_FORCE_HTTPS" = "TRUE" ]; then
+    if var_true "${ENABLE_SSL_PROXY}" || var_true "${APP_FORCE_HTTPS}" ; then
         echo "APP_FORCE_HTTPS=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
         echo "SESSION_SECURE_COOKIE=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
@@ -163,7 +169,11 @@ else
         echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
-    if [ "$APP_DEBUG" = "TRUE" ] || [ "$APP_DEBUG" = "true" ] || [ "$DISPLAY_ERRORS" = "true" ] || [ "$DISPLAY_ERRORS" = "TRUE" ]; then
+    if [ -n "${APP_PROXY}" ] ; then
+        echo "APP_PROXY=${APP_PROXY}" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    fi
+
+    if var_true "${APP_DEBUG}" || var_true "${DISPLAY_ERRORS}" ; then
         echo "APP_DEBUG=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
         echo "APP_DEBUG=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
