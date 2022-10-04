@@ -1,7 +1,6 @@
 FROM docker.io/tiredofit/nginx-php-fpm:8.0
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-### Set Defaults
 ENV FREESCOUT_VERSION=1.8.29 \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
@@ -21,8 +20,8 @@ ENV FREESCOUT_VERSION=1.8.29 \
     IMAGE_NAME="tiredofit/freescout" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-freescout/"
 
-### Perform Installation
-RUN set -x && \
+RUN source /assets/functions/00-container && \
+    set -x && \
     apk update && \
     apk upgrade && \
     apk add -t .freescout-run-deps \
@@ -32,20 +31,14 @@ RUN set -x && \
               sed \
 	      && \
     \
-### WWW  Installation
     php-ext enable core && \
-    mkdir -p /assets/install && \
-    git clone ${FREESCOUT_REPO_URL} /assets/install && \
-    cd /assets/install && \
-    git checkout ${FREESCOUT_VERSION} && \
+    clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
     rm -rf \
         /assets/install/.env.example \
         /assets/install/.env.travis \
         && \
     composer install --ignore-platform-reqs && \
-    chown -R nginx:www-data /assets/install && \
-    \
-### Cleanup
+    chown -R ${NGINX_USER}:${NGINX_GROUP} /assets/install && \
     rm -rf /root/.composer && \
     rm -rf /var/tmp/* /var/cache/apk/*
 

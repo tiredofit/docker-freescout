@@ -1,3 +1,9 @@
+## 1.15.64 2022-10-04 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Change the way repos are cloned in Dockerfile
+
+
 ## 1.15.63 2022-09-29 <dave at tiredofit dot ca>
 
    ### Added
