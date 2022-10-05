@@ -132,7 +132,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
         if ! grep -q "APP_PROXY" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             echo "APP_PROXY=${APP_PROXY}" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
         else
-            sed -i --follow-symlinks "s#APP_PROXY=.*#APP_PROXY=${APP_PROXY}g" "${NGINX_WEBROOT}"/.env
+            sed -i --follow-symlinks "s#APP_PROXY=.*#APP_PROXY=${APP_PROXY}#g" "${NGINX_WEBROOT}"/.env
         fi
 
     else

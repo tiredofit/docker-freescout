@@ -1,3 +1,9 @@
+## 1.15.67 2022-10-05 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix for APP_PROXY command not updating correctly after container restart
+
+
 ## 1.15.66 2022-10-05 <dave at tiredofit dot ca>
 
    ### Added
