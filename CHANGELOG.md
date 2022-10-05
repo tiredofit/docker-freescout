@@ -1,3 +1,12 @@
+## 1.15.66 2022-10-05 <dave at tiredofit dot ca>
+
+   ### Added
+      - Switch :latest to PHP 8.1
+
+   ### Changed
+      - Fix Build workflows to include CHANGELOGs properly.
+
+
 ## 1.15.65 2022-10-05 <dave at tiredofit dot ca>
 
    ### Changed
