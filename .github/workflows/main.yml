@@ -31,7 +31,7 @@ jobs:
 
             case ${BRANCH} in
               "main" | "master" )
-                  BRANCHTAG="${DOCKER_IMAGE}:latest_php${RELEASE}:${DOCKER_IMAGE}:latest"
+                  BRANCHTAG="${DOCKER_IMAGE}:latest_php${RELEASE},${DOCKER_IMAGE}:latest"
                 ;;
               "develop" )
                   BRANCHTAG="${DOCKER_IMAGE}:develop"
