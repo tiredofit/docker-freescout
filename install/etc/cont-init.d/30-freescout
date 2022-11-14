@@ -182,7 +182,7 @@ else
     echo "APP_KEY=" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
 
     # Set DB Settings
-    echo "DB_CONNECTION=mysql" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    echo "DB_CONNECTION=$DB_TYPE" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     echo "DB_HOST=$DB_HOST" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     echo "DB_PORT=$DB_PORT" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     echo "DB_DATABASE=$DB_NAME" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
@@ -207,7 +207,13 @@ silent sudo -u "${NGINX_USER}" php artisan config:clear
 silent sudo -u "${NGINX_USER}" php artisan storage:link
 
 ### Check to see if DB is populated
-mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
+
+if[ "${DB_TYPE}" = "mysql" ]; then
+  mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
+elif [ "${DB_TYPE}" = "postgres" ]; then
+  psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT * FROM users;" > /dev/null 2>&1
+fi
+
 if [ $? -gt 0 ]; then
     ### Perform Database Installtion Routines
     print_warn "Detected empty Database - Setting up - Please wait.."
