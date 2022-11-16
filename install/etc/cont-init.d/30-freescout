@@ -46,7 +46,7 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
 else
     if [ "$ENABLE_AUTO_UPDATE" = "TRUE" ]; then
         if [ "$FREESCOUT_VERSION" != $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk '{print $1'}) ]; then
-        print_warn "Detected in place Freescout version $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk "{print $1"}) - Upgrading to ${FREESCOUT_VERSION}"
+            print_warn "Detected in place Freescout version $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk "{print $1"}) - Upgrading to ${FREESCOUT_VERSION}"
             cp -R /assets/install/* "${NGINX_WEBROOT}"
             chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
             cd "${NGINX_WEBROOT}"|| exit
