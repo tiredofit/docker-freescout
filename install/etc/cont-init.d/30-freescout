@@ -86,7 +86,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
     if [ "${SETUP_TYPE,,}" = "auto" ]; then
         sanity_db
         sanity_var SITE_URL "Site URL"
-        db_ready mariadb
+        db_ready "${DB_TYPE}"
 
         print_info "Auto Configuring based on Environment Variables"
         # Proxy and Host Settings
@@ -146,7 +146,7 @@ else
     ### Sanity Test
     sanity_db
     sanity_var SITE_URL "Site URL"
-    db_ready mariadb
+    db_ready "${DB_TYPE}"
 
     print_info "Generating Configuration"
     touch "${NGINX_WEBROOT}"/.env
@@ -208,7 +208,7 @@ silent sudo -u "${NGINX_USER}" php artisan storage:link
 
 ### Check to see if DB is populated
 
-if[ "${DB_TYPE}" = "mysql" ]; then
+if [ "${DB_TYPE}" = "mysql" ]; then
   mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
 elif [ "${DB_TYPE}" = "postgres" ]; then
   psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT * FROM users;" > /dev/null 2>&1
