@@ -1,5 +1,6 @@
 #!/command/with-contenv bash
 
+DB_TYPE=${DB_PORT:-"mysql"}
 DB_PORT=${DB_PORT:-3306}
 APPLICATION_NAME=${APPLICATION_NAME:-"Freescout"}
 ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME:-"Admin"}
