@@ -1,3 +1,10 @@
+## 1.16.1 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rework Dockerfile to take advantage of some build arguments
+      - Rework Github Actions for better building
+
+
 ## 1.16.0 2022-11-28 <dave at tiredofit dot ca>
 
    ### Added

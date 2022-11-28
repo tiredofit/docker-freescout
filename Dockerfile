@@ -1,7 +1,12 @@
-FROM docker.io/tiredofit/nginx-php-fpm:8.0
+ARG PHP_BASE=8.0
+ARG DISTRO="alpine"
+
+FROM docker.io/tiredofit/nginx-php-fpm:${PHP_BASE}-${DISTRO}
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
-ENV FREESCOUT_VERSION=1.8.36 \
+ARG FREESCOUT_VERSION
+
+ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.36"} \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     NGINX_SITE_ENABLED=freescout \
@@ -26,11 +31,11 @@ RUN source /assets/functions/00-container && \
     apk update && \
     apk upgrade && \
     apk add -t .freescout-run-deps \
-              expect \
-              git \
-              gnu-libiconv \
-              sed \
-	      && \
+                expect \
+                git \
+                gnu-libiconv \
+                sed \
+                && \
     \
     php-ext enable core && \
     clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
@@ -39,11 +44,10 @@ RUN source /assets/functions/00-container && \
         /assets/install/.env.travis \
         && \
     composer install --ignore-platform-reqs && \
-    chown -R ${NGINX_USER}:${NGINX_GROUP} /assets/install && \
+    chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
     rm -rf /root/.composer && \
     rm -rf /var/tmp/* /var/cache/apk/*
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-### Assets
 COPY install /
