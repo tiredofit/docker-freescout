@@ -49,7 +49,7 @@ This will build a Docker Image for [Freescout](https://freescout.net/) - An open
    *  [Traefik](https://github.com/tiredofit/docker-traefik)
    *  [Nginx](https://github.com/jc21/nginx-proxy-manager)
    *  [Caddy](https://github.com/caddyserver/caddy)
-*  Requires access to a MySQL/MariaDB Server
+*  Requires access to a MySQL/MariaDB or Postgres Server
 
 ## Installation
 
@@ -119,11 +119,12 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                  |             |
 | `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |
 | `APP_PROXY`          | Allow Application to use a proxy for fetching modules                                           |             |
-| `DB_HOST`            | Host or container name of MariaDB Server e.g. `freescout-db`                                    |             |
-| `DB_PORT`            | MariaDB Port                                                                                    | `3306`      |
-| `DB_NAME`            | MariaDB Database name e.g. `freescout`                                                          |             |
-| `DB_USER`            | MariaDB Username for above Database e.g. `freescout`                                            |             |
-| `DB_PASS`            | MariaDB Password for above Database e.g. `password`                                             |             |
+| `DB_TYPE`            | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |
+| `DB_HOST`            | Host or container name of the Databse Server e.g. `freescout-db`                                |             |
+| `DB_PORT`            | Database Port e.g.`3306` for mysql, `5432` for postgres                                         | `3306`      |
+| `DB_NAME`            | Database name e.g. `freescout`                                                                  |             |
+| `DB_USER`            | Username for above Database e.g. `freescout`                                                    |             |
+| `DB_PASS`            | Password for above Database e.g. `password`                                                     |             |
 | `DISPLAY_ERRORS`     | Display Errors on Website                                                                       | `FALSE`     |
 | `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |
 | `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`             |             |
