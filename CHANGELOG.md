@@ -1,3 +1,9 @@
+## 1.16.0 2022-11-28 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add Postgresql support courtesy of rustymunkey@github
+
+
 ## 1.15.72 2022-11-27 <dave at tiredofit dot ca>
 
    ### Added
