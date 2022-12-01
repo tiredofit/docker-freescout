@@ -28,9 +28,9 @@ ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.36"} \
 
 RUN source /assets/functions/00-container && \
     set -x && \
-    apk update && \
-    apk upgrade && \
-    apk add -t .freescout-run-deps \
+    package update && \
+    package upgrade && \
+    package install .freescout-run-deps \
                 expect \
                 git \
                 gnu-libiconv \
@@ -39,14 +39,14 @@ RUN source /assets/functions/00-container && \
     \
     php-ext enable core && \
     clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
-    rm -rf \
-        /assets/install/.env.example \
-        /assets/install/.env.travis \
-        && \
     composer install --ignore-platform-reqs && \
+    rm -rf /assets/install/.env.example \
+           /assets/install/.env.travis \
+           && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
-    rm -rf /root/.composer && \
-    rm -rf /var/tmp/* /var/cache/apk/*
+    package cleanup
+    rm -rf /root/.composer \
+           /var/tmp/*
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
