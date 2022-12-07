@@ -6,7 +6,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG FREESCOUT_VERSION
 
-ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.36"} \
+ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.37"} \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     NGINX_SITE_ENABLED=freescout \
@@ -44,7 +44,7 @@ RUN source /assets/functions/00-container && \
            /assets/install/.env.travis \
            && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
-    package cleanup
+    package cleanup && \
     rm -rf /root/.composer \
            /var/tmp/*
 
