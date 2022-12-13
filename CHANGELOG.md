@@ -1,3 +1,12 @@
+## 1.16.6 2022-12-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.39
+
+   ### Changed
+      - Start building PHP 8.2 variants - Switch to 8.2 as default
+
+
 ## 1.16.5 2022-12-11 <dave at tiredofit dot ca>
 
    ### Added

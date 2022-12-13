@@ -8,6 +8,106 @@ on:
     - '**'
     - '!README.md'
 jobs:
+  php82:
+    env:
+      PHP_VERSION: "8.2"
+      DISTRO: "alpine"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=${GITHUB_REPOSITORY/docker-/}
+          if [[ $GITHUB_REF == refs/heads/* ]]; then
+             if [[ $GITHUB_REF == refs/heads/*/* ]] ; then
+               BRANCH="${DOCKER_IMAGE}:$(echo $GITHUB_REF | sed 's|refs/heads/||g' | sed 's|/|-|g')"
+             else
+               BRANCH=${GITHUB_REF#refs/heads/}
+             fi
+
+            case ${BRANCH} in
+              "main" | "master" )
+                  ## Irrelevant
+                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION},${DOCKER_IMAGE}:latest_php${PHP_VERSION},${DOCKER_IMAGE}:latest"
+                ;;
+              "develop" )
+                  ## Irrelevant
+                  BRANCHTAG="${DOCKER_IMAGE}:develop"
+                ;;
+              * )
+                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION}-${BRANCH}"
+                ;;
+            esac
+          fi
+
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+               GITTAG="${DOCKER_IMAGE}:php${PHP_VERSION}-$(echo $GITHUB_REF | sed 's|refs/tags/||g')"
+          fi
+
+          if [ -n "${BRANCHTAG}" ] && [ -n "${GITTAG}" ]; then
+            TAGS="${BRANCHTAG},${GITTAG}"
+          else
+            TAGS=${BRANCHTAG}${GITTAG}
+          fi
+
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=docker_image::${DOCKER_IMAGE}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Label
+        id: Label
+        run: |
+          if [ -f "Dockerfile" ] ; then
+            sed -i "/FROM .*/a LABEL tiredofit.freescout.git_repository=\"https://github.com/${GITHUB_REPOSITORY}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL tiredofit.nginx-php-fpm.runtime_version=\"${PHP_VERSION}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL tiredofit.freescout.git_commit=\"${GITHUB_SHA}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL tiredofit.freescout.git_committed_by=\"${GITHUB_ACTOR}\"" Dockerfile
+            sed -i "/FROM .*/a LABEL tiredofit.freescout.image_build_date=\"$(date +'%Y-%m-%d %H:%M:%S')\"" Dockerfile
+            if [ -f "CHANGELOG.md" ] ; then
+              sed -i "/FROM .*/a LABEL tiredofit.freescout.git_changelog_version=\"$(head -n1 ./CHANGELOG.md | awk '{print $2}')\"" Dockerfile
+              mkdir -p install/assets/.changelogs ; cp CHANGELOG.md install/assets/.changelogs/${GITHUB_REPOSITORY/\//_}.md
+            fi
+
+            if [[ $GITHUB_REF == refs/tags/* ]]; then
+              sed -i "/FROM .*/a LABEL tiredofit.freescout.git_tag=\"${GITHUB_REF#refs/tags/v}\"" Dockerfile
+            fi
+
+            if [[ $GITHUB_REF == refs/heads/* ]]; then
+              sed -i "/FROM .*/a LABEL tiredofit.freescout.git_branch=\"${GITHUB_REF#refs/heads/}\"" Dockerfile
+            fi
+          fi
+
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          push: true
+          tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            DISTRO=${{ env.DISTRO }}
+            PHP_BASE=${{ env.PHP_VERSION }}
+
   php81:
     env:
       PHP_VERSION: "8.1"
@@ -31,7 +131,7 @@ jobs:
             case ${BRANCH} in
               "main" | "master" )
                   ## Irrelevant
-                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION},${DOCKER_IMAGE}:latest_php${PHP_VERSION},${DOCKER_IMAGE}:latest"
+                  BRANCHTAG="${DOCKER_IMAGE}:php${PHP_VERSION},${DOCKER_IMAGE}:latest_php${PHP_VERSION}"
                 ;;
               "develop" )
                   ## Irrelevant
