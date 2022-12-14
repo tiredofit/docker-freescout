@@ -1,4 +1,4 @@
-ARG PHP_BASE=8.2
+ARG PHP_BASE=8.1
 ARG DISTRO="alpine"
 
 FROM docker.io/tiredofit/nginx-php-fpm:${PHP_BASE}-${DISTRO}

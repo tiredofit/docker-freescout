@@ -1,3 +1,9 @@
+## 1.16.7 2022-12-13 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Revert to PHP 8.1
+
+
 ## 1.16.6 2022-12-13 <dave at tiredofit dot ca>
 
    ### Added
