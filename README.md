@@ -1,7 +1,7 @@
 # github.com/tiredofit/docker-freescout
 
 [![GitHub release](https://img.shields.io/github/v/tag/tiredofit/docker-freescout?style=flat-square)](https://github.com/tiredofit/docker-freescout/releases/latest)
-[![Build Status](https://img.shields.io/github/workflow/status/tiredofit/docker-freescout/build?style=flat-square)](https://github.com/tiredofit/docker-freescout/actions?query=workflow%3Abuild)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/tiredofit/docker-freescout/main.yml?branch=main&style=flat-square)](https://github.com/tiredofit/docker-freescout/actions)
 [![Docker Stars](https://img.shields.io/docker/stars/tiredofit/freescout.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/freescout/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/tiredofit/freescout.svg?style=flat-square&logo=docker)](https://hub.docker.com/r/tiredofit/freescout/)
 [![Become a sponsor](https://img.shields.io/badge/sponsor-tiredofit-181717.svg?logo=github&style=flat-square)](https://github.com/sponsors/tiredofit)
