@@ -1,3 +1,9 @@
+## 1.16.11 2022-12-20 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.43
+
+
 ## 1.16.10 2022-12-19 <dave at tiredofit dot ca>
 
    ### Added
