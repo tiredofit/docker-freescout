@@ -1,3 +1,9 @@
+## 1.16.14 2022-12-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add DB_PGSQL_SSLMODE environment variable
+
+
 ## 1.16.13 2022-12-26 <dave at tiredofit dot ca>
 
    ### Added

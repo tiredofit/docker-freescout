@@ -112,6 +112,13 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=false#g" "${NGINX_WEBROOT}"/.env
         fi
 
+        if [ "$DB_TYPE,,}" = "pgsql" ] ; then
+            if ! grep -Fxrq "DB_PGSQL_SSL_MODE=" "${NGINX_WEBROOT}"/.env ; then
+                sed -i --follow-symlinks "/DB_TYPE=pgsql/a DB_PGSQL_SSL_MODE=${DB_PGSQL_SSL_MODE}" "${NGINX_WEBROOT}"/.env
+            else
+                sed -i --follow-symlinks "s#DB_PGSQL_SSL_MODE=.*#DB_PGSQL_SSL_MODE=${DB_PGSQL_SSL_MODE}#g" "${NGINX_WEBROOT}"/.env
+            fi
+        fi
         sed -i --follow-symlinks "s#DB_HOST=.*#DB_HOST=${DB_HOST}#g" "${NGINX_WEBROOT}"/.env
         sed -i --follow-symlinks "s#DB_PORT=.*#DB_PORT=${DB_PORT}#g" "${NGINX_WEBROOT}"/.env
         sed -i --follow-symlinks "s#DB_DATABASE=.*#DB_DATABASE=${DB_NAME}#g" "${NGINX_WEBROOT}"/.env

@@ -120,6 +120,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |
 | `APP_PROXY`          | Allow Application to use a proxy for fetching modules                                           |             |
 | `DB_TYPE`            | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |
+| `DB_PGSQL_SSL_MODE`  | Postgresql TLS Mode                                                                             | `prefer`    |
 | `DB_HOST`            | Host or container name of the Databse Server e.g. `freescout-db`                                |             |
 | `DB_PORT`            | Database Port e.g.`3306` for mysql, `5432` for postgres                                         | `3306`      |
 | `DB_NAME`            | Database name e.g. `freescout`                                                                  |             |
