@@ -1,3 +1,9 @@
+## 1.16.19 2023-01-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Frescout 1.8.50
+
+
 ## 1.16.18 2023-01-11 <dave at tiredofit dot ca>
 
    ### Added
