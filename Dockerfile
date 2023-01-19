@@ -6,7 +6,7 @@ LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG FREESCOUT_VERSION
 
-ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.51"} \
+ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.52"} \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     NGINX_SITE_ENABLED=freescout \
@@ -39,10 +39,12 @@ RUN source /assets/functions/00-container && \
     \
     php-ext enable core && \
     clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
+    mkdir -p vendor/natxet/cssmin/src && \
     composer install --ignore-platform-reqs && \
-    rm -rf /assets/install/.env.example \
-           /assets/install/.env.travis \
-           && \
+    rm -rf \
+            /assets/install/.env.example \
+            /assets/install/.env.travis \
+            && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
     package cleanup && \
     rm -rf /root/.composer \
