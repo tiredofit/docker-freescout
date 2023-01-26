@@ -1,3 +1,9 @@
+## 1.16.22 2023-01-25 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.53
+
+
 ## 1.16.21 2023-01-19 <dave at tiredofit dot ca>
 
 It is recomended all users upgrade immediately to this release to fix long standing bugs and stability issues
