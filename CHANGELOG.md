@@ -1,3 +1,9 @@
+## 1.16.35 2023-03-15 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Dependency updates to ensure correct PHP Base images are being used
+
+
 ## 1.16.34 2023-03-09 <dave at tiredofit dot ca>
 
    ### Added
