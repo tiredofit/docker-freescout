@@ -40,6 +40,8 @@ RUN source /assets/functions/00-container && \
     php-ext enable core && \
     clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
     mkdir -p vendor/natxet/cssmin/src && \
+    if [ -d "/build-assets/src" ] ; then cp -Rp /build-assets/src/* /assets/install ; fi; \
+    if [ -d "/build-assets/scripts" ] ; then for script in /build-assets/scripts/*.sh; do echo "** Applying $script"; bash $script; done && \ ; fi ; \
     composer install --ignore-platform-reqs && \
     rm -rf \
             /assets/install/.env.example \
