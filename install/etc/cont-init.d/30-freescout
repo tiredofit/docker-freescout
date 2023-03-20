@@ -291,7 +291,7 @@ cat <<EOF > "${CONTAINER_SCHEDULING_LOCATION}"/freescout-schedule
 # Hardcoded in image in /etc/cont-init.d/$(basename "$0")
 # Generated on $(TZ=${TIMEZONE} date +'%Y-%m-%d %H:%M:%S %Z')
 
-* * * * * sudo -u ${NGINX_USER} TZ=${TIMEZONE} LD_PRELOAD=/usr/lib/preloadable_libiconv.so php ${NGINX_WEBROOT}/artisan schedule:run >> /dev/null 2>&1
+* * * * * sudo -u ${NGINX_USER} TZ=${TIMEZONE} php ${NGINX_WEBROOT}/artisan schedule:run >> /dev/null 2>&1
 EOF
 
 print_info "Initialization Complete. Please visit ${SITE_URL} and login with your credentials.."

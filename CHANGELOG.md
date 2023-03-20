@@ -1,3 +1,9 @@
+## 1.16.39 2023-03-20 <dave at tiredofit dot ca>
+
+   ### Reverted
+      - Stop LD_PRELOAD iconv
+
+
 ## 1.16.38 2023-03-18 <dave at tiredofit dot ca>
 
    ### Added
