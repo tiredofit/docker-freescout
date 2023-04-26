@@ -82,7 +82,7 @@ custom_scripts
 sed -i "s#'name' => '.*',#'name' => '${APPLICATION_NAME}',#g" "${NGINX_WEBROOT}"/config/app.php
 
 ### Dynamically Create Configuration
-transform_var \
+transform_file_var \
                 DB_HOST \
                 DB_NAME \
                 DB_PASS \
@@ -234,7 +234,7 @@ if [ $? -gt 0 ]; then
     sleep 5
     silent sudo -u "${NGINX_USER}" php artisan migrate:fresh --force
     silent sudo -u "${NGINX_USER}" php artisan freescout:clear-cache
-    transform_var \
+    transform_file_var \
                     ADMIN_EMAIL \
                     ADMIN_FIRST_NAME \
                     ADMIN_LAST_NAME \
