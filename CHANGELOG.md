@@ -1,3 +1,10 @@
+## 1.17.0 2023-04-26 <dave at tiredofit dot ca>
+
+   ### Added
+      - Introduce support for '_FILE' environment variables
+      - Enable PHP INTL module
+
+
 ## 1.16.43 2023-04-23 <dave at tiredofit dot ca>
 
    ### Added
