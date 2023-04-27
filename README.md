@@ -125,6 +125,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                  |             | x       |
 | `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |         |
 | `APP_PROXY`          | Allow Application to use a proxy for fetching modules                                           |             |         |
+| `APP_NEW_FETCHING_LIBRARY` | Sets FreeScout's new_fetching_library config option                                       | `FALSE`     |         |
 | `DB_TYPE`            | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |         |
 | `DB_PGSQL_SSL_MODE`  | Postgresql TLS Mode                                                                             | `prefer`    |         |
 | `DB_HOST`            | Host or container name of the Databse Server e.g. `freescout-db`                                |             | x       |
