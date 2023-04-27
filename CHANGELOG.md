@@ -1,3 +1,9 @@
+## 1.17.1 2023-04-26 <rosequartz@github>
+
+   ### Added
+      - Support APP_NEW_FETCHING_LIBRARY environment variable
+
+
 ## 1.17.0 2023-04-26 <dave at tiredofit dot ca>
 
    ### Added
