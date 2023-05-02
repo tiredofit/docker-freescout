@@ -1,3 +1,9 @@
+## 1.17.2 2023-05-02 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.74
+
+
 ## 1.17.1 2023-04-26 <rosequartz@github>
 
    ### Added
