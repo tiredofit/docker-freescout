@@ -1,3 +1,10 @@
+## 1.17.4 2023-05-10 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.76
+      - PHP 8.1 and PHP 8.2 variants use Alpine 3.18 as base
+
+
 ## 1.17.3 2023-05-05 <dave at tiredofit dot ca>
 
    ### Added
