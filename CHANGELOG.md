@@ -1,3 +1,10 @@
+## 1.17.7 2023-05-31 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add artisan freescout:build to Dockerfile
+      - Add artisan freescout:after-app-update execution to each container start
+
+
 ## 1.17.6 2023-05-28 <dave at tiredofit dot ca>
 
    ### Added

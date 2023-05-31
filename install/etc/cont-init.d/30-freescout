@@ -303,6 +303,7 @@ fi
 
 cd "${NGINX_WEBROOT}"
 silent sudo -u "${NGINX_USER}" php artisan config:clear
+silent sudo -u "${NGINX_USER}" php artisan freescout:after-app-update
 
 cat <<EOF > "${CONTAINER_SCHEDULING_LOCATION}"/freescout-schedule
 # Hardcoded in image in /etc/cont-init.d/$(basename "$0")

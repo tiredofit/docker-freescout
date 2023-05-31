@@ -44,6 +44,7 @@ RUN source /assets/functions/00-container && \
     if [ -d "/build-assets/src" ] ; then cp -Rp /build-assets/src/* /assets/install ; fi; \
     if [ -d "/build-assets/scripts" ] ; then for script in /build-assets/scripts/*.sh; do echo "** Applying $script"; bash $script; done && \ ; fi ; \
     composer install --ignore-platform-reqs && \
+    php artisan freescout:build && \
     rm -rf \
             /assets/install/.env.example \
             /assets/install/.env.travis \
