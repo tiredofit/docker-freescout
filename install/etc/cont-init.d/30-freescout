@@ -105,13 +105,14 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#APP_URL=.*#APP_URL=${SITE_URL}#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        if var_true "${ENABLE_SSL_PROXY}" || var_true "${APP_FORCE_HTTPS}" ; then
-            sed -i --follow-symlinks "s#APP_FORCE_HTTPS=.*#APP_FORCE_HTTPS=true#g" "${NGINX_WEBROOT}"/.env
-            sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=true#g" "${NGINX_WEBROOT}"/.env
-        else
-            sed -i --follow-symlinks "s#APP_FORCE_HTTPS=.*#APP_FORCE_HTTPS=false#g" "${NGINX_WEBROOT}"/.env
-            sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=false#g" "${NGINX_WEBROOT}"/.env
-        fi
+        case $(echo ${SITE_URL,,} | cut -d : -f1) in
+            http )
+                sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=false#g" "${NGINX_WEBROOT}"/.env
+                ;;
+            https )
+                sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=true#g" "${NGINX_WEBROOT}"/.env
+                ;;
+        esac
 
         if var_true "${APP_DEBUG}" || var_true "${DISPLAY_ERRORS}" ; then
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=true#g" "${NGINX_WEBROOT}"/.env
@@ -182,13 +183,14 @@ else
         echo "APP_URL=$SITE_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
-    if var_true "${ENABLE_SSL_PROXY}" || var_true "${APP_FORCE_HTTPS}" ; then
-        echo "APP_FORCE_HTTPS=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-        echo "SESSION_SECURE_COOKIE=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    else
-        echo "APP_FORCE_HTTPS=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-        echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
-    fi
+    case $(echo ${SITE_URL,,} | cut -d : -f1) in
+        http )
+            echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+            ;;
+        https )
+            echo "SESSION_SECURE_COOKIE=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+            ;;
+    esac
 
     if [ -n "${APP_PROXY}" ] ; then
         echo "APP_PROXY=${APP_PROXY}" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
@@ -220,6 +222,10 @@ else
     fi
     silent sudo -u "${NGINX_USER}" php artisan key:generate
 fi
+
+## Removals
+# 1.8.78
+sed -i --follow-symlinks "APP_FORCE_HTTP=/d" "${NGINX_WEBROOT}"/.env
 
 ### Cleanup
 cd "${NGINX_WEBROOT}"/

@@ -117,27 +117,26 @@ Be sure to view the following repositories to understand all the customizable op
 | [PHP-FPM](https://github.com/tiredofit/docker-nginx-php-fpm/) | PHP Interpreter                        |
 
 
-| Parameter            | Description                                                                                     | Default     | `_FILE` |
-| -------------------- | ----------------------------------------------------------------------------------------------- | ----------- | ------- |
-| `ADMIN_EMAIL`        | Administrator Email Address - Needed for logging in                                             |             | x       |
-| `ADMIN_FIRST_NAME`   | Admin user First Name                                                                           | `Admin`     | x       |
-| `ADMIN_LAST_NAME`    | Admin user First Name                                                                           | `User`      | x       |
-| `ADMIN_PASS`         | Administrator Password - Needed for Logging in                                                  |             | x       |
-| `APPLICATION_NAME`   | Change default application name - Default `Freescout`                                           | `freescout` |         |
-| `APP_PROXY`          | Allow Application to use a proxy for fetching modules                                           |             |         |
-| `APP_NEW_FETCHING_LIBRARY` | Sets FreeScout's new_fetching_library config option                                       | `FALSE`     |         |
-| `DB_TYPE`            | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |         |
-| `DB_PGSQL_SSL_MODE`  | Postgresql TLS Mode                                                                             | `prefer`    |         |
-| `DB_HOST`            | Host or container name of the Databse Server e.g. `freescout-db`                                |             | x       |
-| `DB_PORT`            | Database Port e.g.`3306` for mysql, `5432` for postgres                                         | `3306`      | x       |
-| `DB_NAME`            | Database name e.g. `freescout`                                                                  |             | x       |
-| `DB_USER`            | Username for above Database e.g. `freescout`                                                    |             | x       |
-| `DB_PASS`            | Password for above Database e.g. `password`                                                     |             | x       |
-| `DISPLAY_ERRORS`     | Display Errors on Website                                                                       | `FALSE`     |         |
-| `ENABLE_AUTO_UPDATE` | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |         |
-| `ENABLE_SSL_PROXY`   | If using SSL reverse proxy force application to return https URLs `TRUE` or `FALSE`             |             |         |
-| `SETUP_TYPE`         | Automatically edit configuration after first bootup `AUTO` or `MANUAL`                          | `AUTO`      |         |
-| `SITE_URL`           | The url your site listens on example `https://freescout.example.com`                            |             |         |
+| Parameter                  | Description                                                                                     | Default     | `_FILE` |
+| -------------------------- | ----------------------------------------------------------------------------------------------- | ----------- | ------- |
+| `ADMIN_EMAIL`              | Administrator Email Address - Needed for logging in                                             |             | x       |
+| `ADMIN_FIRST_NAME`         | Admin user First Name                                                                           | `Admin`     | x       |
+| `ADMIN_LAST_NAME`          | Admin user First Name                                                                           | `User`      | x       |
+| `ADMIN_PASS`               | Administrator Password - Needed for Logging in                                                  |             | x       |
+| `APPLICATION_NAME`         | Change default application name - Default `Freescout`                                           | `freescout` |         |
+| `APP_PROXY`                | Allow Application to use a proxy for fetching modules                                           |             |         |
+| `APP_NEW_FETCHING_LIBRARY` | Sets FreeScout's new_fetching_library config option                                             | `FALSE`     |         |
+| `DB_TYPE`                  | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |         |
+| `DB_PGSQL_SSL_MODE`        | Postgresql TLS Mode                                                                             | `prefer`    |         |
+| `DB_HOST`                  | Host or container name of the Databse Server e.g. `freescout-db`                                |             | x       |
+| `DB_PORT`                  | Database Port e.g.`3306` for mysql, `5432` for postgres                                         | `3306`      | x       |
+| `DB_NAME`                  | Database name e.g. `freescout`                                                                  |             | x       |
+| `DB_USER`                  | Username for above Database e.g. `freescout`                                                    |             | x       |
+| `DB_PASS`                  | Password for above Database e.g. `password`                                                     |             | x       |
+| `DISPLAY_ERRORS`           | Display Errors on Website                                                                       | `FALSE`     |         |
+| `ENABLE_AUTO_UPDATE`       | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |         |
+| `SETUP_TYPE`               | Automatically edit configuration after first bootup `AUTO` or `MANUAL`                          | `AUTO`      |         |
+| `SITE_URL`                 | The url your site listens on example `https://freescout.example.com`                            |             |         |
 
 
 ### Networking
