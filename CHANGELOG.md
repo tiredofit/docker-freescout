@@ -1,3 +1,10 @@
+## 1.17.13 2023-07-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.84
+      - Add PCNTL PHP extension for long running processes
+
+
 ## 1.17.12 2023-07-01 <dave at tiredofit dot ca>
 
    ### Added
