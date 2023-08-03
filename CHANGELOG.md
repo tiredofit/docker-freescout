@@ -1,3 +1,9 @@
+## 1.17.16 2023-08-03 <coolibre@github>
+
+   ### Changed
+      - Fix for admin user creation with postgresql
+
+
 ## 1.17.15 2023-07-17 <dave at tiredofit dot ca>
 
    ### Added
