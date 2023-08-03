@@ -236,7 +236,7 @@ silent sudo -u "${NGINX_USER}" php artisan storage:link
 ### Check to see if DB is populated
 if [ "${DB_TYPE}" = "mysql" ]; then
   mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
-elif [ "${DB_TYPE}" = "postgres" ]; then
+elif [ "${DB_TYPE,,}" = "pgsql" ] || [ "${DB_TYPE,,}" = "postgres" ]; then
   export PGPASSWORD="${DB_PASS}"
   psql --dbname=postgresql://$DB_USER@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT * FROM users;" > /dev/null 2>&1
 fi
