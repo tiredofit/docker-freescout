@@ -1,3 +1,9 @@
+## 1.17.17 2023-08-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.87
+
+
 ## 1.17.16 2023-08-03 <coolibre@github>
 
    ### Changed
