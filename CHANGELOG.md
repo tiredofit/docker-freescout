@@ -1,3 +1,9 @@
+## 1.17.27 2023-09-13 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Rebuild with tiredofit/nginx-php-fpm:7.6.15 to fix issue with Signal 15 errors when running long fetch operations.
+
+
 ## 1.17.26 2023-09-11 <dave at tiredofit dot ca>
 
    ### Added
