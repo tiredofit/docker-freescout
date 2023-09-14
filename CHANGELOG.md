@@ -1,3 +1,9 @@
+## 1.17.28 2023-09-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add build-assets folder during Dockerfile build
+
+
 ## 1.17.27 2023-09-13 <dave at tiredofit dot ca>
 
    ### Changed

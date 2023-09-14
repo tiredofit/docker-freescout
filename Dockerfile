@@ -28,6 +28,8 @@ ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.98"} \
     IMAGE_NAME="tiredofit/freescout" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-freescout/"
 
+ADD build-assets /
+
 RUN source /assets/functions/00-container && \
     set -x && \
     package update && \
@@ -52,7 +54,8 @@ RUN source /assets/functions/00-container && \
             && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
     package cleanup && \
-    rm -rf /root/.composer \
+    rm -rf /build-assets \
+           /root/.composer \
            /var/tmp/*
 
 COPY install /
