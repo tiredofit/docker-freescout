@@ -1,3 +1,10 @@
+## 1.17.30 2023-09-20 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix Dockerfile Formatting
+      - Refine build-assets folder
+
+
 ## 1.17.29 2023-09-15 <dave at tiredofit dot ca>
 
    ### Added
