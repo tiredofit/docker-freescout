@@ -28,7 +28,7 @@ ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.99"} \
     IMAGE_NAME="tiredofit/freescout" \
     IMAGE_REPO_URL="https://github.com/tiredofit/docker-freescout/"
 
-ADD build-assets /
+ADD build-assets /build-assets
 
 RUN source /assets/functions/00-container && \
     set -x && \
@@ -53,7 +53,7 @@ RUN source /assets/functions/00-container && \
             /assets/install/.env.travis \
             && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
-    package cleanup && \
+    cd package cleanup && \
     rm -rf /build-assets \
            /root/.composer \
            /var/tmp/*
