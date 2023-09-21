@@ -1,3 +1,9 @@
+## 1.17.31 2023-09-21 <dave at tiredofit dot ca>
+
+   ### Added
+      - Bump version number for dependencies
+
+
 ## 1.17.30 2023-09-20 <dave at tiredofit dot ca>
 
    ### Changed
