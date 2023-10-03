@@ -46,6 +46,7 @@ RUN source /assets/functions/00-container && \
     mkdir -p vendor/natxet/cssmin/src && \
     if [ -d "/build-assets/src" ] ; then cp -Rp /build-assets/src/* /assets/install ; fi; \
     if [ -d "/build-assets/scripts" ] ; then for script in /build-assets/scripts/*.sh; do echo "** Applying $script"; bash $script; done && \ ; fi ; \
+    if [ -d "/build-assets/custom-scripts" ] ; then mkdir -p /assets/custom-scripts ; cp -Rp /build-assets/custom-scripts/* /assets/custom-scripts ; fi; \
     composer install --ignore-platform-reqs && \
     php artisan freescout:build && \
     rm -rf \

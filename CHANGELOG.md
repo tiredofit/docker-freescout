@@ -1,3 +1,9 @@
+## 1.17.33 2023-10-03 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add functionality to copy build-assets/custom-scripts for customization purposes
+
+
 ## 1.17.32 2023-09-23 <dave at tiredofit dot ca>
 
    ### Added
