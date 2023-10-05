@@ -1,3 +1,12 @@
+## 1.17.34 2023-10-05 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.101
+
+   ### Changed
+      - Adjust nginx configuration to support secure storage uploads
+
+
 ## 1.17.33 2023-10-03 <dave at tiredofit dot ca>
 
    ### Added
