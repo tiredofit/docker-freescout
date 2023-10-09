@@ -1,3 +1,9 @@
+## 1.17.37 2023-10-09 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Maintenance release, fix earlier releases
+
+
 ## 1.17.36 2023-10-08 <dave at tiredofit dot ca>
 
    ### Added
