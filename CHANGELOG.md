@@ -1,3 +1,12 @@
+## 1.17.38 2023-10-13 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.104
+
+   ### Changed
+      - Updated nginx config
+
+
 ## 1.17.37 2023-10-09 <dave at tiredofit dot ca>
 
    ### Changed
