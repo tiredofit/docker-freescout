@@ -1,3 +1,9 @@
+## 1.17.40 2023-10-23 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Repush of 1.17.39
+
+
 ## 1.17.39 2023-10-23 <dave at tiredofit dot ca>
 
    ### Added

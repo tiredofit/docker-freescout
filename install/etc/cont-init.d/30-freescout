@@ -162,7 +162,6 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
         else
             sed -i --follow-symlinks "s#APP_X_FRAME_OPTIONS=.*#APP_X_FRAME_OPTIONS=${APP_X_FRAME_OPTIONS}#g" "${NGINX_WEBROOT}"/.env
         fi
-
     else
         print_info "Skipping Auto configuration and using in place .env"
     fi
