@@ -1,3 +1,10 @@
+## 1.17.39 2023-10-23 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.105
+      - Add new APP_X_FRAME_OPTIONS environment variable to support embedding in Iframes
+
+
 ## 1.17.38 2023-10-13 <dave at tiredofit dot ca>
 
    ### Added

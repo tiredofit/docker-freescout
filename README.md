@@ -126,6 +126,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `APPLICATION_NAME`         | Change default application name - Default `Freescout`                                           | `freescout` |         |
 | `APP_PROXY`                | Allow Application to use a proxy for fetching modules                                           |             |         |
 | `APP_NEW_FETCHING_LIBRARY` | Sets FreeScout's new_fetching_library config option                                             | `FALSE`     |         |
+| `APP_X_FRAME_OPTIONS`      | Allow to embed via iframes `TRUE` `FALSE` `DENY` `ALLOW FROM example.org`                       | `TRUE`
 | `DB_TYPE`                  | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |         |
 | `DB_PGSQL_SSL_MODE`        | Postgresql TLS Mode                                                                             | `prefer`    |         |
 | `DB_HOST`                  | Host or container name of the Databse Server e.g. `freescout-db`                                |             | x       |
