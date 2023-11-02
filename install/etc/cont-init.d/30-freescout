@@ -230,7 +230,7 @@ fi
 
 ## Removals
 # 1.8.78
-sed -i --follow-symlinks "APP_FORCE_HTTP=/d" "${NGINX_WEBROOT}"/.env
+sed -i --follow-symlinks "/APP_FORCE_HTTP=/d" "${NGINX_WEBROOT}"/.env
 
 ### Cleanup
 cd "${NGINX_WEBROOT}"/
