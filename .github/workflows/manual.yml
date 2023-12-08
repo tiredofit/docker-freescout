@@ -9,16 +9,12 @@ on:
         description: 'Manual Build'
         required: false
 jobs:
-  php74:
-    uses: tiredofit/github_actions/.github/workflows/php74_alpine_amd64_armv7_arm64.yml@main
-    secrets: inherit
-  php80:
-    uses: tiredofit/github_actions/.github/workflows/php80_alpine_amd64_armv7_arm64.yml@main
-    secrets: inherit
   php81:
-    uses: tiredofit/github_actions/.github/workflows/php81_alpine_amd64_armv7_arm64.yml@main
+    uses: tiredofit/github_actions/.github/workflows/php81_alpine_amd64_arm64.yml@main
     secrets: inherit
   php82:
-    uses: tiredofit/github_actions/.github/workflows/php82_alpine_amd64_armv7_arm64.yml@main
+    uses: tiredofit/github_actions/.github/workflows/php82_alpine_amd64_arm64.yml@main
     secrets: inherit
-
+  php83:
+    uses: tiredofit/github_actions/.github/workflows/php83_alpine_amd64_arm64.yml@main
+    secrets: inherit
