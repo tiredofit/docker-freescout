@@ -55,6 +55,7 @@ RUN source /assets/functions/00-container && \
             && \
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" /assets/install && \
     package cleanup && \
+    \
     rm -rf /build-assets \
            /root/.composer \
            /var/tmp/*
