@@ -1,3 +1,14 @@
+## 1.17.47 2023-12-12 <dave at tiredofit dot ca>
+
+PHP 7.4 and PHP 8.0 variants have been dropped
+arm/v7 support has been removed
+PHP 8.3 variant is available with this release
+
+   ### Changed
+      - Fix to 'unknown command' upon startup #152
+      - Resolve default naming for APP_X_FRAME_OPTIONS
+
+
 ## 1.17.46 2023-12-08 <dave at tiredofit dot ca>
 
    ### Added
