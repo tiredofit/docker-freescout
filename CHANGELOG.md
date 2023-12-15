@@ -1,3 +1,9 @@
+## 1.17.48 2023-12-15 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.113
+
+
 ## 1.17.47 2023-12-12 <dave at tiredofit dot ca>
 
 PHP 7.4 and PHP 8.0 variants have been dropped
