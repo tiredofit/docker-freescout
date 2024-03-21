@@ -1,3 +1,9 @@
+## 1.17.59 2024-03-21 <janwillemvd@github>
+
+   ### Added
+      - Add support for APP_TRUSTED_PROXIES
+
+
 ## 1.17.58 2024-03-18 <dave at tiredofit dot ca>
 
    ### Added
