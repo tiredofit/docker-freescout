@@ -201,6 +201,10 @@ else
         echo "APP_PROXY=${APP_PROXY}" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
+    if [ -n "${APP_TRUSTED_PROXIES}" ] ; then
+        echo "APP_TRUSTED_PROXIES=${APP_TRUSTED_PROXIES}" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+    fi
+
     if var_true "${APP_DEBUG}" || var_true "${DISPLAY_ERRORS}" ; then
         echo "APP_DEBUG=true" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     else
