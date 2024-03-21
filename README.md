@@ -125,6 +125,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `ADMIN_PASS`               | Administrator Password - Needed for Logging in                                                  |             | x       |
 | `APPLICATION_NAME`         | Change default application name - Default `Freescout`                                           | `freescout` |         |
 | `APP_PROXY`                | Allow Application to use a proxy for fetching modules                                           |             |         |
+| `APP_TRUSTED_PROXIES`      | Comma separated list of trusted proxies, i.e. `192.168.1.1,192.168.1.2,192.168.1.3`             |             |         |
 | `APP_NEW_FETCHING_LIBRARY` | Sets FreeScout's new_fetching_library config option                                             | `FALSE`     |         |
 | `APP_X_FRAME_OPTIONS`      | Allow to embed via iframes `TRUE` `FALSE` `DENY` `ALLOW FROM example.org`                       | `TRUE`
 | `DB_TYPE`                  | Type of the Database. Currently supported are `mysql` and `pgsql`                               | `mysql`     |         |
