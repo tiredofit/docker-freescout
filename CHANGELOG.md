@@ -1,3 +1,9 @@
+## 1.17.60 2024-03-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.128
+
+
 ## 1.17.59 2024-03-21 <janwillemvd@github>
 
    ### Added
