@@ -1,3 +1,9 @@
+## 1.17.71 2024-05-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Rerelease of Freescout 1.8.139
+
+
 ## 1.17.70 2024-05-10 <dave at tiredofit dot ca>
 
    ### Added
