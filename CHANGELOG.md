@@ -1,3 +1,12 @@
+## 1.17.72 2024-05-16 <dave at tiredofit dot ca>
+
+   ### Added
+      - Freescout 1.8.140
+
+   ### Changed
+      - Force TRUE to APP_NEW_FETCHING_LIBRARY
+
+
 ## 1.17.71 2024-05-14 <dave at tiredofit dot ca>
 
    ### Added
