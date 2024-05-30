@@ -10,7 +10,7 @@
 * * *
 ## About
 
-This will build a Docker Image for [Freescout](https://freescout.net/) - An open source Helpscout / Zendesk alternative.
+This will build a Docker Image for [FreeScout](https://freescout.net/) - An open source Helpscout / Zendesk alternative.
 
 * Automatically installs and sets up installation upon first start
 

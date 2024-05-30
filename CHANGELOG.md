@@ -1,3 +1,10 @@
+## 1.17.73 2024-05-30 <dave at tiredofit dot ca>
+
+   ### Added
+      - FreeScout 1.8.141
+      - Change APP_NAME from Freescout to FreeScout (#181)
+
+
 ## 1.17.72 2024-05-16 <dave at tiredofit dot ca>
 
    ### Added
