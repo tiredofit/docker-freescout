@@ -1,3 +1,9 @@
+## 1.17.85 2024-08-30 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix issue with upstream tiredofit/nginx-php-fpm not being able to handle php package upgrades without performing custodial duties first
+
+
 ## 1.17.84 2024-08-28 <dave at tiredofit dot ca>
 
    ### Added
