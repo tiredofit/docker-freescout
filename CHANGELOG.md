@@ -1,3 +1,11 @@
+## 1.17.87 2024-09-22 <dave at tiredofit dot ca>
+
+Now using PHP 8.3 as base
+
+   ### Changed
+      - Fix for previous release with composer depdendencies not proceeding
+
+
 ## 1.17.86 2024-09-22 <dave at tiredofit dot ca>
 
    ### Added
