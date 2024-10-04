@@ -1,3 +1,10 @@
+## 1.17.88 2024-10-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - FreeScout 1.8.154
+      - Pin to tiredofit/nginx-php-fpm:8.3-alpine-7.7.12
+
+
 ## 1.17.87 2024-09-22 <dave at tiredofit dot ca>
 
 Now using PHP 8.3 as base
