@@ -1,12 +1,12 @@
 ARG PHP_VERSION=8.3
 ARG DISTRO="alpine"
 
-FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-7.7.12
+FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-7.7.13
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG FREESCOUT_VERSION
 
-ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.155"} \
+ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.156"} \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     NGINX_SITE_ENABLED=freescout \
@@ -41,6 +41,9 @@ RUN source /assets/functions/00-container && \
                 sed \
                 && \
     \
+    php-ext prepare && \
+    php-ext reset && \
+    php-ext enable core && \
     php-ext enable core && \
     clone_git_repo ${FREESCOUT_REPO_URL} ${FREESCOUT_VERSION} /assets/install && \
     mkdir -p vendor/natxet/cssmin/src && \

@@ -1,3 +1,13 @@
+## 1.17.90 2024-11-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - Free Scout 1.8.156
+      - Pin to tiredofit/nginx-php-fpm:7.7.13
+
+   ### Changed
+      - Add some PHP Extension checks to avoid any warnings
+
+
 ## 1.17.89 2024-11-01 <dave at tiredofit dot ca>
 
    ### Added
