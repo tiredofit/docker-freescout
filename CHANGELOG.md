@@ -1,3 +1,9 @@
+## 1.17.91 2024-11-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add PHP Posix Module (#198)
+
+
 ## 1.17.90 2024-11-04 <dave at tiredofit dot ca>
 
    ### Added
