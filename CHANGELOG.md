@@ -1,3 +1,9 @@
+## 1.17.92 2024-11-08 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Fix spelling mistake when enabling PHP_POSIX
+
+
 ## 1.17.91 2024-11-06 <dave at tiredofit dot ca>
 
    ### Added
