@@ -1,3 +1,12 @@
+## 1.17.94 2024-11-22 <dave at tiredofit dot ca>
+
+   ### Added
+      - Free Scout 1.8.158
+
+   ### Changed
+      - Remove APP_NEW_FETCHING_LIBRARY environment variable
+
+
 ## 1.17.93 2024-11-15 <dave at tiredofit dot ca>
 
    ### Added
