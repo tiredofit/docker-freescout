@@ -155,6 +155,12 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
         else
             sed -i --follow-symlinks "s#APP_X_FRAME_OPTIONS=.*#APP_X_FRAME_OPTIONS=${APP_X_FRAME_OPTIONS}#g" "${NGINX_WEBROOT}"/.env
         fi
+
+        if ! grep -q "APP_SINCE_WITHOUT_QUOTES_ON_FETCHING" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
+            echo "APP_SINCE_WITHOUT_QUOTES_ON_FETCHING=${APP_SINCE_WITHOUT_QUOTES_ON_FETCHING}" | sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
+        else
+            sed -i --follow-symlinks "s#APP_SINCE_WITHOUT_QUOTES_ON_FETCHING=.*#APP_SINCE_WITHOUT_QUOTES_ON_FETCHING=${APP_SINCE_WITHOUT_QUOTES_ON_FETCHING}#g" "${NGINX_WEBROOT}"/.env
+        fi
     else
         print_info "Skipping Auto configuration and using in place .env"
     fi

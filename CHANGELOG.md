@@ -1,3 +1,9 @@
+## 1.17.95 2024-11-25 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add APP_SINCE_WITHOUT_QUOTES_ON_FETCHING environment variable
+
+
 ## 1.17.94 2024-11-22 <dave at tiredofit dot ca>
 
    ### Added
