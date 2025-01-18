@@ -1,3 +1,9 @@
+## 1.17.101 2025-01-18 <dave at tiredofit dot ca>
+
+   ### Added
+      - Docker Freescout 1.8.165
+
+
 ## 1.17.100 2025-01-17 <dave at tiredofit dot ca>
 
    ### Added
