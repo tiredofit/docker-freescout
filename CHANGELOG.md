@@ -1,3 +1,10 @@
+## 1.17.100 2025-01-17 <dave at tiredofit dot ca>
+
+   ### Added
+      - Free Scout 1.8.164
+      - Pin to tiredofit/nginx-php-fpm:7.7.17
+
+
 ## 1.17.99 2025-01-17 <dave at tiredofit dot ca>
 
    ### Added
