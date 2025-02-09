@@ -31,6 +31,9 @@ services:
     - DISPLAY_ERRORS=FALSE
     - TIMEZONE=America/Vancouver
     restart: always
+    networks:
+      - freescout-net
+      - nginx-net
 
   freescout-db:
     image: tiredofit/mariadb
@@ -45,6 +48,8 @@ services:
 
       - CONTAINER_NAME=freescout-db
     restart: always
+    networks:
+      - freescout-net
 
   freescout-db-backup:
     container_name: freescout-db-backup
@@ -66,3 +71,43 @@ services:
       - COMPRESSION=BZ
       - MD5=TRUE
     restart: always
+    networks:
+      - freescout-net
+
+  borgmatic-freescout:
+    image: ghcr.io/borgmatic-collective/borgmatic
+    container_name: borgmatic-freescout
+    hostname: borgmatic-freescout
+    restart: always
+    links:
+      - freescout-db
+    volumes:
+      - ./data:/mnt/source/data
+      #- ./data2:/mnt/source/www/html
+      - ./logs:/mnt/source/www/logs
+      - ./db:/mnt/source/var/lib/mysql
+      - ./dbbackup:/mnt/source/backup
+      - borg-config-vol-1:/root/.config/borg
+      - borg-cache-vol-1:/root/.cache/borg
+      - ./borgmatic_freescout:/etc/borgmatic.d:Z
+      - ./borgmatic_freescout/ssh:/root/.ssh:Z
+    environment:
+      - TZ=Europe/Berlin
+      - BORG_PASSPHRASE=averylongpassword
+    networks:
+      - freescout-net
+      
+volumes:
+  data:
+  data2:
+  logs:
+  db:
+  dbbackup:
+  borg-cache-vol-1:
+  borg-config-vol-1:
+
+networks:
+  freescout-net:
+    internal: true
+  nginx-net:
+    external: true
