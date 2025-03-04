@@ -1,3 +1,9 @@
+## 1.17.109 2025-03-04 <glyras@github>
+
+   ### Added
+      - Add SKIP_STORAGE_PERMISSIONS environment variable to avoid running costly permission changing operations for remote filesystems
+
+
 ## 1.17.108 2025-02-28 <dave at tiredofit dot ca>
 
    ### Added
