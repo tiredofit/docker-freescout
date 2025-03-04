@@ -270,8 +270,12 @@ if [ $? -gt 0 ]; then
 fi
 
 cd "${NGINX_WEBROOT}"
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" storage bootstrap/cache public/css/builds public/js/builds
-chmod -R ug+rwx storage bootstrap/cache public/css/builds public/js/builds
+chown -R "${NGINX_USER}":"${NGINX_GROUP}" bootstrap/cache public/css/builds public/js/builds
+chmod -R ug+rwx bootstrap/cache public/css/builds public/js/builds
+if [ -z ${SKIP_STORAGE_PERMISSIONS} ]; then
+  chown -R "${NGINX_USER}":"${NGINX_GROUP}" storage
+  chmod -R ug+rwx storage
+fi
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 chmod ug+rwx "${NGINX_WEBROOT}"
 
