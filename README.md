@@ -139,6 +139,7 @@ Be sure to view the following repositories to understand all the customizable op
 | `ENABLE_AUTO_UPDATE`                   | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |         |
 | `SETUP_TYPE`                           | Automatically edit configuration after first bootup `AUTO` or `MANUAL`                          | `AUTO`      |         |
 | `SITE_URL`                             | The url your site listens on example `https://freescout.example.com`                            |             |         |
+| `SKIP_STORAGE_PERMISSIONS`             | Skip applying permission to storage path, e.g. for instances involving large storage paths      |             |         |
 
 
 ### Networking
