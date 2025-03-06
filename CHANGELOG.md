@@ -1,3 +1,12 @@
+## 1.17.110 2025-03-06 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add DB_SSL (default FALSE) environment variable to allow accomodate for MariaDB client defaulting to want to connect to SSL enabled host
+
+   ### Changed
+      - Rework SKIP_STORAGE_PERMISSIONS check introduced in last release to a TRUE/FALSE option
+
+
 ## 1.17.109 2025-03-04 <glyras@github>
 
    ### Added

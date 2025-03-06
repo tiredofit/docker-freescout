@@ -243,10 +243,18 @@ silent sudo -u "${NGINX_USER}" php artisan storage:link
 
 ### Check to see if DB is populated
 if [ "${DB_TYPE}" = "mysql" ]; then
-  mysql -u $DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
+    case "${DB_SSL,,}" in
+        true )
+            _mysql_ssl="--ssl"
+        ;;
+        false )
+            _mysql_ssl="--skip-ssl"
+        ;;
+    esac
+    mysql ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "use "$DB_NAME"; SELECT * FROM users;" > /dev/null 2>&1
 elif [ "${DB_TYPE,,}" = "pgsql" ] || [ "${DB_TYPE,,}" = "postgres" ]; then
-  export PGPASSWORD="${DB_PASS}"
-  psql --dbname=postgresql://$DB_USER@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT * FROM users;" > /dev/null 2>&1
+    export PGPASSWORD="${DB_PASS}"
+    psql --dbname=postgresql://$DB_USER@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT * FROM users;" > /dev/null 2>&1
 fi
 
 if [ $? -gt 0 ]; then
@@ -272,10 +280,11 @@ fi
 cd "${NGINX_WEBROOT}"
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" bootstrap/cache public/css/builds public/js/builds
 chmod -R ug+rwx bootstrap/cache public/css/builds public/js/builds
-if [ -z ${SKIP_STORAGE_PERMISSIONS} ]; then
+if var_false "${SKIP_STORAGE_PERMISSIONS}" ; then
   chown -R "${NGINX_USER}":"${NGINX_GROUP}" storage
   chmod -R ug+rwx storage
 fi
+
 chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 chmod ug+rwx "${NGINX_WEBROOT}"
 

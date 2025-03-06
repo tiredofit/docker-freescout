@@ -135,11 +135,12 @@ Be sure to view the following repositories to understand all the customizable op
 | `DB_NAME`                              | Database name e.g. `freescout`                                                                  |             | x       |
 | `DB_USER`                              | Username for above Database e.g. `freescout`                                                    |             | x       |
 | `DB_PASS`                              | Password for above Database e.g. `password`                                                     |             | x       |
+| `DB_SSL` | Used to enable SSL support for MySQL and MariaDB databases | `FALSE` | |
 | `DISPLAY_ERRORS`                       | Display Errors on Website                                                                       | `FALSE`     |         |
 | `ENABLE_AUTO_UPDATE`                   | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |         |
 | `SETUP_TYPE`                           | Automatically edit configuration after first bootup `AUTO` or `MANUAL`                          | `AUTO`      |         |
 | `SITE_URL`                             | The url your site listens on example `https://freescout.example.com`                            |             |         |
-| `SKIP_STORAGE_PERMISSIONS`             | Skip applying permission to storage path, e.g. for instances involving large storage paths      |             |         |
+| `SKIP_STORAGE_PERMISSIONS`             | Skip applying permission to storage path, e.g. for instances involving large storage paths      | `FALSE`            |         |
 
 
 ### Networking
