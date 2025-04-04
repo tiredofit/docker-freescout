@@ -1,3 +1,9 @@
+## 1.17.111 2025-04-04 <dave at tiredofit dot ca>
+
+   ### Added
+      - Free Scout 1.8.174
+
+
 ## 1.17.110 2025-03-06 <dave at tiredofit dot ca>
 
    ### Added
