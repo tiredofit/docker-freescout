@@ -1,12 +1,12 @@
 ARG PHP_VERSION=8.3
 ARG DISTRO="alpine"
 
-FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-7.7.17
+FROM docker.io/tiredofit/nginx-php-fpm:${PHP_VERSION}-${DISTRO}-7.7.18
 LABEL maintainer="Dave Conroy (github.com/tiredofit)"
 
 ARG FREESCOUT_VERSION
 
-ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.174"} \
+ENV FREESCOUT_VERSION=${FREESCOUT_VERSION:-"1.8.175"} \
     FREESCOUT_REPO_URL=https://github.com/freescout-helpdesk/freescout \
     NGINX_WEBROOT=/www/html \
     NGINX_SITE_ENABLED=freescout \
