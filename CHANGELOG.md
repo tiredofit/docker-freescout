@@ -1,3 +1,9 @@
+## 1.17.113 2025-04-27 <dave at tiredofit dot ca>
+
+   ### Added
+      - Bump base image version
+
+
 ## 1.17.112 2025-04-26 <dave at tiredofit dot ca>
 
    ### Added
