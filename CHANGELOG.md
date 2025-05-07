@@ -1,3 +1,9 @@
+## 1.17.114 2025-05-07 <dave at tiredofit dot ca>
+
+   ### Added
+      - Add EXPERIMENTAL_CRON_BACKGROUND undocumented variable to send artisan schedule:run to background with cron in attempt to address #199
+
+
 ## 1.17.113 2025-04-27 <dave at tiredofit dot ca>
 
    ### Added
