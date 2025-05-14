@@ -1,3 +1,9 @@
+## 1.17.117 2025-05-14 <dave at tiredofit dot ca>
+
+   ### Added
+      - Actually use FreeScout 1.8.177
+
+
 ## 1.17.116 2025-05-13 <dave at tiredofit dot ca>
 
    ### Added
