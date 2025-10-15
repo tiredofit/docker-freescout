@@ -1,0 +1,43 @@
+1. Create ssh keys without! password
+
+server> ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+cb:3c:a0:39:69:39:ec:35:d5:66:f3:c5:92:99:2f:e1 root@server
+The key's randomart image is:
++--[ RSA 2048]----+
+|                 |
+|                 |
+|                 |
+|         .   =   |
+|      . S = * o  |
+|   . = = + + =   |
+|    X o =   E .  |
+|   o + . .   .   |
+|    .            |
++-----------------+
+
+2. Upload ssh public key to your backup server
+
+Alternate 1:
+server> cat ~/.ssh/id_rsa.pub | ssh -p22 to-your-backup-serverc.com: install-ssh-key
+to-your-backup-server's password:
+Key No. 1 (ssh-rsa user@host) was installed in RFC4716 format
+Key No. 1 (ssh-rsa user@host) was installed in OpenSSH for
+
+Alternate 2:
+ssh-copy-id -p 22 -s to-your-backup-server.com
+
+Alternate 3:
+ssh -p 23 to-your-backup-serverc.com mkdir .ssh
+scp -P 23 .ssh/id_rsa.pub to-your-backup-serverc.com:.ssh/authorized_keys
+
+3. Test your connection and it should login without asking for password:
+ssh to-your-backup-serverc.com
+
+4. Go back to Readme for Borgmatic Backup
