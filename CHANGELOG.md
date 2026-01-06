@@ -1,3 +1,9 @@
+## 1.17.140 2026-01-05 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Change database engine check installation routines (#234)
+
+
 ## 1.17.139 2026-01-05 <dave at tiredofit dot ca>
 
    ### Added
