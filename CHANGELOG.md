@@ -1,3 +1,10 @@
+## 1.17.141 2026-01-09 <dave at tiredofit dot ca>
+
+   ### Changed
+      - Optimize DB connection queries
+      - Fix issue introduced with previous version limiting ADMIN_USER from being created on first install
+
+
 ## 1.17.140 2026-01-05 <dave at tiredofit dot ca>
 
    ### Changed

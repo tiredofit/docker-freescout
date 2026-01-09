@@ -45,8 +45,8 @@ if [ ! -f "${NGINX_WEBROOT}/server.php" ]; then
     chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 else
     if [ "$ENABLE_AUTO_UPDATE" = "TRUE" ]; then
-        if [ "$FREESCOUT_VERSION" != $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk '{print $1'}) ]; then
-            print_warn "Detected in place Freescout version $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk "{print $1"}) - Upgrading to ${FREESCOUT_VERSION}"
+        if [ "$FREESCOUT_VERSION" != "$(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk '{print $1}')" ]; then
+            print_warn "Detected in place Freescout version $(head -n 1 "${NGINX_WEBROOT}"/.freescout-version | awk '{print $1}') - Upgrading to ${FREESCOUT_VERSION}"
             cp -R /assets/install/* "${NGINX_WEBROOT}"
             chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
             cd "${NGINX_WEBROOT}"|| exit
@@ -105,7 +105,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#APP_URL=.*#APP_URL=${SITE_URL}#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        case $(echo ${SITE_URL,,} | cut -d : -f1) in
+        case $(echo "${SITE_URL,,}" | cut -d : -f1) in
             http )
                 sed -i --follow-symlinks "s#SESSION_SECURE_COOKIE=.*#SESSION_SECURE_COOKIE=false#g" "${NGINX_WEBROOT}"/.env
                 ;;
@@ -120,7 +120,7 @@ if grep -q "APP_URL" "${NGINX_WEBROOT}"/.env > /dev/null 2>&1; then
             sed -i --follow-symlinks "s#APP_DEBUG=.*#APP_DEBUG=false#g" "${NGINX_WEBROOT}"/.env
         fi
 
-        if [ "$DB_TYPE,,}" = "pgsql" ] ; then
+        if [ "${DB_TYPE,,}" = "pgsql" ] ; then
             if ! grep -Fxrq "DB_PGSQL_SSL_MODE=" "${NGINX_WEBROOT}"/.env ; then
                 sed -i --follow-symlinks "/DB_TYPE=pgsql/a DB_PGSQL_SSL_MODE=${DB_PGSQL_SSL_MODE}" "${NGINX_WEBROOT}"/.env
             else
@@ -187,7 +187,7 @@ else
         echo "APP_URL=$SITE_URL" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
     fi
 
-    case $(echo ${SITE_URL,,} | cut -d : -f1) in
+    case $(echo "${SITE_URL,,}" | cut -d : -f1) in
         http )
             echo "SESSION_SECURE_COOKIE=false" | silent sudo -u "${NGINX_USER}" tee -a "${NGINX_WEBROOT}"/.env
             ;;
@@ -242,43 +242,49 @@ silent sudo -u "${NGINX_USER}" php artisan config:clear
 silent sudo -u "${NGINX_USER}" php artisan storage:link
 
 ### Check to see if DB is populated
-if [ "${SEETUP_TYPE,,}" = "auto" ]; then
-    if [ "${DB_TYPE}" = "mysql" ]; then
-        case "${DB_SSL,,}" in
-            true )
-                _mysql_ssl="--ssl"
-            ;;
-            false )
-                _mysql_ssl="--skip-ssl"
-            ;;
-        esac
-            mysql ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SELECT 1;" "$DB_NAME" > /dev/null 2>&1
-            if [ ${?} -eq 0 ]; then
-                if mysql ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SHOW TABLES LIKE 'users';" "$DB_NAME" | grep -q '^users$'; then
+if [ "${SETUP_TYPE,,}" = "auto" ]; then
+    case "${DB_TYPE,,}" in
+        mariadb | mysql )
+            DB_TYPE="mariadb"
+            case "${DB_SSL,,}" in
+                true )
+                    _mysql_ssl="--ssl"
+                ;;
+                false )
+                    _mysql_ssl="--skip-ssl"
+                ;;
+            esac
+            if mariadb ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SELECT 1;" "$DB_NAME" > /dev/null 2>&1; then
+                if mariadb ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SHOW TABLES LIKE 'users';" "$DB_NAME" | grep -q '^users$'; then
                     DB_POPULATED=true
                 else
                     DB_POPULATED=false
                 fi
             else
                 print_error "Can't connect to DB_HOST - Check settings - exiting.."
-                mysql ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SELECT 1;" "$DB_NAME"
+                mariadb ${_mysql_ssl} -u$DB_USER -p$DB_PASS -h$DB_HOST -P$DB_PORT -e "SELECT 1;" "$DB_NAME"
                 exit 1
             fi
-    elif [ "${DB_TYPE,,}" = "pgsql" ] || [ "${DB_TYPE,,}" = "postgres" ]; then
-        export PGPASSWORD="${DB_PASS}"
-        psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT 1;" > /dev/null 2>&1
-        if [ ${?} -eq 0 ]; then
-            if psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -tAc "SELECT to_regclass('public.users');" | grep -q '^users$'; then
-                DB_POPULATED=true
+        ;;
+        psql | pgsql | postgres* )
+            export PGPASSWORD="${DB_PASS}"
+            if psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT 1;" > /dev/null 2>&1; then
+                if psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -tAc "SELECT to_regclass('public.users');" | grep -q '^users$'; then
+                    DB_POPULATED=true
+                else
+                    DB_POPULATED=false
+                fi
             else
-                DB_POPULATED=false
+                print_error "Can't connect to DB_HOST - Check settings - exiting.."
+                psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT 1;" > /dev/null 2>&1
+                exit 1
             fi
-        else
-            print_error "Can't connect to DB_HOST - Check settings - exiting.."
-            psql --dbname=postgresql://$DB_USER:$DB_PASS@$DB_HOST:$DB_PORT/$DB_NAME -c "SELECT 1;" > /dev/null 2>&1
+        ;;
+        * )
+            print_error "Unsupported DB_TYPE ${DB_TYPE} - exiting"
             exit 1
-        fi
-    fi
+        ;;
+    esac
 
     if [ "${DB_POPULATED}" = "false" ]; then
         print_warn "Detected empty Database - Setting up - Please wait.."

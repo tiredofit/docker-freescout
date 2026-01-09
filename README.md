@@ -8,6 +8,7 @@
 [![Paypal Donate](https://img.shields.io/badge/donate-paypal-00457c.svg?logo=paypal&style=flat-square)](https://www.paypal.me/tiredofit)
 
 * * *
+
 ## About
 
 This will build a Docker Image for [FreeScout](https://freescout.net/) - An open source Helpscout / Zendesk alternative.
@@ -16,47 +17,49 @@ This will build a Docker Image for [FreeScout](https://freescout.net/) - An open
 
 ## Maintainer
 
-- [Dave Conroy](https://github.com/tiredofit)
+* [Dave Conroy](https://github.com/tiredofit)
 
 ## Table of Contents
 
-
-- [About](#about)
-- [Maintainer](#maintainer)
-- [Table of Contents](#table-of-contents)
-- [Prerequisites and Assumptions](#prerequisites-and-assumptions)
-- [Installation](#installation)
-  - [Build from Source](#build-from-source)
-  - [Prebuilt Images](#prebuilt-images)
-- [Configuration](#configuration)
-  - [Quick Start](#quick-start)
-  - [Persistent Storage](#persistent-storage)
-  - [Environment Variables](#environment-variables)
-    - [Base Images used](#base-images-used)
-  - [Networking](#networking)
-- [Maintenance](#maintenance)
-  - [Shell Access](#shell-access)
-- [Support](#support)
-  - [Usage](#usage)
-  - [Bugfixes](#bugfixes)
-  - [Feature Requests](#feature-requests)
-  - [Updates](#updates)
-- [License](#license)
-- [References](#references)
+* [About](#about)
+* [Maintainer](#maintainer)
+* [Table of Contents](#table-of-contents)
+* [Prerequisites and Assumptions](#prerequisites-and-assumptions)
+* [Installation](#installation)
+  * [Build from Source](#build-from-source)
+  * [Prebuilt Images](#prebuilt-images)
+* [Configuration](#configuration)
+  * [Quick Start](#quick-start)
+  * [Persistent Storage](#persistent-storage)
+  * [Environment Variables](#environment-variables)
+    * [Base Images used](#base-images-used)
+  * [Networking](#networking)
+* [Maintenance](#maintenance)
+  * [Shell Access](#shell-access)
+* [Support](#support)
+  * [Usage](#usage)
+  * [Bugfixes](#bugfixes)
+  * [Feature Requests](#feature-requests)
+  * [Updates](#updates)
+* [License](#license)
+* [References](#references)
 
 ## Prerequisites and Assumptions
-*  Assumes you are using some sort of SSL terminating reverse proxy such as:
-   *  [Traefik](https://github.com/tiredofit/docker-traefik)
-   *  [Nginx](https://github.com/jc21/nginx-proxy-manager)
-   *  [Caddy](https://github.com/caddyserver/caddy)
-*  Requires access to a MySQL/MariaDB or Postgres Server
+
+* Assumes you are using some sort of SSL terminating reverse proxy such as:
+  * [Traefik](https://github.com/nfrastack/container-traefik)
+  * [Nginx](https://github.com/jc21/nginx-proxy-manager)
+  * [Caddy](https://github.com/caddyserver/caddy)
+* Requires access to a MySQL/MariaDB or Postgres Server
 
 ## Installation
 
 ### Build from Source
+
 Clone this repository and build the image with `docker build -t (imagename) .`
 
 ### Prebuilt Images
+
 Builds of the image are available on [Docker Hub](https://hub.docker.com/r/tiredofit/freescout)
 
 ```bash
@@ -65,7 +68,7 @@ docker pull docker.io/tiredofit/freescout:(imagetag)
 
 Builds of the image are also available on the [Github Container Registry](https://github.com/tiredofit/docker-freescout/pkgs/container/docker-freescout)
 
-```
+```bash
 docker pull ghcr.io/tiredofit/docker-freescout:(imagetag)
 ```
 
@@ -79,17 +82,18 @@ The following image tags are available along with their tagged release based on 
 
 ### Quick Start
 
-- The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [docker-compose.yml](examples/docker-compose.yml) that can be modified for development or production use.
+* The quickest way to get started is using [docker-compose](https://docs.docker.com/compose/). See the examples folder for a working [compose.yml](examples/compose.yml) that can be modified for development or production use.
 
-- Set various [environment variables](#environment-variables) to understand the capabilities of this image.
-- Map [persistent storage](#data-volumes) for access to configuration and data files for backup.
-- Make [networking ports](#networking) available for public access if necessary
+* Set various [environment variables](#environment-variables) to understand the capabilities of this image.
+* Map [persistent storage](#persistent-storage) for access to configuration and data files for backup.
+* Make [networking ports](#networking) available for public access if necessary
 
 **The first boot can take from 2 minutes - 5 minutes depending on your CPU to setup the proper schemas.**
 
-- Login to the web server and enter in your admin email address, admin password and start configuring the system!
+* Login to the web server and enter in your admin email address, admin password and start configuring the system!
 
 ### Persistent Storage
+
 The following directories are used for configuration and can be mapped for persistent storage.
 
 | Directory                | Description                                                                                                              |
@@ -116,7 +120,6 @@ Be sure to view the following repositories to understand all the customizable op
 | [Nginx](https://github.com/tiredofit/docker-nginx/)           | Nginx webserver                        |
 | [PHP-FPM](https://github.com/tiredofit/docker-nginx-php-fpm/) | PHP Interpreter                        |
 
-
 | Parameter                              | Description                                                                                     | Default     | `_FILE` |
 | -------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- | ------- |
 | `ADMIN_EMAIL`                          | Administrator Email Address - Needed for logging in                                             |             | x       |
@@ -135,13 +138,12 @@ Be sure to view the following repositories to understand all the customizable op
 | `DB_NAME`                              | Database name e.g. `freescout`                                                                  |             | x       |
 | `DB_USER`                              | Username for above Database e.g. `freescout`                                                    |             | x       |
 | `DB_PASS`                              | Password for above Database e.g. `password`                                                     |             | x       |
-| `DB_SSL` | Used to enable SSL support for MySQL and MariaDB databases | `FALSE` | |
+| `DB_SSL`                               | Used to enable SSL support for MySQL and MariaDB databases                                      | `FALSE`     |         |
 | `DISPLAY_ERRORS`                       | Display Errors on Website                                                                       | `FALSE`     |         |
 | `ENABLE_AUTO_UPDATE`                   | If coming from an earlier version of image, automatically update it to latest Freescout release | `TRUE`      |         |
 | `SETUP_TYPE`                           | Automatically edit configuration after first bootup `AUTO` or `MANUAL`                          | `AUTO`      |         |
 | `SITE_URL`                             | The url your site listens on example `https://freescout.example.com`                            |             |         |
-| `SKIP_STORAGE_PERMISSIONS`             | Skip applying permission to storage path, e.g. for instances involving large storage paths      | `FALSE`            |         |
-
+| `SKIP_STORAGE_PERMISSIONS`             | Skip applying permission to storage path, e.g. for instances involving large storage paths      | `FALSE`     |         |
 
 ### Networking
 
@@ -152,6 +154,7 @@ The following ports are exposed.
 | `80` | HTTP        |
 
 * * *
+
 ## Maintenance
 
 ### Shell Access
@@ -161,24 +164,35 @@ For debugging and maintenance purposes you may want access the containers shell.
 ``bash
 docker exec -it (whatever your container name is) bash
 ``
+
 ## Support
 
 These images were built to serve a specific need in a production environment and gradually have had more functionality added based on requests from the community.
+
 ### Usage
-- The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
-- [Sponsor me](https://tiredofit.ca/sponsor) for personalized support
+
+* The [Discussions board](../../discussions) is a great place for working with the community on tips and tricks of using this image.
+
+* [Sponsor me](https://tiredofit.ca/sponsor) for personalized support
+
 ### Bugfixes
-- Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
+
+* Please, submit a [Bug Report](issues/new) if something isn't working as expected. I'll do my best to issue a fix in short order.
 
 ### Feature Requests
-- Feel free to submit a feature request, however there is no guarantee that it will be added, or at what timeline.
-- [Sponsor me](https://tiredofit.ca/sponsor) regarding development of features.
+
+* Feel free to submit a feature request, however there is no guarantee that it will be added, or at what timeline.
+
+* [Sponsor me](https://tiredofit.ca/sponsor) regarding development of features.
 
 ### Updates
-- Best effort to track upstream changes, More priority if I am actively using the image in a production environment.
-- [Sponsor me](https://tiredofit.ca/sponsor) for up to date releases.
+
+* Best effort to track upstream changes, More priority if I am actively using the image in a production environment.
+
+* [Sponsor me](https://tiredofit.ca/sponsor) for up to date releases.
 
 ## License
+
 MIT. See [LICENSE](LICENSE) for more details.
 
 ## References

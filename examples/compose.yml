@@ -1,0 +1,76 @@
+services:
+
+  freescout-app:
+    image: docker.io/tiredofit/freescout
+    container_name: freescout-app
+    volumes:
+      - ./data:/data
+      - ./logs/:/www/logs
+    environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=freescout-app
+
+      - DB_HOST=freescout-db
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
+
+      - SITE_URL=https://freescout.example.com
+
+      - ADMIN_EMAIL=admin@admin.com
+      - ADMIN_PASS=freescout
+
+      - DISPLAY_ERRORS=FALSE
+
+      - ENABLE_SSL_PROXY=TRUE
+    networks:
+      - proxy
+      - services
+    restart: always
+
+  freescout-db:
+    image: docker.io/nfrastack/mariadb:10.11
+    container_name: freescout-db
+    volumes:
+      - ./db:/data
+    environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=freescout-db
+
+      - ROOT_PASS=password
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
+    networks:
+      - services
+    restart: always
+
+  freescout-db-backup:
+    container_name: freescout-db-backup
+    image: docker.io/tiredofit/db-backup
+    volumes:
+      - ./dbbackup:/backup
+    environment:
+      - TIMEZONE=America/Vancouver
+      - CONTAINER_NAME=freescout-db-backup
+
+      - DB01_HOST=freescout-db
+      - DB01_TYPE=mariadb
+      - DB01_NAME=freescout
+      - DB01_USER=freescout
+      - DB01_PASS=freescout
+      - DB01_BACKUP_INTERVAL=1440
+      - DB01_BACKUP_BEGIN=0000
+      - DB01_CLEANUP_TIME=8640
+    networks:
+      - services
+    restart: always
+
+
+networks:
+  proxy:
+    external: true
+  services:
+    external: true
+
+
