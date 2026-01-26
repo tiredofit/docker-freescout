@@ -1,0 +1,58 @@
+## Create caddy folder under the freescout folder with command below:
+## mkdir -p ./caddy/{conf,data,logs} && chown -R 1000:1000 ./caddy/{data,logs} && chmod 755 ./caddy/{conf,data,logs}
+## create the Caddyfile with command: `vim caddy/conf/Caddyfile`
+{
+    # 保留Nextcloud成功的全局配置（解决TLS握手问题的核心）
+    default_sni 225.105.121.8  # 替换为你的实际EIP
+    servers :443 {
+        protocols h1 h2 h3
+    }
+}
+
+# 核心：监听225.105.121.8:443（容器内），对应宿主机28443端口
+225.105.121.8:443 {
+    # 保留稳定的TLS配置（复用Nextcloud的成功配置）
+    tls internal
+
+    # 保留通用安全头（无需改动）
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        -Server
+    }
+
+    # 保留压缩（无需改动）
+    encode gzip
+
+    # ========== 仅新增：Freescout反向代理（核心改动） ==========
+    reverse_proxy freescout-app:80 {
+        # 传递外部访问上下文（解决225.105.121.8:28443→freescout-app:80的地址映射）
+        header_up Host {host}:28443
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Port 28443
+
+        # 保留长连接支持（复用Nextcloud的可靠配置）
+        transport http {
+            keepalive 300s
+            read_timeout 3600s
+            write_timeout 3600s
+            dial_timeout 10s
+        }
+    }
+
+    # 日志配置
+    log {
+        output file /var/log/caddy/freescout-access.log {
+            roll_size 100MB
+            roll_keep 5
+        }
+        format json
+    }
+}
+
+# HTTP重定向：适配28080端口，重定向到HTTPS的28443
+http://225.105.121.8 {  # 替换为你的实际EIP
+    redir https://{host}:28443{uri} 301
+}
