@@ -1,0 +1,91 @@
+services:
+
+  freescout-app:
+    image: docker.io/tiredofit/freescout
+    container_name: freescout-app
+    volumes:
+      - ./data:/data
+      - ./logs/:/www/logs
+    environment:
+      - TIMEZONE=Asia/Shanghai
+      - CONTAINER_NAME=freescout-app
+
+      - DB_HOST=freescout-db
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
+
+      - SITE_URL=https://225.105.121.8:28443  # 替换为你的实际EIP
+      #- SITE_URL=http://freescout-app:80
+      - TRUSTED_PROXIES=0.0.0.0/0
+
+      - ADMIN_EMAIL=admin@admin.com
+      - ADMIN_PASS=freescout
+
+      - DISPLAY_ERRORS=FALSE
+
+      - ENABLE_SSL_PROXY=TRUE
+      #- ENABLE_SSL_PROXY=FALSE
+    networks:
+      - proxy
+      - services
+    restart: always
+
+  freescout-db:
+    image: docker.io/nfrastack/mariadb
+    container_name: freescout-db
+    volumes:
+      - ./db:/data
+    environment:
+      - TIMEZONE=Asia/Shanghai
+      - CONTAINER_NAME=freescout-db
+
+      - ROOT_PASS=password
+      - DB_NAME=freescout
+      - DB_USER=freescout
+      - DB_PASS=freescout
+    networks:
+      - services
+    restart: always
+
+  freescout-db-backup:
+    container_name: freescout-db-backup
+    image: docker.io/tiredofit/db-backup
+    volumes:
+      - ./dbbackup:/backup
+    environment:
+      - TIMEZONE=Asia/Shanghai
+      - CONTAINER_NAME=freescout-db-backup
+
+      - DB01_HOST=freescout-db
+      - DB01_TYPE=mariadb
+      - DB01_NAME=freescout
+      - DB01_USER=freescout
+      - DB01_PASS=freescout
+      - DB01_BACKUP_INTERVAL=1440
+      - DB01_BACKUP_BEGIN=0000
+      - DB01_CLEANUP_TIME=8640
+    networks:
+      - services
+    restart: always
+
+  caddy:
+    image: caddy:2.10.0-alpine
+    container_name: freescout-caddy
+    environment:
+      - TIMEZONE=Asia/Shanghai
+    volumes:
+      - ./caddy/conf/Caddyfile:/etc/caddy/Caddyfile  # 挂载配置文件
+      - ./caddy/data:/data                           # 证书/数据持久化
+      - ./caddy/logs:/var/log/caddy                  # 日志持久化
+    ports:
+      - "28080:80"   # HTTP端口
+      - "28443:443" # HTTPS端口
+    networks:
+      - proxy    # 加入Freescout的proxy网络（关键！）
+    restart: always  # 开机自启
+
+networks:
+  proxy:
+  services:
+
