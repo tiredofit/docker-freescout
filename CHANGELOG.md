@@ -1,3 +1,9 @@
+## 1.17.144 2026-02-08 <dave at tiredofit dot ca>
+
+   ### Added
+      - FreeScout 1.8.204
+
+
 ## 1.17.143 2026-01-25 <dave at tiredofit dot ca>
 
    ### Added
