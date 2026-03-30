@@ -313,7 +313,7 @@ if var_false "${SKIP_STORAGE_PERMISSIONS}" ; then
   chmod -R ug+rwx storage
 fi
 
-chown -R "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
+chown "${NGINX_USER}":"${NGINX_GROUP}" "${NGINX_WEBROOT}"
 chmod ug+rwx "${NGINX_WEBROOT}"
 
 ### Install symlinks for modules that may have been previously installed
