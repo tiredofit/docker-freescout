@@ -1,0 +1,25 @@
+services:
+  freescout-app:
+    ports:
+      - "8080:80"
+    volumes:
+      # Mount full source for live editing
+      - ../data:/data
+      - ../logs:/www/logs
+      # Uncomment to mount source directly for module development:
+      # - ../:/www/html
+    environment:
+      - DISPLAY_ERRORS=TRUE
+      - CONTAINER_LOG_LEVEL=DEBUG
+      - SITE_URL=http://localhost:8080
+      - ADMIN_EMAIL=admin@local.dev
+      - ADMIN_PASS=devpassword
+      - TIMEZONE=America/Vancouver
+    # Keep container alive for devcontainer attach
+    command: /bin/sh -c "/init && while sleep 3600; do :; done"
+
+  freescout-db:
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../db:/var/lib/mysql

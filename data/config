@@ -1,0 +1,15 @@
+#### Automatically Generated File - Upon container restart any settings will reset!
+APP_URL=http://localhost:8080
+SESSION_SECURE_COOKIE=false
+APP_DEBUG=true
+APP_KEY=base64:bhIbp1KigTGuK+h0Qezk0f8BG3hKnFRvdUsuFCjaaoQ=
+DB_CONNECTION=mysql
+DB_HOST=freescout-db
+DB_PORT=3306
+DB_DATABASE=freescout
+DB_USERNAME=freescout
+DB_PASSWORD=freescout
+APP_DISABLE_UPDATING=true
+APP_PROXY=
+APP_X_FRAME_OPTIONS=TRUE
+APP_SINCE_WITHOUT_QUOTES_ON_FETCHING=FALSE

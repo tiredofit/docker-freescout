@@ -1,0 +1,52 @@
+{
+  "name": "FreeScout Dev",
+  "dockerComposeFile": [
+    "../examples/compose.yml",
+    "docker-compose.override.yml"
+  ],
+  "service": "freescout-app",
+  "workspaceFolder": "/www/html",
+  "forwardPorts": [
+    8080,
+    3306
+  ],
+  "portsAttributes": {
+    "8080": {
+      "label": "FreeScout Web",
+      "onAutoForward": "openBrowser"
+    },
+    "3306": {
+      "label": "MariaDB"
+    }
+  },
+  "postCreateCommand": "echo 'FreeScout dev container ready'",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "felixfbecker.php-debug",
+        "ms-azuretools.vscode-docker",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-mysql",
+        "editorconfig.editorconfig",
+        "mikestead.dotenv",
+        "usernamehw.errorlens"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/bin/php",
+        "sqltools.connections": [
+          {
+            "name": "FreeScout DB",
+            "driver": "MySQL",
+            "host": "freescout-db",
+            "port": 3306,
+            "database": "freescout",
+            "username": "freescout",
+            "password": "freescout"
+          }
+        ]
+      }
+    }
+  }
+}
