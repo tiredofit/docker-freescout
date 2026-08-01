@@ -76,11 +76,13 @@ services:
     restart: always
 
   freescout-db-backup:
-    image: docker.io/tiredofit/db-backup
+    image: docker.io/nfrastack/db-backup
     container_name: freescout-db-backup
     volumes:
       - ./dbbackup:/backup
     environment:
+      - TIMEZONE=America/Vancouver
+
       - DB01_HOST=freescout-db
       - DB01_TYPE=mariadb
       - DB01_NAME=freescout
