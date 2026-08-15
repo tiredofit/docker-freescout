@@ -18,7 +18,7 @@ LABEL \
         org.opencontainers.image.licenses="MIT"
 
 ARG \
-    FREESCOUT_VERSION="1.8.234" \
+    FREESCOUT_VERSION="1.8.235" \
     FREESCOUT_REPO_URL="https://github.com/freescout-helpdesk/freescout"
 
 COPY CHANGELOG.md /usr/src/container/CHANGELOG.md

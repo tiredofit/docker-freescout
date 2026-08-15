@@ -1,3 +1,9 @@
+## 2.2.5 2026-08-15 <code at nfrastack dot com>
+
+   ### Added
+      - FreeScout 1.8.235
+
+
 ## 2.2.4 2026-08-14 <code at nfrastack dot com>
 
    ### Added
