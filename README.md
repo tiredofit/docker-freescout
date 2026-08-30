@@ -155,7 +155,7 @@ If you had any of the following set in 1.x, add `FREESCOUT_` in front of them, t
 
 | Old (1.x)                              | New (2.x)                                        |
 | -------------------------------------- | ------------------------------------------------ |
-| `APPLICATION_NAME`                     | `FREESCOUT_APPLOCATION_NAME`                     |
+| `APPLICATION_NAME`                     | `FREESCOUT_APPLICATION_NAME`                     |
 | `APP_PROXY`                            | `FREESCOUT_APP_PROXY`                            |
 | `APP_TRUSTED_PROXIES`                  | `FREESCOUT_APP_TRUSTED_PROXIES`                  |
 | `APP_SINCE_WITHOUT_QUOTES_ON_FETCHING` | `FREESCOUT_APP_SINCE_WITHOUT_QUOTES_ON_FETCHING` |
