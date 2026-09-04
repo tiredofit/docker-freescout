@@ -4,11 +4,27 @@
 # SPDX-License-Identifier: MIT
 
 source /container/base/functions/container/init
-prepare_service 40-freescout-worker
+prepare_service 40-freescout
 SERVICE_NAME="freescout-worker"
 check_container_initialized
 check_service_initialized init 40-freescout
 liftoff
+
+_app_key=${APP_KEY}
+
+if [ -z "${_app_key}" ] && [ -f "${NGINX_WEBROOT%/}/.env" ]; then
+    _app_key="$(grep '^APP_KEY=.*' "${NGINX_WEBROOT%/}/.env" | cut -d '=' -f 2-)"
+fi
+
+if [ -n "${_app_key}" ]; then
+    _identifier="$(echo "${_app_key}" | md5sum | cut -d ' ' -f 1)"
+fi
+
+if [ -n "${_identifier}" ] ; then
+    _queues="emails,default,${_identifier}"
+else
+    _queues="emails,default"
+fi
 
 exec s6-setuidgid "${NGINX_USER}" /command/with-contenv bash << ENDSCRIPT
 case "${WORKER_LOG_TYPE:-${SCHEDULER_LOG_TYPE}}" in
@@ -22,5 +38,6 @@ case "${WORKER_LOG_TYPE:-${SCHEDULER_LOG_TYPE}}" in
         exec > /proc/1/fd/1 2>&1
     ;;
 esac
-exec env TZ="${TIMEZONE}" php "${NGINX_WEBROOT%/}/artisan" queue:work --queue='emails,default' --sleep=5 --tries=1 --timeout=1800
+
+exec env TZ="${TIMEZONE}" php "${NGINX_WEBROOT%/}/artisan" queue:work --queue="${_queues}" --sleep=5 --tries=1 --timeout=1800
 ENDSCRIPT
